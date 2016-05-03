@@ -25,11 +25,11 @@ public class Course implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "COURSE_TIME")
     private Date time;
-    @ManyToMany
+    @ManyToMany(mappedBy = "courses")
     private List<Subject> subjects;
-    @ManyToMany
+    @ManyToMany(mappedBy = "courses")
     private List<Student> students;
-    @ManyToMany
+    @ManyToMany(mappedBy = "courses")
     private List<Teacher> teachers;
     @OneToMany(mappedBy = "course")
     private List<FilledTest> filledTests;
