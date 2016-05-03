@@ -1,6 +1,5 @@
 package hu.codingmentor.ejb;
 
-import hu.codingmentor.EntityTest;
 import hu.codingmentor.ejb.facade.EntityFacade;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -25,6 +24,5 @@ public class PersistenceTester {
     @PostConstruct
     public void createEntity(){
         LOGGER.info("singleton created: " + this);
-        facade.create(new EntityTest());
     }
 }
