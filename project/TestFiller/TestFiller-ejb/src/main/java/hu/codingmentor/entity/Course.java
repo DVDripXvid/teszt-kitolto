@@ -22,6 +22,7 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    private String name;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "COURSE_TIME")
     private Date time;

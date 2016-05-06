@@ -20,4 +20,8 @@ public abstract class FilledAnswer implements Serializable {
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+    @ManyToOne
+    @JoinColumn(name = "FILLED_TEST_ID")
+    private FilledTest filledTest;
+    
 }
