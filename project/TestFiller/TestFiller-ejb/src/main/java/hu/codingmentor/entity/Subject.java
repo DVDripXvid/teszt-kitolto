@@ -21,7 +21,5 @@ public class Subject implements Serializable {
     private String name;
     @ManyToMany
     private List<Course> courses;
-    @OneToMany(mappedBy = "subject")
-    private List<Test> tests;
 
 }

@@ -34,5 +34,7 @@ public class Course implements Serializable {
     private List<Teacher> teachers;
     @OneToMany(mappedBy = "course")
     private List<FilledTest> filledTests;
+    @OneToMany(mappedBy = "course")
+    private List<Test> tests;
 
 }
