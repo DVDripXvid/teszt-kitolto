@@ -1,6 +1,6 @@
-package hu.codingmentor.ejb.facade;
+package xyz.codingmentor.ejb.facade;
 
-import hu.codingmentor.exception.RecordNotFoundException;
+import xyz.codingmentor.exception.RecordNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

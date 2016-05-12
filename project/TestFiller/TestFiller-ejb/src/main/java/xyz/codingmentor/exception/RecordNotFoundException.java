@@ -1,4 +1,4 @@
-package hu.codingmentor.exception;
+package xyz.codingmentor.exception;
 
 /**
  *

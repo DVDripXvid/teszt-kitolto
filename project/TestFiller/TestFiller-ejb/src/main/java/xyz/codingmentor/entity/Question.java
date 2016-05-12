@@ -1,4 +1,4 @@
-package hu.codingmentor.entity;
+package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

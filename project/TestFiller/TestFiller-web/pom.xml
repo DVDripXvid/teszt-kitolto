@@ -24,6 +24,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>TestFiller-ejb</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>5.3</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
