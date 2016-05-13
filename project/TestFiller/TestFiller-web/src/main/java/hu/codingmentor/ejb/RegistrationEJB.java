@@ -1,4 +1,4 @@
-package xyz.codingmentor.ejb;
+package hu.codingmentor.ejb;
 
 import javax.ejb.EJB;
 import javax.inject.Named;
