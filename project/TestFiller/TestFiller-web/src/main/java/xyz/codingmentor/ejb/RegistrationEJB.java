@@ -45,7 +45,6 @@ public class RegistrationEJB implements Serializable{
             pw[i] = (char) (new Random().nextInt(26)+65);
         }
         user.setPassword(String.copyValueOf(pw).toLowerCase());
-        //user.setPassword("pass");
         facade.create(user);
         role.getUsers().add(user);
         facade.update(role);

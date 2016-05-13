@@ -26,10 +26,14 @@ public class UserController {
     @EJB
     private UserFacade userFacade;   
     
+    @EJB(name="emailService")
+    private EmailService emailService;
+    
     public void acceptUser(Long id){
         User user = userFacade.read(User.class, id);
         LOGGER.info(user.toString());
         user.setAccepted(true);
+        emailService.sendRegistrationEmail(user);
         userFacade.update(user);
     }
     

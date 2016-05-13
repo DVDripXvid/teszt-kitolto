@@ -7,28 +7,33 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Secured Admin Area</title>
+        <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+	<h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
-    <h:body>
-        <h1>Hello Admin</h1>
+    <h:body style="margin: 20px">
+        <h1 class="lead">Admin page</h1>
         <br />
-        <h:link outcome="/index" value="Back to Homepage" />
-        <table>
+        <table class="table table-hover" >
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Role</th>
+                    <th>Accept request</th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table table-hover ">
                 <ui:repeat var="user" value="#{userController.nonAcceptedUsers}">
                     <tr>
+                        <td>#{user.id}</td>
                         <td>#{user.firstName} #{user.lastName}</td>
-                        <td>#{user.email}</td>                        
+                        <td>#{user.email}</td>
                         <td>
                             <h:form>
-                                <h:commandLink value="accept" action="#{userController.acceptUser(user.id)}" />
+                                <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
                             </h:form>
                         </td>                        
                     </tr>
@@ -38,8 +43,10 @@
         <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
         </ui:repeat>
         <h:form>
-            <h:commandButton value="logout" action="#{loginEJB.logout()}"/>
+            <h:commandButton class="btn btn-default col-md-3 right" value="logout" action="#{loginEJB.logout()}"/>
+            <a class="btn" href="../index.xhtml">Back to Homepage</a>
         </h:form>
     </h:body>
 </html>
+
 
