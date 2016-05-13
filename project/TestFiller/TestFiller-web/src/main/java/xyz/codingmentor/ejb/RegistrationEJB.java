@@ -1,12 +1,16 @@
 package xyz.codingmentor.ejb;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import xyz.codingmentor.ejb.facade.EntityFacade;
+import xyz.codingmentor.ejb.facade.RoleFacade;
+import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.User;
+import xyz.codingmentor.role.RoleName;
 
 /**
  *
@@ -16,23 +20,35 @@ import xyz.codingmentor.entity.User;
 @RequestScoped
 public class RegistrationEJB implements Serializable{    
     
-    @EJB(name="entityFacade")
-    private EntityFacade facade;
-    
     @EJB(name = "emailService")
     private EmailService emailService;
     
+    @EJB
+    private RoleFacade facade;
+    
     private User user = new User();
     
+    private String selectedRole;
+    
+    private static final Map<String, String> ROLE_NAMES = new HashMap<>();
+    
+    static {
+        ROLE_NAMES.put(RoleName.STUDENT, RoleName.STUDENT);
+        ROLE_NAMES.put(RoleName.TEACHER, RoleName.TEACHER);
+    }
     
     public void register(){
+        Role role = facade.findRole(selectedRole);
         user.setAccepted(false);
         char[] pw = new char[6];
         for(int i=0; i<6; i++){
             pw[i] = (char) (new Random().nextInt(26)+65);
         }
-        user.setPassword(String.copyValueOf(pw));
+        user.setPassword(String.copyValueOf(pw).toLowerCase());
+        //user.setPassword("pass");
         facade.create(user);
+        role.getUsers().add(user);
+        facade.update(role);
     }
 
     public User getUser() {
@@ -41,6 +57,18 @@ public class RegistrationEJB implements Serializable{
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public Map<String, String> getRoleNames() {
+        return ROLE_NAMES;
+    }
+
+    public String getSelectedRole() {
+        return selectedRole;
+    }
+
+    public void setSelectedRole(String selectedRole) {
+        this.selectedRole = selectedRole;
     }
 
 }

@@ -7,9 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import xyz.codingmentor.role.RoleName;
 
 /**
  *
@@ -17,6 +21,10 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "USERS")
+@NamedQueries({
+    @NamedQuery(name = "USERS.findNonAccepted",
+            query = "SELECT u FROM User u WHERE u.accepted=FALSE")
+})
 public class User implements Serializable {
 
     @Id
@@ -32,6 +40,7 @@ public class User implements Serializable {
     private Date registrationDate;
     @Lob
     private byte[] image;
+    private boolean isTeacher;
 
     public User() {
     }
@@ -109,5 +118,13 @@ public class User implements Serializable {
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
     }
-    
+
+    public boolean isIsTeacher() {
+        return isTeacher;
+    }
+
+    public void setIsTeacher(boolean isTeacher) {
+        this.isTeacher = isTeacher;
+    }
+        
 }

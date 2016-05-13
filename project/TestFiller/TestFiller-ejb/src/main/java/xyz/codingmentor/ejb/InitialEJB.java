@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.User;
+import xyz.codingmentor.role.RoleName;
 
 /**
  *
@@ -35,9 +36,11 @@ public class InitialEJB {
     }
        
     private void createRoles(){
-        Role role = new Role("ADMIN");
+        Role role = new Role(RoleName.ADMIN);
         facade.create(role);
-        role = new Role("TEACHER");
+        role = new Role(RoleName.TEACHER);
+        facade.create(role);
+        role = new Role(RoleName.STUDENT);
         facade.create(role);
     }
     
@@ -48,6 +51,9 @@ public class InitialEJB {
         user = new User("Teacher", "Bela", "pass" ,"teacher");
         facade.create(user);
         facade.findRole("TEACHER").getUsers().add(user);
+        user = new User("Student", "Laci", "pass" ,"student");
+        facade.create(user);
+        facade.findRole("STUDENT").getUsers().add(user);
     }
     
     

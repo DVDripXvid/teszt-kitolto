@@ -1,7 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Secured Admin Area</title>
     </h:head>
@@ -9,6 +12,31 @@
         <h1>Hello Admin</h1>
         <br />
         <h:link outcome="/index" value="Back to Homepage" />
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <ui:repeat var="user" value="#{userController.nonAcceptedUsers}">
+                    <tr>
+                        <td>#{user.firstName} #{user.lastName}</td>
+                        <td>#{user.email}</td>                        
+                        <td>
+                            <h:form>
+                                <h:commandLink value="accept" action="#{userController.acceptUser(user.id)}" />
+                            </h:form>
+                        </td>                        
+                    </tr>
+                </ui:repeat>
+            </tbody>
+        </table>
+        <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
+        </ui:repeat>
         <h:form>
             <h:commandButton value="logout" action="#{loginEJB.logout()}"/>
         </h:form>
