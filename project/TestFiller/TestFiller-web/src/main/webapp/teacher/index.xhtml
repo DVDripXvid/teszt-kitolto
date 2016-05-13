@@ -9,6 +9,9 @@
         <h1>Hello Teacher</h1>
         <br />
         <h:link outcome="/index" value="Back to Homepage" />
+        <h:form>
+            <h:commandButton value="logout" action="#{loginEJB.logout()}"/>
+        </h:form>
     </h:body>
 </html>
 
