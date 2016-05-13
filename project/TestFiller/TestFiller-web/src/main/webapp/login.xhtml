@@ -7,25 +7,16 @@
         <title>Login Form</title>
     </h:head>
     <h:body>
-        <p:panel header="Login Form">
-            <!--       <form method="POST" action="j_security_check">
-                       E-mail: <input type="text" name="j_username" />
-                       Password: <input type="password" name="j_password" />
-                       <br />
-                       <input type="submit" value="Login" />
-                       <input type="reset" value="Reset" />
-                   </form> -->
-
-
+        <p:panel header="Login">
+            
             <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';">  
                 <h:outputLabel value="E-mail "></h:outputLabel>  
                 <input name="j_username" type="text" />  
                 <h:outputLabel value="Password "></h:outputLabel>  
                 <input name="j_password" size="15" type="password" />  
                 <h:commandButton value="Login"></h:commandButton>  
-            </h:form>  
-
-
+            </h:form>
+            
         </p:panel>
     </h:body>
 </html>
