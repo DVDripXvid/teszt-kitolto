@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
  *
  * @author Olivér
  */
-@Stateless
+@Stateless(name = "entityFacade")
 public class EntityFacade {
 
     @PersistenceContext(unitName = "testsPU")

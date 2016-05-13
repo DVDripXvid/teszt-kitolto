@@ -1,7 +1,10 @@
-package hu.codingmentor.ejb;
+package xyz.codingmentor.ejb;
 
+import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import xyz.codingmentor.ejb.EmailService;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.User;
 
@@ -9,17 +12,22 @@ import xyz.codingmentor.entity.User;
  *
  * @author Olivér
  */
-@Named
-public class RegistrationEJB {    
+@ManagedBean(name="registrationEJB")
+@RequestScoped
+public class RegistrationEJB implements Serializable{    
     
-    @EJB
+    @EJB(name="entityFacade")
     private EntityFacade facade;
+    
+    @EJB(name = "emailService")
+    private EmailService emailService;
     
     private User user = new User();
     
     public void register(){
         user.setAccepted(false);
         facade.create(user);
+        emailService.sendRegistrationEmail(user);
     }
 
     public User getUser() {

@@ -7,9 +7,8 @@
     </h:head>
     <h:body>
         <h:form>
+            <h:inputText value="#{registrationEJB.user.firstName}"/>
             <h:inputText value="#{registrationEJB.user.email}"/>
-            <h:inputText value="#{registrationEJB.user.password}"/>
-            <h:inputText value="#{backing.valami}"/>
             <h:commandButton value="register" action="#{registrationEJB.register()}"/>
         </h:form>
     </h:body>

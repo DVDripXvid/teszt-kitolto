@@ -1,4 +1,4 @@
-package hu.codingmentor.ejb;
+package xyz.codingmentor.ejb;
 
 import java.io.Serializable;
 import javax.faces.bean.RequestScoped;

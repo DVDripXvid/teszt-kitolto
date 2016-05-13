@@ -20,7 +20,7 @@ import xyz.codingmentor.entity.User;
  *
  * @author Olivér
  */
-@Stateless
+@Stateless(name = "emailService")
 public class EmailService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
@@ -34,7 +34,7 @@ public class EmailService {
     private final String regBody = ",\nyour password is: ";
     
     public void sendRegistrationEmail(User user){
-        String body = "Dear " + user.getFirstName() + regBody;
+        String body = "Dear " + user.getFirstName() + regBody + user.getPassword();
         sendEmail(user.getEmail(), regSubject, body);
     }
 
