@@ -11,31 +11,63 @@
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
-    <h:body style="align-content: center; margin: 20px">
-        <h1 class="lead">Registration page</h1>
+    <h:body style="align-content: center">
+        <h1 align="center">Registration page</h1>
+        <br/>
         <h:form >
-
-            <div class ="form-group col-md-4 control-group">
-                <label for="roleSelector">Role :</label>
-                <h:selectOneMenu  class="form-control col-md-3" id="roleSelector" value="#{registrationEJB.selectedRole}">
-                    <f:selectItems value="#{registrationEJB.roleNames}"/>
-                </h:selectOneMenu><br/>
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class="col-md-2">
+                    <label for="firstName">First name :</label>
+                    <h:inputText id="firstName" class="form-control" value="#{registrationEJB.user.firstName}"/><br/>
+                </div>
+                <div class="col-md-2">
+                    <label for="lastName">Last name :</label>
+                    <h:inputText id="lastName" class="form-control"  value="#{registrationEJB.user.lastName}"/><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
             </div>
-            <div class="form-group col-md-4 control-group">
-                <label for="firstName">First name :</label>
-                <h:inputText id="firstName" class="form-control" value="#{registrationEJB.user.firstName}"/><br/>
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <label for="email">E-mail address :</label>
+                    <h:inputText id="email" class="form-control" value="#{registrationEJB.user.email}"/><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
             </div>
-            <div class="form-group col-md-4 control-group">
-                <label for="lastName">Last name :</label>
-                <h:inputText id="lastName" class="form-control"  value="#{registrationEJB.user.lastName}"/><br/>
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class ="col-md-4">
+                    <label for="roleSelector">Role :</label>
+                    <h:selectOneMenu  class="form-control col-md-3" id="roleSelector" value="#{registrationEJB.selectedRole}">
+                        <f:selectItems value="#{registrationEJB.roleNames}"/>
+                    </h:selectOneMenu><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
             </div>
-            <div class="form-group col-md-4 control-group">
-                <label for="email">E-mail address :</label>
-                <h:inputText id="email" class="form-control" value="#{registrationEJB.user.email}"/><br/>
+            <br/>
+            <div class="row">
+                <div class="col-md-5">
+                </div>
+                <h:commandButton class="btn btn-default col-md-2" value="Register" action="#{registrationEJB.register()}"/>
+                <div class="col-md-5">
+                </div>
             </div>
-            
-            <h:commandButton class="btn btn-default col-md-3 right" value="register" action="#{registrationEJB.register()}"/>
-            <a class="btn" href="index.xhtml">Back to Homepage</a>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <a class="btn" href="index.xhtml">Back to Homepage</a>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
         </h:form>
     </h:body>
 </html>

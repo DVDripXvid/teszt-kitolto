@@ -5,19 +5,52 @@
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
         <title>Login Form</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <p:panel header="Login">
-            
-            <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';">  
-                <h:outputLabel value="E-mail "></h:outputLabel>  
-                <input name="j_username" type="text" />  
-                <h:outputLabel value="Password "></h:outputLabel>  
-                <input name="j_password" size="15" type="password" />  
-                <h:commandButton value="Login"></h:commandButton>  
-            </h:form>
-            
-        </p:panel>
+        <h1 align="center">Sign in</h1>
+        <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';"> 
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <h:outputLabel for="usernameInput" value="E-mail "></h:outputLabel>  
+                    <input id="usernameInput" name="j_username" type="text" />
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <h:outputLabel for="passwordInput" value="Password "></h:outputLabel>  
+                    <input id="passwordInput" name="j_password" size="15" type="password" />
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-5">
+                </div>
+                <h:commandButton class="btn btn-default col-md-2" value="Login"></h:commandButton>
+                <div class="col-md-5">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </h:form>
     </h:body>
 </html>
 

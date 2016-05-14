@@ -4,13 +4,53 @@
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
         <title>Private Teacher Area</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <h1>Hello Teacher</h1>
-        <br />
-        <h:link outcome="/index" value="Back to Homepage" />
+        <br/>
+        <div class="row">
+            <div class="col-md-2">
+                <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
+            </div>
+            <div class="col-md-2">
+                <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
+            </div>            
+        </div>
+        <br/>
+        <br/>        
+        <div class="row">
+            <div class="col-md-2">
+                <label for="nameLabel" style="margin-left: 5%">Name :</label>
+                <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
+            </div>
+            <div class="col-md-2">
+                <label for="courseLabel" style="margin-left: 5%">Course :</label>
+                <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
+            </div>
+            <div class="col-md-2">
+                <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
+                <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
+            </div>
+            <br/>
+            <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
+        </div>
+        <br/>
+        <br/>
         <h:form>
-            <h:commandButton value="logout" action="#{loginEJB.logout()}"/>
+            <div class="row">
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-2">
+                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
+                </div>
+            </div>
         </h:form>
     </h:body>
 </html>

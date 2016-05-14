@@ -4,10 +4,38 @@
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
         <title>Welcome to the secure application</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body> 
-        <h:link outcome="user/index" value="Login" /><br/>
-        <h:link outcome="registration" value="Register" />
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <h1 align="center">TestFiller</h1>
+            </div>
+            <div class="col-lg-4">
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <h:button class="btn btn-default col-md-4" outcome="user/index" value="Login" />
+            <div class="col-lg-4">
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <h:button class="btn btn-default col-md-4" outcome="registration" value="Register" />
+            <div class="col-lg-4">
+            </div>
+        </div>
     </h:body>
 </html>
 
