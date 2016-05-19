@@ -1,9 +1,11 @@
 package xyz.codingmentor.ejb.facade;
 
+import java.util.List;
 import xyz.codingmentor.exception.RecordNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import xyz.codingmentor.entity.Subject;
 
 /**
  *
@@ -36,5 +38,8 @@ public class EntityFacade {
         entityManager.remove(entity);
         return entity;
     }
-       
+
+    public List<Subject> allSubject(){
+        return entityManager.createNamedQuery("allSubject",Subject.class).getResultList();
+    }
 }

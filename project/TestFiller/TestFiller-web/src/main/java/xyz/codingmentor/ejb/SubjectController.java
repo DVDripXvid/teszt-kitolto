@@ -1,20 +1,23 @@
 package xyz.codingmentor.ejb;
 
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.inject.Inject;
+import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Subject;
-import xyz.codingmentor.service.SubjectService;
 
 @ManagedBean
 public class SubjectController {
 
-    @Inject
-    private SubjectService subjectService;
+    @EJB
+    private EntityFacade ef;
+    
     
     private Subject subject = new Subject();
 
     public void create(){
-        subjectService.create(subject);
+        ef.create(subject);
     }
     
     public Subject getSubject() {
@@ -24,4 +27,9 @@ public class SubjectController {
     public void setSubject(Subject subject) {
         this.subject = subject;
     }
+    
+    public List<Subject> getSubjects(){
+        return ef.allSubject();
+    }
+
 }

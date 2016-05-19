@@ -3,6 +3,7 @@ package xyz.codingmentor.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Course implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "COURSE_TIME")
     private Date time;
-    @ManyToMany(mappedBy = "courses")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Subject> subjects;
     @ManyToMany(mappedBy = "courses")
     private List<Student> students;
