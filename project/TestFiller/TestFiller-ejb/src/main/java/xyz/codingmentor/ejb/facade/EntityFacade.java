@@ -5,7 +5,6 @@ import xyz.codingmentor.exception.RecordNotFoundException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import xyz.codingmentor.entity.Subject;
 
 /**
  *
@@ -38,8 +37,20 @@ public class EntityFacade {
         entityManager.remove(entity);
         return entity;
     }
-
-    public List<Subject> allSubject(){
-        return entityManager.createNamedQuery("allSubject",Subject.class).getResultList();
+    
+    public List namedQuery(String name, Class clazz){
+        return entityManager.createNamedQuery(name, clazz).getResultList();
+    }
+    
+    public <T> List namedQueryOneParam(String name, Class clazz, String paramName, T paramValue){
+        return entityManager.createNamedQuery(name, clazz)
+                .setParameter(paramName, paramValue).getResultList();
+    }
+    
+    public <T> List namedQueryTwoParam(String name, Class clazz, String firstParamName
+            , T firstParamValue, String secondParamName, T secondParamValue){
+        return entityManager.createNamedQuery(name, clazz)
+                .setParameter(firstParamName, firstParamValue)
+                .setParameter(secondParamName, secondParamValue).getResultList();
     }
 }

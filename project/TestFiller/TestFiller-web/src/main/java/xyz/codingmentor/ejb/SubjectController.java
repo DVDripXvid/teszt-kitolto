@@ -1,7 +1,6 @@
 package xyz.codingmentor.ejb;
 
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import xyz.codingmentor.ejb.facade.EntityFacade;
@@ -13,8 +12,7 @@ public class SubjectController {
     @EJB
     private EntityFacade ef;
     
-    
-    private Subject subject = new Subject();
+    private Subject subject;
 
     public void create(){
         ef.create(subject);
@@ -29,7 +27,6 @@ public class SubjectController {
     }
     
     public List<Subject> getSubjects(){
-        return ef.allSubject();
+        return ef.namedQuery("allSubject", Subject.class);
     }
-
 }

@@ -11,8 +11,14 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body style="margin: 20px">
+        <h:form>
+            <div class="row">
+                <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
+                <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+            </div>
+        </h:form>
         <ul class="nav nav-tabs">
-            <li><a data-toggle="tab" href="#revisionRegistration">Revision Registration</a></li>
+            <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
             <li><a href="#">Revision subscribe</a></li>
             <li><a href="#">Users</a></li>
             <li><a href="#">Courses</a></li>
@@ -32,7 +38,7 @@
                         <ui:repeat var="subject" value="#{subjectController.subjects}">
                             <tr>
                                 <td>#{subject.id}</td>
-                                <td>#{subject.name}</td>       
+                                <td>#{subject.name}</td>
                             </tr>
                         </ui:repeat>
                     </tbody>
@@ -41,11 +47,7 @@
                 </ui:repeat>
                 <h:form>
                     <div class="row">
-                        <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
-                    </div>
-                    <br/>
-                    <div class="row">
-                        <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+                        <a class="btn col-md-2" href="createSubject.xhtml">create</a>
                     </div>
                 </h:form>
             </div>
