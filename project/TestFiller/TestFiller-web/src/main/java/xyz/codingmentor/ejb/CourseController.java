@@ -7,20 +7,28 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.CourseFacade;
+import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.ejb.facade.UserFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.Student;
-import xyz.codingmentor.entity.User;
 
 @Named
 @SessionScoped
 public class CourseController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
+    
     @EJB
     private CourseFacade courseFacade;
     
-    @EJB UserFacade userFacade;
+    @EJB 
+    private UserFacade userFacade;
+    
+    @EJB
+    private EntityFacade entityFacade;
     
     private List<Course> subscribedCourses;
     
@@ -48,7 +56,9 @@ public class CourseController {
     
     public List<Course> getSubscribedCourses(){
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Student activeStudent = (Student)userFacade.getByEmail(ec.getRemoteUser(), User.class);
-        return activeStudent.getCourses();
+        LOGGER.info(ec.getRemoteUser());
+        List<Student> activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser());
+        LOGGER.info(activeStudent.toString());
+        return null;
     }
 }
