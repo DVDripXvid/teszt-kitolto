@@ -17,60 +17,54 @@
                 <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
             </div>
         </h:form>
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#revisionRegistration">Revision Registration</a></li>
-            <li><a href="#revisionSubscribe">Revision subscribe</a></li>
-            <li><a href="#revisionSubscribe">Revision subscribe</a></li>
-            <li><a href="#user">Users</a></li>
-            <li><a href="#course">Courses</a></li>
-            <li><a href="subject.xhtml">Subject</a></li>
-            <li><a href="#test">Tests</a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="revisionSubscibe">
-
-            </div>
-            <div id="revisionSubscibe">
-
-            </div>
-            <div id="revisionRegistration">
-                <table class="table table-hover" >
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Accept request</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="table table-hover ">
-                        <ui:repeat var="user" value="#{userController.nonAcceptedUsers}">
+        <h:form>
+            <ul class="nav nav-tabs">
+                <li class="active" role="presentation"><a data-toggle="tab" href="#revisionRegistration">Revision Registration</a></li>
+                <li><a data-toogle="tab" href="#revisionSubscribe">Revision Subscribe</a></li>
+                <li><a data-toogle="tab" href="#user">Users</a></li>
+                <li><a data-toogle="tab" href="#course">Courses</a></li>
+                <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
+                <li><a data-toogle="tab" href="#test">Tests</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" id="revisionRegistration" class ="tab-pane active">
+                    <table class="table table-hover" >
+                        <thead>
                             <tr>
-                                <td>#{user.id}</td>
-                                <td>#{user.firstName} #{user.lastName}</td>
-                                <td>#{user.email}</td>
-                                <td>
-                                    <h:form>
-                                        <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
-                                    </h:form>
-                                </td>                        
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Accept request</th>
+                                <th></th>
                             </tr>
-                        </ui:repeat>
-                    </tbody>
-                </table>
-                <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
-                </ui:repeat>
-                <h:form>
-                    <div class="row">
-                        <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
-                    </div>
-                    <br/>
-                    <div class="row">
-                        <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
-                    </div>
-                </h:form>
+                        </thead>
+                        <tbody class="table table-hover ">
+                            <ui:repeat var="user" value="#{userController.nonAcceptedUsers}">
+                                <tr>
+                                    <td>#{user.id}</td>
+                                    <td>#{user.firstName} #{user.lastName}</td>
+                                    <td>#{user.email}</td>
+                                    <td>
+                                        <h:form>
+                                            <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
+                                        </h:form>
+                                    </td>                        
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                    <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
+                    </ui:repeat>
+                    <h:form>
+                        <div class="row">
+                            <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+                        </div>
+                    </h:form>
+                </div>
             </div>
-        </div>
     </h:body>
 </html>
