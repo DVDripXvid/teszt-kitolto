@@ -7,9 +7,11 @@ import javax.ejb.Startup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
+import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Teacher;
+import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.User;
 import xyz.codingmentor.role.RoleName;
 
@@ -33,8 +35,25 @@ public class InitialEJB {
     public void createEntity(){
         LOGGER.info("singleton created: " + this);
         createRoles();
-        createUser();        
+        createUser();
+        generateTestData();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
+    }
+    
+    private void generateTestData(){
+        Course course = new Course();
+        course.setName("course");
+        facade.create(course);
+        Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
+        student.setSubscribed(course);
+        facade.create(student);
+        
+        Test test = new Test();
+        test.setName("test");
+        facade.create(test);
+        Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
+        teacher.getTests().add(test);
+        facade.create(test);
     }
        
     private void createRoles(){

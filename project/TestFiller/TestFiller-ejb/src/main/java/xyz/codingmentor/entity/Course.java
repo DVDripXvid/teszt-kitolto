@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -29,9 +30,6 @@ import javax.validation.constraints.NotNull;
 })
 public class Course implements Serializable {
 
-    @OneToMany(mappedBy = "subscribed")
-    private List<Student> Subscribers;
-
     @Id
     @GeneratedValue
     private Long id;
@@ -50,6 +48,8 @@ public class Course implements Serializable {
     private List<FilledTest> filledTests;
     @OneToMany(mappedBy = "course")
     private List<Test> tests;
+    @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
+    private List<Student> Subscribers;
 
     public List<Student> getStudents() {
         return students;
