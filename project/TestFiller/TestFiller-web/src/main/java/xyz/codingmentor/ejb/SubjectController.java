@@ -2,14 +2,14 @@ package xyz.codingmentor.ejb;
 
 import java.util.List;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Subject;
 
-@ManagedBean
+@Named
 public class SubjectController {
 
-    @EJB
+    @EJB(name = "entityFacade")
     private EntityFacade ef;
     
     private Subject subject;
