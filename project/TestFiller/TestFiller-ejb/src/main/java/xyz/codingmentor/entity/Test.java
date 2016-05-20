@@ -22,8 +22,8 @@ public class Test implements Serializable {
     private String name;
     private Integer duration;
     @ManyToOne
-    @JoinColumn(name = "SUBJECT_ID")
-    private Subject subject;
+    @JoinColumn(name = "COURSE_ID")
+    private Course course;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
     @ManyToOne

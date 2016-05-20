@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Registration</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body style="align-content: center">
+        <h1 align="center">Create Subject</h1>
+        <br/>
+        <h:form >
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class="col-md-2">
+                    <label for="name">Name :</label>
+                    <h:inputText id="name" class="form-control" value="#{subjectController.subject.name}"/><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-5">
+                </div>
+                <h:commandButton class="btn btn-default col-md-2" value="Create" action="#{subjectController.create()}"/>
+                <div class="col-md-5">
+                </div>
+            </div>
+            <div class="row">
+                        <a class="btn col-md-2" href="../admin/subject.xhtml">Back</a>
+                    </div>
+        </h:form>
+    </h:body>
+</html>
+

@@ -12,8 +12,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import xyz.codingmentor.role.RoleName;
 
 /**
  *
@@ -23,7 +21,9 @@ import xyz.codingmentor.role.RoleName;
 @Table(name = "USERS")
 @NamedQueries({
     @NamedQuery(name = "USERS.findNonAccepted",
-            query = "SELECT u FROM User u WHERE u.accepted=FALSE")
+            query = "SELECT u FROM User u WHERE u.accepted=FALSE"),
+    @NamedQuery(name = "USERS.findByEmail",
+            query = "SELECT u FROM User u WHERE u.email=:email")
 })
 public class User implements Serializable {
 

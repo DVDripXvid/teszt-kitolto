@@ -46,12 +46,15 @@ public class InitialEJB {
     
     private void createUser(){
         User user = new User("Admin", "Lajos", "pass" ,"admin");
+        user.setAccepted(true);
         facade.create(user);
         facade.findRole("ADMIN").getUsers().add(user);
         user = new User("Teacher", "Bela", "pass" ,"teacher");
+        user.setAccepted(true);
         facade.create(user);
         facade.findRole("TEACHER").getUsers().add(user);
         user = new User("Student", "Laci", "pass" ,"student");
+        user.setAccepted(true);
         facade.create(user);
         facade.findRole("STUDENT").getUsers().add(user);
     }
