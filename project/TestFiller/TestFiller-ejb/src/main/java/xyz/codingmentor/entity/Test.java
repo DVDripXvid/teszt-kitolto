@@ -2,13 +2,12 @@ package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -16,10 +15,6 @@ import javax.persistence.OneToMany;
  * @author Olivér
  */
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "TEST.listByTeacher",
-            query = "SELECT t FROM Test t WHERE t.teacher.id=:teacherId")
-})
 public class Test implements Serializable {
 
     @Id
@@ -32,7 +27,7 @@ public class Test implements Serializable {
     private Course course;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TEACHER_ID")
     private Teacher teacher;
     @OneToMany(mappedBy = "test")

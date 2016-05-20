@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -11,11 +13,15 @@ import javax.persistence.OneToMany;
  * @author Olivér
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "TEACHER.findByEmail",
+            query = "SELECT t FROM Teacher t WHERE t.email=:email")
+})
 public class Teacher extends User implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Course> courses;
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Test> tests;
 
     public Teacher() {
