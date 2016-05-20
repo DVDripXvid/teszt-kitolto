@@ -39,21 +39,17 @@ and open the template in the editor.
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                    <label for="subscribedTable">Active Courses :</label>
+                    <label>Active Courses :</label>
                 </div>                
             </div>
             <div class="row">
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-8">
-                    <p:dataTable class="table table-hover" var="course" value="#{studentSubscribeController.coursesByUser}">
-                        <p:column headerText="Name">
-                            <h:outputText value="#{course.name}" />
-                        </p:column>
-                        <p:column headerText="Time">
-                            <h:outputText value="#{course.time}" />
-                        </p:column>
-                    </p:dataTable>
+                    <h:dataTable value="#{studentSubscribeController.coursesByUser}" var="course" class="table table-hover">
+                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
+                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
+                    </h:dataTable>
                 </div>
             </div>
             <br/>
@@ -61,27 +57,44 @@ and open the template in the editor.
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                    <label for="activeCourses">Available Courses :</label>
+                    <label>Subscribed Course :</label>
+                </div>                
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <h:dataTable value="#{studentSubscribeController.studentSubscibedCourse}" var="course" class="table table-hover">
+                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
+                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
+                        <h:column>
+                            <f:facet name="header">Unsubscribe</f:facet>
+                            <h:commandButton value="Subscribe" action="#{studentSubscribeController.unsubscribeFromCourse(course)}" class="btn btn-default"/>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <label>Available Courses :</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-8">
-
                     <h:dataTable value="#{studentSubscribeController.allCourses}" var="course" class="table table-hover">
                         <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
                         <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
                         <h:column>
+                            <f:facet name="header">Subscribe</f:facet>
                             <h:commandButton value="Subscribe" action="#{studentSubscribeController.subscribeToCourse(course)}" class="btn btn-default"/>
                         </h:column>
                     </h:dataTable>
-
-                    
-                </div>
-                <div class="col-md-2">
-                    <p:growl id="message" showDetail="true" sticky="true" />
-                    <p:commandButton class="btn btn-default" value="Subscribe" actionListener="#{studentSubscribeController.subscribeToCourse()}" update="message"/>                      
                 </div>
             </div>
             <div class="row">

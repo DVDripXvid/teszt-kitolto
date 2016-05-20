@@ -18,7 +18,8 @@ import xyz.codingmentor.entity.Student;
 @SessionScoped
 public class StudentSubscribeController implements Serializable {
 
-    private static final String MESSAGE = "Subscription OK!";
+    private static final String SuccessfullSubscribeMessage = "Subscription OK!";
+    private static final String SuccessfullUnsubscribeMessage = "Unsubscription OK!";
 
     private ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 
@@ -45,22 +46,40 @@ public class StudentSubscribeController implements Serializable {
 
         if (activeStudent.getSubscribed() == null) {
             activeStudent.setSubscribed(selectedCourse);
-            //activeStudent.getCourses().add(selectedCourse); //admin jóváhagyás még nics meg, tesztelés miatt felkerül egyből
             selectedCourse.getSubscribers().add(activeStudent);
             entityFacade.update(activeStudent);
 
-            addMessage();
+            successfullSubscriptionMessage();
         } else {
             warnMessage();
         }
     }
+    
+    public void unsubscribeFromCourse(Course course){
+        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
+        
+        activeStudent.setSubscribed(null);
+        course.getSubscribers().remove(activeStudent);
+        
+        successfullUnsubscriptionMessage();
+    }
 
-    private void addMessage() {
+    private void successfullSubscriptionMessage() {
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Successful", MESSAGE));
+        context.addMessage(null, new FacesMessage("Successful", SuccessfullSubscribeMessage));
+    }
+    
+    private void successfullUnsubscriptionMessage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Successful", SuccessfullUnsubscribeMessage));
     }
 
     private void warnMessage() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Your last subscribe demand is not accepted yet."));
+    }
+    
+    public Course getStudentSubscibedCourse(){
+        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
+        return activeStudent.getSubscribed();
     }
 }
