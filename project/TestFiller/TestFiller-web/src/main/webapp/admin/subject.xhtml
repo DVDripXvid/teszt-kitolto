@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Secured Admin Area</title>
+        <title>Admin Subject</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
@@ -18,12 +18,12 @@
             </div>
         </h:form>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#revisionRegistration">Revision Registration</a></li>
-            <li><a href="#revisionSubscribe">Revision subscribe</a></li>
-            <li><a href="#user">Users</a></li>
-            <li><a href="#course">Courses</a></li>
-            <li><a href="subject.xhtml">Subject</a></li>
-            <li><a href="#test">Tests</a></li>
+            <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
+            <li><a href="#">Revision subscribe</a></li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Courses</a></li>
+            <li class="active"><a href="#">Subjects</a></li>
+            <li><a href="#">Tests</a></li>
         </ul>
         <div class="tab-content">
             <div id="revisionRegistration">
@@ -32,29 +32,27 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Accept request</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody class="table table-hover ">
-                        <ui:repeat var="user" value="#{userController.nonAcceptedUsers}">
+                        <ui:repeat var="subject" value="#{subjectController.subjects}">
                             <tr>
-                                <td>#{user.id}</td>
-                                <td>#{user.firstName} #{user.lastName}</td>
-                                <td>#{user.email}</td>
-                                <td>
-                                    <h:form>
-                                        <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
-                                    </h:form>
-                                </td>                        
+                                <td>#{subject.id}</td>
+                                <td>#{subject.name}</td>
                             </tr>
                         </ui:repeat>
                     </tbody>
                 </table>
-                <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
+                <ui:repeat value="#{subjectController.subjects}" var="subject">
                 </ui:repeat>
+                <h:form>
+                    <div class="row">
+                        <a class="btn col-md-2" href="createSubject.xhtml">create</a>
+                    </div>
+                </h:form>
             </div>
         </div>
     </h:body>
 </html>
+
+
