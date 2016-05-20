@@ -3,6 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Secured Admin Area</title>
         <meta charset="utf-8" />
@@ -20,12 +22,19 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#revisionRegistration">Revision Registration</a></li>
             <li><a href="#revisionSubscribe">Revision subscribe</a></li>
+            <li><a href="#revisionSubscribe">Revision subscribe</a></li>
             <li><a href="#user">Users</a></li>
             <li><a href="#course">Courses</a></li>
             <li><a href="subject.xhtml">Subject</a></li>
             <li><a href="#test">Tests</a></li>
         </ul>
         <div class="tab-content">
+        <div id="revisionSubscibe">
+                
+            </div>
+            <div id="revisionSubscibe">
+                
+            </div>
             <div id="revisionRegistration">
                 <table class="table table-hover" >
                     <thead>
@@ -52,8 +61,17 @@
                         </ui:repeat>
                     </tbody>
                 </table>
-                <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
+<ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
                 </ui:repeat>
+                <h:form>
+                    <div class="row">
+                        <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+                    </div>
+                </h:form>
             </div>
         </div>
     </h:body>
