@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -11,6 +13,10 @@ import javax.persistence.OneToMany;
  * @author Olivér
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "STUDENT.getByEmail", 
+                query = "SELECT s FROM Student s WHERE s.email=:email")
+})
 public class Student extends User implements Serializable {
 
     @OneToMany(mappedBy = "student")

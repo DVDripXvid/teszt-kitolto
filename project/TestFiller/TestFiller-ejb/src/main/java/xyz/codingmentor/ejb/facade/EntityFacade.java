@@ -38,18 +38,18 @@ public class EntityFacade {
         return entity;
     }
     
-    public List namedQuery(String name, Class clazz){
-        return entityManager.createNamedQuery(name, clazz).getResultList();
+    public <T> List<T> namedQuery(String queryName, Class<T> clazz){
+        return entityManager.createNamedQuery(queryName, clazz).getResultList();
     }
     
-    public <T> List namedQueryOneParam(String name, Class clazz, String paramName, T paramValue){
-        return entityManager.createNamedQuery(name, clazz)
+    public <T> List<T> namedQueryOneParam(String queryName, Class<T> clazz, String paramName, Object paramValue){
+        return entityManager.createNamedQuery(queryName, clazz)
                 .setParameter(paramName, paramValue).getResultList();
     }
     
-    public <T> List namedQueryTwoParam(String name, Class clazz, String firstParamName
-            , T firstParamValue, String secondParamName, T secondParamValue){
-        return entityManager.createNamedQuery(name, clazz)
+    public <T> List<T> namedQueryTwoParam(String queryName, Class<T> clazz, String firstParamName
+            , Object firstParamValue, String secondParamName, Object secondParamValue){
+        return entityManager.createNamedQuery(queryName, clazz)
                 .setParameter(firstParamName, firstParamValue)
                 .setParameter(secondParamName, secondParamValue).getResultList();
     }
