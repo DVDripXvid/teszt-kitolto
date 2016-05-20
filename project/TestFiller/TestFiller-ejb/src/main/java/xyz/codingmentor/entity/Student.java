@@ -1,7 +1,9 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -21,8 +23,8 @@ public class Student extends User implements Serializable {
 
     @OneToMany(mappedBy = "student")
     private List<FilledTest> filledTests; 
-    @ManyToMany
-    private List<Course> courses;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Course> courses = new ArrayList<>();
 
     public Student() {
     }
