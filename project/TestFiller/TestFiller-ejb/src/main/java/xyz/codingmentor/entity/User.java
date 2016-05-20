@@ -46,7 +46,7 @@ public class User implements Serializable {
     @Lob
     private byte[] image;
     private boolean isTeacher;
-
+    
     public User() {
     }
 

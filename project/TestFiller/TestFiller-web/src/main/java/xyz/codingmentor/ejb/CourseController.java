@@ -17,7 +17,7 @@ public class CourseController {
     private CourseFacade courseFacade;
     private static final List<String> accordingToSubscribeTypes = new ArrayList<>();
     private String selectedSubscribedType;
-    private Course selectedCourse;
+    private Course selectedCourse = new Course();
     
     @PostConstruct
     public void init(){
@@ -62,5 +62,10 @@ public class CourseController {
     public void deleteCourse(long id){
         Course c = courseFacade.read(Course.class,id);
         courseFacade.delete(Course.class, c.getId());
+    }
+    
+    public void editCourse(Course course){
+        course.setName(selectedCourse.getName());
+        courseFacade.update(course);
     }
 }

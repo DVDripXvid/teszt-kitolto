@@ -30,7 +30,7 @@ public class Role implements Serializable {
 
     @Id
     private String roleName;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.ALL, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinTable(inverseJoinColumns = {
         @JoinColumn(name = "USER_ID")
     }, joinColumns = {
