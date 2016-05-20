@@ -2,9 +2,11 @@ package xyz.codingmentor.ejb;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
@@ -20,12 +22,13 @@ public class TeacherController {
     
     private Teacher loggedInTeacher;
     
-    
     private List<String> questionTypes = Arrays.asList("Text type", "Optional type");
     
-    private Test test;
+    public Test test;
 
     private Question question;
+    
+    Logger log = Logger.getLogger("");
     
     @PostConstruct
     public void init(){
@@ -37,8 +40,16 @@ public class TeacherController {
 
     public void create(){
         loggedInTeacher.getTests().add(test);
-        test.setTeacher(loggedInTeacher);
+        log.info(test.toString());
         ef.update(loggedInTeacher);
+    }
+    
+    public void createQuestion(){
+        test.getQuestions().add(question);
+    }
+    
+    public void deleteQuestion(Question question){
+        test.getQuestions().remove(question);
     }
     
     public List<Question> getQuestions(){
@@ -47,6 +58,18 @@ public class TeacherController {
     
     public List<String> getQuestionTypes() {
         return questionTypes;
+    }
+    
+    public void delete(Test test){
+        
+    }
+    
+    public void edit(Test test){
+        
+    }
+    
+    public void details(Test test){
+        
     }
 
     public Test getTest() {
@@ -70,6 +93,6 @@ public class TeacherController {
     }
     
     public List<Course> getCourses(){
-        return loggedInTeacher.getCourses();
+        return ef.namedQuery("COURSE.findAll", Course.class);//loggedInTeacher.getCourses();
     }
 }

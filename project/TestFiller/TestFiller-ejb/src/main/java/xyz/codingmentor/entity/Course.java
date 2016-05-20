@@ -119,5 +119,9 @@ public class Course implements Serializable {
     public void setSubscribers(List<Student> Subscribers) {
         this.Subscribers = Subscribers;
     }
-    
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

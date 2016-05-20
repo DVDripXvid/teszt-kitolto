@@ -24,6 +24,7 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "TEST_ID")
     private Test test;
+    private Integer lengthOfAnswer;
 
     public Long getId() {
         return id;
@@ -56,5 +57,12 @@ public class Question implements Serializable {
     public void setTest(Test test) {
         this.test = test;
     }
-    
+
+    public Integer getLengthOfAnswer() {
+        return lengthOfAnswer;
+    }
+
+    public void setLengthOfAnswer(Integer lengthOfAnswer) {
+        this.lengthOfAnswer = lengthOfAnswer;
+    }
 }
