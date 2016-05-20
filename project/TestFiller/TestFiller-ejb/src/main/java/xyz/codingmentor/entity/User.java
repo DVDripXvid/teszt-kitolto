@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "USERS.findByEmail",
             query = "SELECT u FROM User u WHERE u.email=:email")
 })
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable {
 
     @Id
