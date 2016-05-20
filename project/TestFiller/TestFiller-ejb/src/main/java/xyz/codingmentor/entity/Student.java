@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "STUDENT.getByEmail", 
-                query = "SELECT s FROM User s WHERE s.email=:email")
+                query = "SELECT s FROM Student s WHERE s.email=:email")
 })
 public class Student extends User implements Serializable {
 
