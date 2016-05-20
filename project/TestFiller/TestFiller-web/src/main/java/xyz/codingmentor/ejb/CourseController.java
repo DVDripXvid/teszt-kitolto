@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import xyz.codingmentor.ejb.facade.CourseFacade;
 import xyz.codingmentor.entity.Course;
 
-@Named
-@SessionScoped
+@ManagedBean
+@ApplicationScoped
 public class CourseController {
 
     @EJB
@@ -59,5 +59,8 @@ public class CourseController {
         this.selectedCourse = selectedCourse;
     }
     
-    
+    public void deleteCourse(long id){
+        Course c = courseFacade.read(Course.class,id);
+        courseFacade.delete(Course.class, c.getId());
+    }
 }

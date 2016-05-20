@@ -13,34 +13,36 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body style="margin: 20px">
-        <h:form>
-            <div class="row">
-                <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
-                <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
-            </div>
 
-            <ul class="nav nav-tabs">
-                <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
-                <li><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
-                <li><a data-toogle="tab" href="user.xhtml">Users</a></li>
-                <li  class="active"><a data-toogle="tab" href="course.xhtml">Courses</a></li>
-                <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
-                <li><a data-toogle="tab" href="test.xhtml">Tests</a></li>
-            </ul>
-            <p:dataTable class="table table-hover" id="singleDT" var="course" value="#{courseController.courses}" selectionMode="single" selection="#{courseController.selectedCourse}" rowKey="#{course.id}">
-                <f:facet name="header">
-                    Single with Row Click
-                </f:facet>
-                <p:column headerText="Id">
-                    <h:outputText value="#{course.id}" />
-                </p:column>
-                <p:column headerText="Year">
-                    <h:outputText value="#{course.name}" />
-                </p:column>
-                <p:column headerText="Brand">
-                    <h:outputText value="#{course.time}" />
-                </p:column>
-            </p:dataTable>
+        <div class="row">
+            <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
+            <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
+            <li><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
+            <li><a data-toogle="tab" href="user.xhtml">Users</a></li>
+            <li  class="active"><a data-toogle="tab" href="course.xhtml">Courses</a></li>
+            <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
+            <li><a data-toogle="tab" href="test.xhtml">Tests</a></li>
+        </ul>
+        <h:form>
+            <h:dataTable value="#{courseController.courses}" var="course" class="table table-hover">
+                <h:column><f:facet name="header">#</f:facet>#{course.id}</h:column>
+                <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
+                <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
+                <h:column>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Edit</f:facet>
+                    <h:commandButton value="Edit" action="#{courseController.deleteCourse(course.id)}" class="btn btn-default"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Delete</f:facet>
+                    <h:commandButton value="Delete" action="#{courseController.deleteCourse(course.id)}" class="btn btn-default"/>
+                </h:column>
+            </h:dataTable>
         </h:form>
     </h:body>
 </html>
