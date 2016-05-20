@@ -22,8 +22,10 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "COURSE.listAll", 
-            query = "Select c from Course c")
+    @NamedQuery(name = "COURSE.findAll", 
+            query = "Select c from Course c"),
+    @NamedQuery(name = "COURSE.searchByNameAndTime",
+            query = "SELECT c FROM Course c WHERE c.name LIKE CONCAT('%',:name,'%') AND c.time =:time")
 })
 public class Course implements Serializable {
 
