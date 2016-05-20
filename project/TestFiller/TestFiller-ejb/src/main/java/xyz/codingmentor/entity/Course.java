@@ -22,8 +22,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "COURSES.findActiveCourses", 
-            query = "Select c from Course c where c.isActive = TRUE")
+    @NamedQuery(name = "COURSE.listAll", 
+            query = "Select c from Course c")
 })
 public class Course implements Serializable {
 

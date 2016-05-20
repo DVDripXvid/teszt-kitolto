@@ -8,7 +8,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>Registration</title>
         <meta charset="utf-8" />
@@ -20,56 +21,91 @@ and open the template in the editor.
         <h:form>
             <br/>
             <div class="row">
-                <div class="col-md-2">
-                    <label for="nameText" style="margin-left: 5%">Name :</label>
-                    <h:inputText id="nameText" class="form-control" style="margin-left: 5%"/>
+                <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                    <label for="timeText" style="margin-left: 5%">Time :</label>
-                    <h:inputText id="timeText" class="form-control" style="margin-left: 5%"/>
+                    <h:inputText class="form-control" style="margin-left: 5%" a:placeholder="Name: "/>
                 </div>
                 <div class="col-md-2">
-                    <h:commandButton value="Search"/>
+                    <h:inputText class="form-control" style="margin-left: 5%" a:placeholder="Time: "/>
+                </div>
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Search"/>
                 </div>
             </div>
             <br/>
             <div class="row">
-                <table class="table table-hover" >
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table table-hover ">
-                        <ui:repeat var="course" value="#{courseController.subscribedCourses}">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <label for="subscribedTable">Subscribed Courses :</label>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-hover" id="subscribedTable" >
+                        <thead>
                             <tr>
-                                <td>#{course.name}</td>
-                                <td>#{course.time}</td>                       
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Time</th>
                             </tr>
-                        </ui:repeat>
-                    </tbody>
-                </table>
-                <br/>
-                <br/>
-                <table class="table table-hover" >
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table table-hover ">
-                        <ui:repeat var="course" value="#{courseController.activeCourses}">
+                        </thead>
+                        <tbody class="table table-hover ">
+                            <ui:repeat var="course" value="#{courseController.coursesByUser}">
+                                <tr>
+                                    <td>#{course.name}</td>
+                                    <td>#{course.time}</td>                       
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <label for="activeCourses">Active Courses :</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <table class="table table-hover" id="activeCourses">
+                        <thead>
                             <tr>
-                                <td>#{course.name}</td>
-                                <td>#{course.time}</td>                       
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Time</th>
                             </tr>
-                        </ui:repeat>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table table-hover ">
+                            <ui:repeat var="course" value="#{courseController.activeCourses}">
+                                <tr>
+                                    <td>#{course.name}</td>
+                                    <td>#{course.time}</td>                       
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Subscribe"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <a href="index.xhtml" class="btn btn-default" role="button">
+                        <span class="glyphicon glyphicon-chevron-left"></span> Back
+                    </a>
+                </div>
             </div>
         </h:form>
     </body>
