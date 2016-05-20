@@ -26,7 +26,9 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "COURSE.findAll", 
             query = "Select c from Course c"),
     @NamedQuery(name = "COURSE.searchByNameAndTime",
-            query = "SELECT c FROM Course c WHERE c.name LIKE CONCAT('%',:name,'%') AND c.time =:time")
+            query = "SELECT c FROM Course c WHERE c.name LIKE CONCAT('%',:name,'%') AND c.time =:time"),
+    @NamedQuery(name = "COURSE.findForUser",
+            query = "SELECT c FROM Course c WHERE :student NOT MEMBER OF c.students AND :student NOT MEMBER OF c.subscribers")
 })
 public class Course implements Serializable {
 
@@ -49,7 +51,7 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course")
     private List<Test> tests;
     @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
-    private List<Student> Subscribers;
+    private List<Student> subscribers;
 
     public List<Student> getStudents() {
         return students;
@@ -112,11 +114,11 @@ public class Course implements Serializable {
     }
 
     public List<Student> getSubscribers() {
-        return Subscribers;
+        return subscribers;
     }
 
     public void setSubscribers(List<Student> Subscribers) {
-        this.Subscribers = Subscribers;
+        this.subscribers = Subscribers;
     }
     
 }

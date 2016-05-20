@@ -8,7 +8,9 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Registration</title>
         <meta charset="utf-8" />
@@ -17,53 +19,93 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <body>
-        <br/>
-        <div class="row">
-            <div class="col-md-2">
-                <label for="nameText" style="margin-left: 5%">Name :</label>
-                <h:inputText id="nameText" class="form-control" style="margin-left: 5%"/>
+        <h:form>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <h:inputText class="form-control" a:placeholder="Name: "/>
+                </div>
+                <div class="col-md-2">
+                    <h:inputText class="form-control" a:placeholder="Time: "/>
+                </div>
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Search"/>
+                </div>
             </div>
-            <div class="col-md-2">
-                <label for="timeText" style="margin-left: 5%">Time :</label>
-                <h:inputText id="timeText" class="form-control" style="margin-left: 5%"/>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <label>Active Courses :</label>
+                </div>                
             </div>
-            <div class ="col-md-2">
-                <label for="typeSelector">According to Subscribe :</label>
-                <h:selectOneMenu  class="form-control" id="typeSelector" value="#{courseController.selectedSubscribedType}">
-                    <f:selectItems value="#{courseController.subscribeableCourses}"/>
-                </h:selectOneMenu><br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <h:dataTable value="#{studentSubscribeController.coursesByUser}" var="course" class="table table-hover">
+                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
+                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
+                    </h:dataTable>
+                </div>
             </div>
-            <div class="col-md-2">
-                <h:commandButton value="Search" action=""/>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <label>Subscribed Course :</label>
+                </div>                
             </div>
-        </div>
-        <br/>
-        <div class="row">
-            <table class="table table-hover" >
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Time</th>
-                        <th>Subscribe</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class="table table-hover ">
-                    <ui:repeat var="course" value="#{courseController.activeCourses}">
-                        <tr>
-                            <td>#{course.name}</td>
-                            <td>#{course.time}</td>
-                            <td>#{course}</td>
-                            <td>
-                                <h:form>
-                                    <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
-                                </h:form>
-                            </td>                        
-                        </tr>
-                    </ui:repeat>
-                </tbody>
-            </table>
-        </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <h:dataTable value="#{studentSubscribeController.studentSubscibedCourse}" var="course" class="table table-hover">
+                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
+                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
+                        <h:column>
+                            <f:facet name="header">Unsubscribe</f:facet>
+                            <h:commandButton value="Unsubscribe" action="#{studentSubscribeController.unsubscribeFromCourse(course)}" class="btn btn-default"/>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <label>Available Courses :</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-8">
+                    <h:dataTable value="#{studentSubscribeController.allCourses}" var="course" class="table table-hover">
+                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
+                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
+                        <h:column>
+                            <f:facet name="header">Subscribe</f:facet>
+                            <h:commandButton value="Subscribe" action="#{studentSubscribeController.subscribeToCourse(course)}" class="btn btn-default"/>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <a href="index.xhtml" class="btn btn-default" role="button">
+                        <span class="glyphicon glyphicon-chevron-left"></span> Back
+                    </a>
+                </div>
+            </div>
+        </h:form>
     </body>
 </html>

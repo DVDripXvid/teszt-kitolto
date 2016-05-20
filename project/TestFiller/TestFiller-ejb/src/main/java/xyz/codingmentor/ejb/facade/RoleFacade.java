@@ -13,13 +13,13 @@ import xyz.codingmentor.entity.Role;
 public class RoleFacade extends EntityFacade{
 
     public Role findRole(String name){
-        TypedQuery<Role> query = entityManager.createNamedQuery("Role.ByName", Role.class);
+        TypedQuery<Role> query = entityManager.createNamedQuery("ROLE.ByName", Role.class);
         query.setParameter("name", name);
         return query.getSingleResult();
     }
     
     public List<Role> findAll(){
-        return entityManager.createNamedQuery("Role.findAll", Role.class).getResultList();
+        return entityManager.createNamedQuery("ROLE.findAll", Role.class).getResultList();
     }
     
 }

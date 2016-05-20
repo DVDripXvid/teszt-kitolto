@@ -6,6 +6,7 @@ package xyz.codingmentor.entity;
  */
 public abstract class QueryName {
 
+    public static String COURSE_findForUser = "COURSE.findForUser";
     public static String COURSE_findAll = "COURSE.findAll";
     public static String COURSE_searchByNameAndTime = "COURSE.searchByNameAndTime";
     public static String USERS_findNonAccepted = "USERS.findNonAccepted";
@@ -15,5 +16,9 @@ public abstract class QueryName {
     public static String TEST_searchByName = "TEST.searchByName";
     public static String STUDENT_getByEmail = "STUDENT.getByEmail";
     public static String STUDENT_getSubscribers = "STUDENT.getSubscribers";
-    
+    public static String ROLE_ByName = "ROLE.ByName";
+    public static String ROLE_findAll = "ROLE.findAll";
+    public static String ROLE_findByUser = "ROLE.findByUser";
+    public static String TEACHER_findByEmail = "TEACHER.findByEmail";
+
 }
