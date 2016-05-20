@@ -15,13 +15,16 @@
     <h:body style="margin: 20px">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#revisionRegistration">Revision Registration</a></li>
-            <li><a href="#">Revision subscribe</a></li>
+            <li><a href="#revisionSubscibe">Revision subscribe</a></li>
             <li><a href="#">Users</a></li>
             <li><a href="#">Courses</a></li>
             <li><a href="#">Subjects</a></li>
             <li><a href="#">Tests</a></li>
         </ul>
         <div class="tab-content">
+            <div id="revisionSubscibe">
+                
+            </div>
             <div id="revisionRegistration">
                 <table class="table table-hover" >
                     <thead>
@@ -48,8 +51,6 @@
                         </ui:repeat>
                     </tbody>
                 </table>
-                <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
-                </ui:repeat>
                 <h:form>
                     <div class="row">
                         <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
