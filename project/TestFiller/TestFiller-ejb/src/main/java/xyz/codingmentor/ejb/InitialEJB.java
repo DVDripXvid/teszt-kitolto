@@ -35,7 +35,8 @@ public class InitialEJB {
     public void createEntity(){
         LOGGER.info("singleton created: " + this);
         createRoles();
-        createUser();        
+        createUser();
+        generateTestData();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
     
@@ -43,9 +44,15 @@ public class InitialEJB {
         Course course = new Course();
         course.setName("course");
         facade.create(course);
+        Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
+        student.setSubscribed(course);
+        facade.create(student);
         
         Test test = new Test();
         test.setName("test");
+        facade.create(test);
+        Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
+        teacher.getTests().add(test);
         facade.create(test);
     }
        
