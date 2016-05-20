@@ -40,6 +40,7 @@ public class Test implements Serializable {
     private Teacher teacher;
     @OneToMany(mappedBy = "test")
     private List<FilledTest> filledTests;
+    private Boolean active = false;
 
     public Long getId() {
         return id;
@@ -96,7 +97,13 @@ public class Test implements Serializable {
     public void setFilledTests(List<FilledTest> filledTests) {
         this.filledTests = filledTests;
     }
-    
-    
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
     
 }

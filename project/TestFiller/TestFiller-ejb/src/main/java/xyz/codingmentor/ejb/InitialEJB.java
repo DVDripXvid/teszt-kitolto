@@ -7,9 +7,11 @@ import javax.ejb.Startup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
+import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Teacher;
+import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.User;
 import xyz.codingmentor.role.RoleName;
 
@@ -35,6 +37,16 @@ public class InitialEJB {
         createRoles();
         createUser();        
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
+    }
+    
+    private void generateTestData(){
+        Course course = new Course();
+        course.setName("course");
+        facade.create(course);
+        
+        Test test = new Test();
+        test.setName("test");
+        facade.create(test);
     }
        
     private void createRoles(){
