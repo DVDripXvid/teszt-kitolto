@@ -36,6 +36,7 @@ public class InitialEJB {
         LOGGER.info("singleton created: " + this);
         createRoles();
         createUser();        
+        generateTestData();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
     

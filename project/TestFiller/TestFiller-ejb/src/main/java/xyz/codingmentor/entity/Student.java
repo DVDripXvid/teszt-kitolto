@@ -29,7 +29,7 @@ public class Student extends User implements Serializable {
     private List<FilledTest> filledTests;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses = new ArrayList<>();
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Course subscribed;
 
     public Student() {
