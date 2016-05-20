@@ -21,10 +21,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ROLES")
 @NamedQueries({
-    @NamedQuery(name = "Role.ByName",
+    @NamedQuery(name = "ROLE.ByName",
             query = "SELECT r FROM Role r WHERE r.roleName=:name"),
-    @NamedQuery(name = "Role.findAll",
-            query = "SELECT r FROM Role r")
+    @NamedQuery(name = "ROLE.findAll",
+            query = "SELECT r FROM Role r"),
+    @NamedQuery(name = "ROLE.findByUser",
+            query = "SELECT r FROM Role r WHERE :user MEMBER OF r.users")
 })
 public class Role implements Serializable {
 
