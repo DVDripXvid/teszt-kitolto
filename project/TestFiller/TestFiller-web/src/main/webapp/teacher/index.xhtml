@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Private Teacher Area</title>
         <meta charset="utf-8" />
@@ -10,15 +11,27 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <br/>
-        <div class="row">
-            <div class="col-md-2">
-                <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
+        <h:form>
+            <div class="row">
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
+                </div>
             </div>
-            <div class="col-md-2">
-                <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
-            </div>            
-        </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-2">
+                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
+                </div>            
+            </div>
+        </h:form>
         <br/>
         <br/>        
         <div class="row">
@@ -37,21 +50,46 @@
             <br/>
             <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
         </div>
-        <br/>
-        <br/>
-        <h:form>
-            <div class="row">
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
-                </div>
+        <div class="row">
+
+            <table class="table table-hover" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Course</th>
+                        <th>Active</th>
+                        <th>Number of fills</th>
+                    </tr>
+                </thead>
+                <tbody class="table table-hover ">
+                    <ui:repeat var="test" value="#{teacherController.tests}">
+                        <tr>
+                            <td>#{test.id}</td>
+                            <td>#{test.name}</td>
+                            <td>#{test.duration}</td>
+                            <td>#{test.id}</td>
+                            <td>#{test.filledTests.size()}</td>
+                        </tr>
+                    </ui:repeat>
+                </tbody>
+            </table>
+            <ui:repeat value="#{teacherController.tests}" var="test">
+            </ui:repeat>
+            <div class="col-md-2">
+                <a class="btn" href="createTest.xhtml">Create</a>
             </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-2">
-                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
-                </div>
+            <div class="col-md-2">
+                <a class="btn" href="../index.xhtml">Delete</a>
             </div>
-        </h:form>
+            <div class="col-md-2">
+                <a class="btn" href="../index.xhtml">Edit</a>
+            </div>
+            <div class="col-md-2">
+                <a class="btn" href="../index.xhtml">Details</a>
+            </div>
+        </div>
     </h:body>
 </html>
 
