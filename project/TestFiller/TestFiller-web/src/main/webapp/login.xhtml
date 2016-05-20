@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Login Form</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <h1 align="center">Sign in</h1>
+        <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';"> 
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <h:outputLabel for="usernameInput" value="E-mail "></h:outputLabel>  
+                    <input id="usernameInput" name="j_username" type="text" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <h:outputLabel for="passwordInput" value="Password "></h:outputLabel>  
+                    <input id="passwordInput" name="j_password" type="password" />
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-5">
+                </div>
+                <h:commandButton class="btn btn-default col-md-2" value="Login"></h:commandButton>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Registration</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body style="align-content: center">
+        <h1 align="center">Registration page</h1>
+        <br/>
+        <h:form >
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class="col-md-2">
+                    <label for="firstName">First name :</label>
+                    <h:inputText id="firstName" class="form-control" value="#{registrationEJB.user.firstName}"/><br/>
+                </div>
+                <div class="col-md-2">
+                    <label for="lastName">Last name :</label>
+                    <h:inputText id="lastName" class="form-control"  value="#{registrationEJB.user.lastName}"/><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <label for="email">E-mail address :</label>
+                    <h:inputText id="email" class="form-control" value="#{registrationEJB.user.email}"/><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class ="col-md-4">
+                </div>
+                <div class ="col-md-4">
+                    <label for="roleSelector">Role :</label>
+                    <h:selectOneMenu  class="form-control col-md-3" id="roleSelector" value="#{registrationEJB.selectedRole}">
+                        <f:selectItems value="#{registrationEJB.roleNames}"/>
+                    </h:selectOneMenu><br/>
+                </div>
+                <div class ="col-md-4">
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-5">
+                </div>
+                <h:commandButton class="btn btn-default col-md-2" value="Register" action="#{registrationEJB.register()}"/>
+                <div class="col-md-5">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <a class="btn" href="index.xhtml">Back to Homepage</a>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>
