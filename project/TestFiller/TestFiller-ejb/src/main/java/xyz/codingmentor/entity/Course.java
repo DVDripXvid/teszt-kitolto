@@ -22,10 +22,13 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "COURSES.findActiveCourses", 
-            query = "Select c from Course c where c.isActive = TRUE")
+    @NamedQuery(name = "COURSE.listAll", 
+            query = "Select c from Course c")
 })
 public class Course implements Serializable {
+
+    @OneToMany(mappedBy = "subscribed")
+    private List<Student> Subscribers;
 
     @Id
     @GeneratedValue
@@ -43,11 +46,75 @@ public class Course implements Serializable {
     private List<Teacher> teachers;
     @OneToMany(mappedBy = "course")
     private List<FilledTest> filledTests;
-    private boolean isActive;
     @OneToMany(mappedBy = "course")
     private List<Test> tests;
 
     public List<Student> getStudents() {
         return students;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+
+    public List<FilledTest> getFilledTests() {
+        return filledTests;
+    }
+
+    public void setFilledTests(List<FilledTest> filledTests) {
+        this.filledTests = filledTests;
+    }
+
+    public List<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
+    }
+
+    public List<Student> getSubscribers() {
+        return Subscribers;
+    }
+
+    public void setSubscribers(List<Student> Subscribers) {
+        this.Subscribers = Subscribers;
+    }
+    
 }

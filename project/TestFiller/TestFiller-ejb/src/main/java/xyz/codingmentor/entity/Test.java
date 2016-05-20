@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -15,6 +17,12 @@ import javax.persistence.OneToMany;
  * @author Olivér
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "TEST.findAll",
+            query = "SELECT t FROM Test t"),
+    @NamedQuery(name = "TEST.searchByName",
+            query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')")
+})
 public class Test implements Serializable {
 
     @Id

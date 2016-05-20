@@ -25,7 +25,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "USERS.findNonAccepted",
             query = "SELECT u FROM User u WHERE u.accepted=FALSE"),
     @NamedQuery(name = "USERS.findByEmail",
-            query = "SELECT u FROM User u WHERE u.email=:email")
+            query = "SELECT u FROM User u WHERE u.email=:email"),
+    @NamedQuery(name = "USERS.findAll",
+            query = "SELECT u FROM User u")
 })
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {

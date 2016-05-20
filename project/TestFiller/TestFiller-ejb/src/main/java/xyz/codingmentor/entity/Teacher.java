@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -19,7 +20,7 @@ import javax.persistence.OneToMany;
 })
 public class Teacher extends User implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses;
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Test> tests;
