@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -17,15 +18,19 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "STUDENT.getByEmail", 
-                query = "SELECT s FROM Student s WHERE s.email=:email")
+    @NamedQuery(name = "STUDENT.getByEmail",
+            query = "SELECT s FROM Student s WHERE s.email=:email"),
+    @NamedQuery(name = "STUDENT.getSubscribers",
+            query = "SELECT s FROM Student s WHERE s.subscribed IS NOT NULL")
 })
 public class Student extends User implements Serializable {
 
     @OneToMany(mappedBy = "student")
-    private List<FilledTest> filledTests; 
+    private List<FilledTest> filledTests;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Course subscribed;
 
     public Student() {
     }
@@ -49,7 +54,13 @@ public class Student extends User implements Serializable {
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
-    
-    
+
+    public Course getSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(Course subscribed) {
+        this.subscribed = subscribed;
+    }
 
 }

@@ -2,6 +2,7 @@ package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,8 +18,10 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "TEST.listByTeacher",
-            query = "SELECT t FROM Test t WHERE t.teacher.id=:teacherId")
+    @NamedQuery(name = "TEST.findAll",
+            query = "SELECT t FROM Test t"),
+    @NamedQuery(name = "TEST.searchByName",
+            query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')")
 })
 public class Test implements Serializable {
 
@@ -32,7 +35,7 @@ public class Test implements Serializable {
     private Course course;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TEACHER_ID")
     private Teacher teacher;
     @OneToMany(mappedBy = "test")

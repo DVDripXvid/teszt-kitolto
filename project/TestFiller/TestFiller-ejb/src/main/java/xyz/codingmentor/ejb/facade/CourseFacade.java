@@ -13,4 +13,8 @@ public class CourseFacade extends EntityFacade{
     public List<Course> getActiveCourses(){
         return entityManager.createNamedQuery("COURSE.listAll", Course.class).getResultList();
     }
+    
+    public void getSubscribtions(){
+        //entityManager.createNativeQuery("SELECT ")
+    }
 }
