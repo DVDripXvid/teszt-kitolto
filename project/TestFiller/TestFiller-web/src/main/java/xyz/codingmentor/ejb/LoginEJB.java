@@ -21,13 +21,16 @@ public class LoginEJB implements Serializable{
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginEJB.class);
 
     public void login(){
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();        
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String rolePath = "";
         if(ec.isUserInRole(RoleName.ADMIN)){
             rolePath = "admin";
         }
-        if(ec.isUserInRole(RoleName.TEACHER)){
+        else if(ec.isUserInRole(RoleName.TEACHER)){
             rolePath = "teacher";
+        }
+        else if(ec.isUserInRole(RoleName.STUDENT)){
+            rolePath = "student";
         }
         try {
             ec.redirect(ec.getApplicationContextPath() + "/faces/" + rolePath + "/index.xhtml");

@@ -37,7 +37,7 @@ public class RegistrationEJB implements Serializable{
         ROLE_NAMES.put(RoleName.TEACHER, RoleName.TEACHER);
     }
     
-    public void register(){
+    public String register(){
         Role role = facade.findRole(selectedRole);
         user.setAccepted(false);
         char[] pw = new char[6];
@@ -48,6 +48,8 @@ public class RegistrationEJB implements Serializable{
         facade.create(user);
         role.getUsers().add(user);
         facade.update(role);
+        
+        return "notification";
     }
 
     public User getUser() {

@@ -15,6 +15,10 @@
             <to-view-id>/teacher/index.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>student</from-outcome>
+            <to-view-id>/student/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>home</from-outcome>
             <to-view-id>index.xhtml</to-view-id>
         </navigation-case>

@@ -94,6 +94,29 @@
         <auth-constraint>
             <role-name>TEACHER</role-name>
             <role-name>ADMIN</role-name>
+            <role-name>STUDENT</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+        <display-name>Student Pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Student Page</web-resource-name>
+            <description/>
+            <url-pattern>/faces/student/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>STUDENT</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -106,5 +129,8 @@
     <security-role>  
         <role-name>TEACHER</role-name>  
     </security-role>    
+    <security-role>  
+        <role-name>STUDENT</role-name>  
+    </security-role>
     
 </web-app>
