@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Role;
+import xyz.codingmentor.entity.Student;
+import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.User;
 import xyz.codingmentor.role.RoleName;
 
@@ -49,14 +51,14 @@ public class InitialEJB {
         user.setAccepted(true);
         facade.create(user);
         facade.findRole("ADMIN").getUsers().add(user);
-        user = new User("Teacher", "Bela", "pass" ,"teacher");
-        user.setAccepted(true);
-        facade.create(user);
-        facade.findRole("TEACHER").getUsers().add(user);
-        user = new User("Student", "Laci", "pass" ,"student");
-        user.setAccepted(true);
-        facade.create(user);
-        facade.findRole("STUDENT").getUsers().add(user);
+        Teacher teacher = new Teacher("Teacher", "Bela", "pass" ,"teacher");
+        teacher.setAccepted(true);
+        facade.create(teacher);
+        facade.findRole("TEACHER").getUsers().add(teacher);
+        Student student = new Student("Student", "Laci", "pass" ,"student");
+        student.setAccepted(true);
+        facade.create(student);
+        facade.findRole("STUDENT").getUsers().add(student);
     }
     
     
