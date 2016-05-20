@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Subscribe Admin Area</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body style="margin: 20px">
+        <h:form>
+            <div class="row">
+                <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
+                <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+            </div>
+        </h:form>
+        <ul class="nav nav-tabs">
+            <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
+            <li class="active"><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
+            <li><a data-toogle="tab" href="user.xhtml">Users</a></li>
+            <li><a data-toogle="tab" href="course.xhtml">Courses</a></li>
+            <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
+            <li><a data-toogle="tab" href="test.xhtml">Tests</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class ="tab-pane active">
+                <h:form>
+                    <h:dataTable value="#{subscribtionHandler.subscribers}" var="student" class="table table-hover" style="align-content: center">
+                        <h:column><f:facet name="header">Subscriber Name</f:facet>#{student.firstName} #{student.lastName}</h:column>
+                        <h:column><f:facet name="header">Course</f:facet>#{student.subscribed.name}</h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <span class="glyphicon glyphicon-ok" />
+                            </f:facet>
+                            <h:commandButton value="Accept" action="#{subscribtionHandler.acceptSubscribtion(student)}" class="btn btn-default"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <span class="glyphicon glyphicon-remove" />
+                            </f:facet>
+                            <h:commandButton value="Deny" action="#{subscribtionHandler.denySubscribtion(student)}" class="btn btn-default"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
