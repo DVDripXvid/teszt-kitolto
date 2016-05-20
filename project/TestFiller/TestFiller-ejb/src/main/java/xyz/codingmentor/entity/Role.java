@@ -36,7 +36,7 @@ public class Role implements Serializable {
     }, joinColumns = {
         @JoinColumn(name = "ROLE_NAME")
     })
-    List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     public Role() {
     }
