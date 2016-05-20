@@ -1,12 +1,51 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Admin Test</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
-    <h:body>
-        Hello from Facelets
+    <h:body style="margin: 20px">
+        <h:form>
+            <div class="row">
+                <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
+                <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
+            </div>
+        </h:form>
+        <ul class="nav nav-tabs">
+            <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
+            <li><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
+                <li><a data-toogle="tab" href="user.xhtml">Users</a></li>
+                <li><a data-toogle="tab" href="course.xhtml">Courses</a></li>
+                <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
+                <li class = "active" ><a data-toogle="tab" href="test.xhtml">Tests</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="revisionRegistration">
+                <table class="table table-hover" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table table-hover ">
+                        <ui:repeat var="test" value="#{testController.test}">
+                            <tr>
+                                <td>#{test.name}</td>
+                                <td>#{test.teacher}</td>
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+                <ui:repeat value="#{testController.test}" var="test">
+                </ui:repeat>
+            </div>
+        </div>
     </h:body>
 </html>
-
