@@ -15,4 +15,5 @@ public class UserFacade extends EntityFacade{
         return entityManager.createNamedQuery("USERS.findNonAccepted", User.class).getResultList();
     }
     
+    
 }
