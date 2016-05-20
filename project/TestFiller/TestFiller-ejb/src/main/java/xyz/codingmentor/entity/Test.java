@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -35,10 +36,9 @@ public class Test implements Serializable {
     private Course course;
     @OneToMany(mappedBy = "test")
     private List<Question> questions;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "TEACHER_ID")
+    @ManyToOne
     private Teacher teacher;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER) 
     private List<FilledTest> filledTests;
     private Boolean active = false;
 

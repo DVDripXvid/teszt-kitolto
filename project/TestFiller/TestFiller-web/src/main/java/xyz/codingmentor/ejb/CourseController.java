@@ -2,6 +2,7 @@ package xyz.codingmentor.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
@@ -14,11 +15,20 @@ public class CourseController {
 
     @EJB
     private CourseFacade courseFacade;
-    
     private static final List<String> accordingToSubscribeTypes = new ArrayList<>();
-    
     private String selectedSubscribedType;
-
+    private Course selectedCourse;
+    
+    @PostConstruct
+    public void init(){
+        Course c = new Course();
+        c.setName("JavaEE");
+        courseFacade.create(c);
+        Course c2 = new Course();
+        c2.setName("C++");
+        courseFacade.create(c2);
+    }
+    
     public String getSelectedSubscribedType() {
         return selectedSubscribedType;
     }
@@ -35,6 +45,18 @@ public class CourseController {
     
     public List<Course> getActiveCourses(){
         return courseFacade.getActiveCourses();
+    }
+    
+    public List<Course> getCourses(){
+        return courseFacade.namedQuery("COURSE.findAll", Course.class);
+    }
+
+    public Course getSelectedCourse() {
+        return selectedCourse;
+    }
+
+    public void setSelectedCourse(Course selectedCourse) {
+        this.selectedCourse = selectedCourse;
     }
     
     

@@ -2,9 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Admin Subject</title>
+        <title>Subscribe Admin Area</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
@@ -19,40 +20,27 @@
         </h:form>
         <ul class="nav nav-tabs">
             <li><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
-            <li><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
+            <li class="active"><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
             <li><a data-toogle="tab" href="user.xhtml">Users</a></li>
             <li><a data-toogle="tab" href="course.xhtml">Courses</a></li>
-            <li   class = "active"><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
+            <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
             <li><a data-toogle="tab" href="test.xhtml">Tests</a></li>
         </ul>
         <div class="tab-content">
-            <div id="subject">
-                <table class="table table-hover" >
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table table-hover ">
-                        <ui:repeat var="subject" value="#{subjectController.subjects}">
-                            <tr>
-                                <td>#{subject.id}</td>
-                                <td>#{subject.name}</td>
-                            </tr>
-                        </ui:repeat>
-                    </tbody>
-                </table>
-                <ui:repeat value="#{subjectController.subjects}" var="subject">
-                </ui:repeat>
+            <div role="tabpanel" class ="tab-pane active">
                 <h:form>
-                    <div class="row">
-                        <a class="btn col-md-2" href="createSubject.xhtml">create</a>
-                    </div>
+                    <h:dataTable value="#{subscribtionHandler.subscribers}" var="student">
+                        <h:column><f:facet name="header">Name</f:facet>#{student.firstName.concat(student.lastName)}</h:column>
+                        <h:column><f:facet name="header">Course</f:facet>#{student.subscribed.name}</h:column>
+                        <h:column>
+                            <h:commandButton value="Accept" action="#{subscribtionHandler.acceptSubscribtion(student)}" />
+                        </h:column>
+                        <h:column>
+                            <h:commandButton value="Deny" action="#{subscribtionHandler.denySubscribtion(student)}" />
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </div>
         </div>
     </h:body>
 </html>
-
-
