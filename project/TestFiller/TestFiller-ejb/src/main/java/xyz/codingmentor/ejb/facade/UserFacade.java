@@ -17,8 +17,7 @@ public class UserFacade extends EntityFacade{
         query.setParameter("email", email);
         return query.getSingleResult();
     }
-
-
+    
     public List<User> getNonAcceptedUsers(){
         return entityManager.createNamedQuery("USERS.findNonAccepted", User.class).getResultList();
     }   

@@ -17,64 +17,60 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <body>
-        <br/>
-        <div class="row">
-            <div class="col-md-2">
-                <label for="nameText" style="margin-left: 5%">Name :</label>
-                <h:inputText id="nameText" class="form-control" style="margin-left: 5%"/>
-            </div>
-            <div class="col-md-2">
-                <label for="timeText" style="margin-left: 5%">Time :</label>
-                <h:inputText id="timeText" class="form-control" style="margin-left: 5%"/>
-            </div>
-            <div class ="col-md-2">
-                <label for="typeSelector">According to Subscribe :</label>
-                <h:selectOneMenu  class="form-control" id="typeSelector" value="#{courseController.selectedSubscribedType}">
-                    <f:selectItems value="#{courseController.subscribeableCourses}"/>
-                </h:selectOneMenu><br/>
-            </div>
-            <div class="col-md-2">
-                <h:commandButton value="Search" action=""/>
-            </div>
-        </div>
-        <br/>
-        <div class="row">
-            <table class="table table-hover" >
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody class="table table-hover ">
-                    <ui:repeat var="course" value="#{courseController.activeCourses}">
-                        <tr>
-                            <td>#{course.name}</td>
-                            <td>#{course.time}</td>                       
-                        </tr>
-                    </ui:repeat>
-                </tbody>
-            </table>
+        <h:form>
             <br/>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="nameText" style="margin-left: 5%">Name :</label>
+                    <h:inputText id="nameText" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="timeText" style="margin-left: 5%">Time :</label>
+                    <h:inputText id="timeText" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <h:commandButton value="Search"/>
+                </div>
+            </div>
             <br/>
-            <table class="table table-hover" >
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody class="table table-hover ">
-                    <ui:repeat var="course" value="#{courseController.activeCourses}">
+            <div class="row">
+                <table class="table table-hover" >
+                    <thead>
                         <tr>
-                            <td>#{course.name}</td>
-                            <td>#{course.time}</td>                       
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Time</th>
                         </tr>
-                    </ui:repeat>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody class="table table-hover ">
+                        <ui:repeat var="course" value="#{courseController.subscribedCourses}">
+                            <tr>
+                                <td>#{course.name}</td>
+                                <td>#{course.time}</td>                       
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+                <br/>
+                <br/>
+                <table class="table table-hover" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table table-hover ">
+                        <ui:repeat var="course" value="#{courseController.activeCourses}">
+                            <tr>
+                                <td>#{course.name}</td>
+                                <td>#{course.time}</td>                       
+                            </tr>
+                        </ui:repeat>
+                    </tbody>
+                </table>
+            </div>
+        </h:form>
     </body>
 </html>
