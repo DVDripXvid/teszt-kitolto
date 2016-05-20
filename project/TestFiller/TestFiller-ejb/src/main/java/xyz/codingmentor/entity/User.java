@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,9 +25,11 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "USERS.findNonAccepted",
             query = "SELECT u FROM User u WHERE u.accepted=FALSE"),
     @NamedQuery(name = "USERS.findByEmail",
-            query = "SELECT u FROM User u WHERE u.email=:email")
+            query = "SELECT u FROM User u WHERE u.email=:email"),
+    @NamedQuery(name = "USERS.findAll",
+            query = "SELECT u FROM User u")
 })
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
 
     @Id
