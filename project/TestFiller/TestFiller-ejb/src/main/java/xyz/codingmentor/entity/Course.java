@@ -35,7 +35,7 @@ public class Course implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "COURSE_TIME")
     private Date time;
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Subject> subjects;
     @ManyToMany(mappedBy = "courses")
     private List<Student> students;
@@ -44,6 +44,8 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course")
     private List<FilledTest> filledTests;
     private boolean isActive;
+    @OneToMany(mappedBy = "course")
+    private List<Test> tests;
 
     public List<Student> getStudents() {
         return students;
