@@ -29,14 +29,20 @@
         <div class="tab-content">
             <div role="tabpanel" class ="tab-pane active">
                 <h:form>
-                    <h:dataTable value="#{subscribtionHandler.subscribers}" var="student">
-                        <h:column><f:facet name="header">Name</f:facet>#{student.firstName.concat(student.lastName)}</h:column>
+                    <h:dataTable value="#{subscribtionHandler.subscribers}" var="student" class="table table-hover" style="align-content: center">
+                        <h:column><f:facet name="header">Subscriber Name</f:facet>#{student.firstName} #{student.lastName}</h:column>
                         <h:column><f:facet name="header">Course</f:facet>#{student.subscribed.name}</h:column>
                         <h:column>
-                            <h:commandButton value="Accept" action="#{subscribtionHandler.acceptSubscribtion(student)}" />
+                            <f:facet name="header">
+                                <span class="glyphicon glyphicon-ok" />
+                            </f:facet>
+                            <h:commandButton value="Accept" action="#{subscribtionHandler.acceptSubscribtion(student)}" class="btn btn-default"/>
                         </h:column>
                         <h:column>
-                            <h:commandButton value="Deny" action="#{subscribtionHandler.denySubscribtion(student)}" />
+                            <f:facet name="header">
+                                <span class="glyphicon glyphicon-remove" />
+                            </f:facet>
+                            <h:commandButton value="Deny" action="#{subscribtionHandler.denySubscribtion(student)}" class="btn btn-default"/>
                         </h:column>
                     </h:dataTable>
                 </h:form>

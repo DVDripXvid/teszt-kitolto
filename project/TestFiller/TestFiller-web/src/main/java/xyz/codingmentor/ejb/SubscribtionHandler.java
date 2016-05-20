@@ -31,15 +31,15 @@ public class SubscribtionHandler {
     
     public void acceptSubscribtion(Student student){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Accepted"));
-        student.getSubscribed().getSubscribers().add(student);
+        student.getCourses().add(student.getSubscribed());
         student.setSubscribed(null);
-        LOGGER.info(student.getLastName() + "subscribing...");
+        LOGGER.info(student.getLastName() + " subscribing...");
         facade.update(student);
     }
     
     public void denySubscribtion(Student student){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Denied"));
-        LOGGER.info(student.getLastName() + "unsubscribing...");
+        LOGGER.info(student.getLastName() + " unsubscribing...");
         student.setSubscribed(null);
         facade.update(student);
     }
