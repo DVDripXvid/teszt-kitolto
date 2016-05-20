@@ -45,21 +45,32 @@ and open the template in the editor.
                         <th>#</th>
                         <th>Name</th>
                         <th>Time</th>
-                        <th>Subscribe</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody class="table table-hover ">
                     <ui:repeat var="course" value="#{courseController.activeCourses}">
                         <tr>
                             <td>#{course.name}</td>
-                            <td>#{course.time}</td>
-                            <td>#{course}</td>
-                            <td>
-                                <h:form>
-                                    <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
-                                </h:form>
-                            </td>                        
+                            <td>#{course.time}</td>                       
+                        </tr>
+                    </ui:repeat>
+                </tbody>
+            </table>
+            <br/>
+            <br/>
+            <table class="table table-hover" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody class="table table-hover ">
+                    <ui:repeat var="course" value="#{courseController.activeCourses}">
+                        <tr>
+                            <td>#{course.name}</td>
+                            <td>#{course.time}</td>                       
                         </tr>
                     </ui:repeat>
                 </tbody>
