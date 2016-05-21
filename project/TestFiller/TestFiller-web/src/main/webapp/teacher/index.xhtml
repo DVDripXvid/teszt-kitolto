@@ -64,6 +64,9 @@
                     <h:column><f:facet name="header">Active</f:facet>#{test.active}</h:column>
                     <h:column><f:facet name="header">Number of fills</f:facet>#{test.filledTests.size()}</h:column>
                     <h:column>
+                        <h:commandButton value="Manage questions" action="#{teacherController.goToManageQuestions(test)}" class="btn btn-default"/>
+                    </h:column>
+                    <h:column>
                         <h:commandButton value="Delete" action="#{teacherController.delete(test)}" class="btn btn-default"/>
                     </h:column>
                     <h:column>

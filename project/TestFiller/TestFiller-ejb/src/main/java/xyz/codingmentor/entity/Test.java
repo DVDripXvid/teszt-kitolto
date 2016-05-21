@@ -2,6 +2,7 @@ package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Test implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Question> questions;
     @ManyToOne
     private Teacher teacher;

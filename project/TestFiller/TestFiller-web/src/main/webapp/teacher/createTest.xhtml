@@ -25,56 +25,19 @@
                 </div><!--
                 <div class="col-md-2">
                     <label for="courseLabel" style="margin-left: 5%">Course :</label>
-                    <h:selectOneMenu  class="form-control col-md-3" value="#{teacherController.test.course}">
-                        <f:selectItems value="#{teacherController.courses}"/>
+                    <h:selectOneMenu  class="form-control col-md-3" value="{teacherController.test.course}">
+                        <f:selectItems value="{teacherController.courses}"/>
                     </h:selectOneMenu><br/>
                 </div>-->
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <label for="timeLabel" style="margin-left: 5%">Time :</label>
+                    <label for="timeLabel" style="margin-left: 5%">Duration :</label>
                     <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.duration}"/>
                 </div>
             </div>
             <div class="col-md-2">
                 <h:commandButton class="btn btn-default" value="Create" style="margin-left: 5%" action="#{teacherController.create()}"/>
-            </div>
-        </h:form>
-        <h:form>
-            <div class="row">    
-                <div class="col-md-2">
-                    <label for="newQuestionLabel" style="margin-left: 5%">New question :</label>
-                    <h:inputText id="newQuestionLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.question.text}"/>
-                </div>
-                <div class="col-md-2">
-                    <label for="courseLabel" style="margin-left: 5%">Question type :</label>
-                    <h:selectOneMenu  class="form-control col-md-3" value="#{teacherController.question.type}">
-                        <f:selectItems value="#{teacherController.questionTypes}"/>
-                    </h:selectOneMenu><br/>
-                </div>
-            </div>
-            <div class="row">        
-                <div class="col-md-2">
-                    <label for="answerLengthLabel" style="margin-left: 5%">Answer length :</label>
-                    <h:inputText id="answerLengthLabel" class="form-control" value="#{teacherController.question.lengthOfAnswer}" style="margin-left: 5%"/>
-                </div>
-            </div>
-            <div class="row">    
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Add question" style="margin-left: 5%" action="#{teacherController.createQuestion()}"/>
-                </div>
-            </div>
-        </h:form>
-        <h:form>
-            <div class="row">
-                <div class="row">
-                    <h:dataTable value="#{teacherController.test.questions}" var="question" class="table table-hover">
-                        <h:column><f:facet name="header">Id</f:facet>#{question.text}</h:column>
-                        <h:column>
-                            <h:commandButton value="Delete" action="#{teacherController.deleteQuestion(question)}" class="btn btn-default"/>
-                        </h:column>
-                    </h:dataTable>
-                </div>
             </div>
         </h:form>
     </h:body>

@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class Question implements Serializable {
     private String text;
     @Enumerated
     private QuestionType type;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TEST_ID")
     private Test test;
     private Integer lengthOfAnswer;
