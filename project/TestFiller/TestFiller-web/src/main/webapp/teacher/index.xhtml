@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Private Teacher Area</title>
         <meta charset="utf-8" />
@@ -10,15 +12,27 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <br/>
-        <div class="row">
-            <div class="col-md-2">
-                <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
+        <h:form>
+            <div class="row">
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
+                </div>
             </div>
-            <div class="col-md-2">
-                <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
-            </div>            
-        </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-2">
+                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
+                </div>            
+            </div>
+        </h:form>
         <br/>
         <br/>        
         <div class="row">
@@ -36,22 +50,30 @@
             </div>
             <br/>
             <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
+            <div class="col-md-2">
+                <a class="btn" href="createTest.xhtml">Create</a>
+            </div>
         </div>
-        <br/>
-        <br/>
-        <h:form>
-            <div class="row">
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
-                </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-2">
-                    <a class="btn" href="../index.xhtml">Back to Homepage</a>
-                </div>
-            </div>
-        </h:form>
+        <div class="row" style="margin-left: 1%">
+            <h:form>
+                <h:dataTable value="#{teacherController.tests}" var="test" class="table table-hover">
+                    <h:column><f:facet name="header">Id</f:facet>#{test.id}</h:column>
+                    <h:column><f:facet name="header">Name</f:facet>#{test.name}</h:column>
+                    <h:column><f:facet name="header">Time</f:facet>#{test.duration}</h:column>
+                    <h:column><f:facet name="header">Course</f:facet>#{test.course}</h:column>
+                    <h:column><f:facet name="header">Active</f:facet>#{test.active}</h:column>
+                    <h:column><f:facet name="header">Number of fills</f:facet>#{test.filledTests.size()}</h:column>
+                    <h:column>
+                        <h:commandButton value="Delete" action="#{teacherController.delete(test)}" class="btn btn-default"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Edit" action="#{teacherController.edit(test)}" class="btn btn-default"/>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Details" action="#{teacherController.details(test)}" class="btn btn-default"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
     </h:body>
 </html>
-
