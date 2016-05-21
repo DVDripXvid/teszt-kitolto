@@ -42,12 +42,11 @@
                     <h:commandButton value="Delete" action="#{courseController.deleteCourse(course.id)}" class="btn btn-default"/>
                 </h:column>
             </h:dataTable>
-            <h:form>
+            
                 <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
                     <h:inputText value="#{courseController.selectedCourse.name}"/>
                     <p:commandButton value="Save" action="#{courseController.editCourse(course)}" class="btn btn-default"/>
                 </p:dialog>
-            </h:form>
         </h:form>
     </h:body>
 </html>
