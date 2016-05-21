@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import xyz.codingmentor.ejb.facade.CourseFacade;
 import xyz.codingmentor.entity.Course;
 
@@ -67,5 +69,10 @@ public class CourseController {
     public void editCourse(Course course){
         course.setName(selectedCourse.getName());
         courseFacade.update(course);
+    }
+    
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.UserFacade;
 import xyz.codingmentor.entity.QueryName;
+import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.User;
 
 /**
@@ -41,8 +42,13 @@ public class UserController {
     public List<User> getUsers(){
         return userFacade.namedQuery(QueryName.USERS_findAll, User.class);
     }
-    public void deleteUser(long id){
+    public void deleteUser(User user){
+        List<Role> roles = userFacade.namedQueryOneParam(QueryName.ROLE_findByUser, Role.class,"user",user);
+        for(Role r : roles){
+            r.getUsers().remove(user);
+            userFacade.update(r);
+        }
         
-        userFacade.delete(User.class, id);
+        userFacade.delete(User.class, user.getId());
     }
 }

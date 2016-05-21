@@ -69,15 +69,15 @@ public class InitialEJB {
         User user = new User("Admin", "Lajos", "pass" ,"admin");
         user.setAccepted(true);
         facade.create(user);
-        facade.findRole("ADMIN").getUsers().add(user);
+        user.getRoles().add(facade.findRole("ADMIN"));
         Teacher teacher = new Teacher("Teacher", "Bela", "pass" ,"teacher");
         teacher.setAccepted(true);
         facade.create(teacher);
-        facade.findRole("TEACHER").getUsers().add(teacher);
+        teacher.getRoles().add(facade.findRole("TEACHER"));
         Student student = new Student("Student", "Laci", "pass" ,"student");
         student.setAccepted(true);
         facade.create(student);
-        facade.findRole("STUDENT").getUsers().add(student);
+        student.getRoles().add(facade.findRole("STUDENT"));
     }
     
     

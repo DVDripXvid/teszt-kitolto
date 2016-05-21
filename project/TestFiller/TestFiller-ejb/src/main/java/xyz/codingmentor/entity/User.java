@@ -1,14 +1,20 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -46,6 +52,14 @@ public class User implements Serializable {
     @Lob
     private byte[] image;
     private boolean isTeacher;
+    
+    @ManyToMany(cascade= CascadeType.REMOVE)
+    @JoinTable(inverseJoinColumns = {
+        @JoinColumn(name = "ROLE_NAME")
+    }, joinColumns = {
+        @JoinColumn(name = "USER_ID")
+    })
+    private List<Role> roles = new ArrayList<>();
     
     public User() {
     }
@@ -129,5 +143,14 @@ public class User implements Serializable {
     public void setIsTeacher(boolean isTeacher) {
         this.isTeacher = isTeacher;
     }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+    
         
 }
