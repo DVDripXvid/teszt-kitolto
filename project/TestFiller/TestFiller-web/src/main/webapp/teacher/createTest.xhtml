@@ -12,16 +12,11 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <div class="row">
-            <div class="col-md-2">
-                <a class="btn" href="../index.xhtml">Back to Homepage</a>
-            </div>
-        </div>
         <h:form>
             <div class="row">
                 <div class="col-md-2">
                     <label for="testNameLabel" style="margin-left: 5%">Test name :</label>
-                    <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.name}"/>
+                    <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{testController.test.name}"/>
                 </div><!--
                 <div class="col-md-2">
                     <label for="courseLabel" style="margin-left: 5%">Course :</label>
@@ -33,11 +28,16 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="timeLabel" style="margin-left: 5%">Duration :</label>
-                    <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.duration}"/>
+                    <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{testController.test.duration}"/>
                 </div>
             </div>
-            <div class="col-md-2">
-                <h:commandButton class="btn btn-default" value="Create" style="margin-left: 5%" action="#{teacherController.create()}"/>
+            <div class="row">
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Create" style="margin-left: 5%" action="#{testController.create()}"/>
+                </div>
+                <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Back" style="margin-left: 5%" action="#{testController.back()}"/>
+                </div>
             </div>
         </h:form>
     </h:body>

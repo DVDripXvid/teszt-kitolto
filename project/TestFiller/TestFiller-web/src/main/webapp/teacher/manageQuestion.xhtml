@@ -11,45 +11,46 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <div class="row">
-            <div class="col-md-2">
-                <a class="btn" href="../index.xhtml">Back to Homepage</a>
-            </div>
-        </div>
         <h:form>
             <div class="row">    
                 <div class="col-md-2">
                     <label for="newQuestionLabel" style="margin-left: 5%">New question :</label>
-                    <h:inputText id="newQuestionLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.question.text}"/>
+                    <h:inputText id="newQuestionLabel" class="form-control" style="margin-left: 5%" value="#{questionController.question.text}"/>
                 </div>
-              <!--  <div class="col-md-2">
-                    <label for="courseLabel" style="margin-left: 5%">Question type :</label>
-                    <h:selectOneMenu  class="form-control col-md-3" value="{teacherController.question.type}">
-                        <f:selectItems value="{teacherController.questionTypes}"/>
-                    </h:selectOneMenu><br/>
-                </div>-->
+                <!--  <div class="col-md-2">
+                      <label for="courseLabel" style="margin-left: 5%">Question type :</label>
+                      <h:selectOneMenu  class="form-control col-md-3" value="{teacherController.question.type}">
+                          <f:selectItems value="{teacherController.questionTypes}"/>
+                      </h:selectOneMenu><br/>
+                  </div>-->
             </div>
             <div class="row">        
                 <div class="col-md-2">
                     <label for="answerLengthLabel" style="margin-left: 5%">Answer length :</label>
-                    <h:inputText id="answerLengthLabel" class="form-control" value="#{teacherController.question.lengthOfAnswer}" style="margin-left: 5%"/>
+                    <h:inputText id="answerLengthLabel" class="form-control" value="#{questionController.question.lengthOfAnswer}" style="margin-left: 5%"/>
                 </div>
             </div>
             <div class="row">    
                 <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Add question" style="margin-left: 5%" action="#{teacherController.createQuestion()}"/>
+                    <h:commandButton class="btn btn-default" value="Add question" style="margin-left: 5%" action="#{questionController.add()}"/>
                 </div>
             </div>
         </h:form>
         <h:form>
+            <div class="row" style="margin-left: 1%">
+                <h:dataTable value="#{questionController.list}" var="question" class="table table-hover">
+                    <h:column><f:facet name="header">Text</f:facet>#{question.text}</h:column>
+                    <h:column>
+                        <h:commandButton value="Delete" action="#{questionController.delete(question)}" class="btn btn-default"/>
+                    </h:column>
+                </h:dataTable>
+            </div>
             <div class="row">
-                <div class="row">
-                    <h:dataTable value="#{teacherController.test.questions}" var="question" class="table table-hover">
-                        <h:column><f:facet name="header">Text</f:facet>#{question.text}</h:column>
-                        <h:column>
-                            <h:commandButton value="Delete" action="#{teacherController.deleteQuestion(question)}" class="btn btn-default"/>
-                        </h:column>
-                    </h:dataTable>
+                 <div class="col-md-2">
+                    <h:commandButton class="btn btn-default" value="Back" style="margin-left: 5%" action="#{questionController.back()}"/>
+                </div>
+                 <div class="col-md-2">
+                     <h:commandButton class="btn btn-default" value="Finish" style="margin-left: 5%" action="#{questionController.finish()}"/>
                 </div>
             </div>
         </h:form>

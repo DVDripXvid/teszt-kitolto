@@ -34,25 +34,30 @@
             </div>
         </h:form>
         <br/>
-        <br/>        
         <div class="row">
-            <div class="col-md-2">
-                <label for="nameLabel" style="margin-left: 5%">Name :</label>
-                <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
-            </div>
-            <div class="col-md-2">
-                <label for="courseLabel" style="margin-left: 5%">Course :</label>
-                <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
-            </div>
-            <div class="col-md-2">
-                <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
-                <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
-            </div>
-            <br/>
-            <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
-            <div class="col-md-2">
-                <a class="btn" href="createTest.xhtml">Create</a>
-            </div>
+            <h:form>
+                <div class="col-md-2">
+                    <label for="nameLabel" style="margin-left: 5%">Name :</label>
+                    <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="courseLabel" style="margin-left: 5%">Course :</label>
+                    <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
+                    <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <br/>
+                <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
+            </h:form>
+            <h:form>
+                <div>
+                    <h:column>
+                        <h:commandButton value="Create Test" action="#{teacherController.goToCreateTest()}" style="margin-left: 5%" class="btn btn-default"/>
+                    </h:column>
+                </div>
+            </h:form>
         </div>
         <div class="row" style="margin-left: 1%">
             <h:form>

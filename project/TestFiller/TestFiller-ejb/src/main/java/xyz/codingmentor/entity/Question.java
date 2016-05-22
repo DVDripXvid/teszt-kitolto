@@ -1,19 +1,19 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Olivér
  */
 @Entity
+@NamedQuery(name = "questionTestNull", query = "SELECT q FROM Question q WHERE q.test = :null")
 public class Question implements Serializable {
 
     @Id
@@ -22,8 +22,7 @@ public class Question implements Serializable {
     private String text;
     @Enumerated
     private QuestionType type;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "TEST_ID")
+    @ManyToOne
     private Test test;
     private Integer lengthOfAnswer;
 
