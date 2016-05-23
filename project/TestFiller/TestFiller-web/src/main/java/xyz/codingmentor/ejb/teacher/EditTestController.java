@@ -6,36 +6,28 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
-import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 
 @ManagedBean
-public class TestController {
+public class EditTestController {
 
     @EJB
     private EntityFacade ef;
     private HttpSession session;
     private Test test;
-
+    
     @PostConstruct
-    private void init() {
-        test = new Test();
+    private void init(){
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        test = (Test) session.getAttribute("testToEdit");
     }
 
     public Test getTest() {
         return test;
     }
-
-    public String create() {
-        Teacher t = (Teacher) session.getAttribute("teacher");
-        test.setTeacher(t);
-        t.getTests().add(test);
-        ef.update(t);
-        return "index";
-    }
-
-    public String back() {
+    
+    public String edit(){
+        ef.update(test);
         return "index";
     }
 }

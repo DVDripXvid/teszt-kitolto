@@ -6,14 +6,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Olivér
  */
 @Entity
-@NamedQuery(name = "questionTestNull", query = "SELECT q FROM Question q WHERE q.test = :null")
 public class Question implements Serializable {
 
     @Id

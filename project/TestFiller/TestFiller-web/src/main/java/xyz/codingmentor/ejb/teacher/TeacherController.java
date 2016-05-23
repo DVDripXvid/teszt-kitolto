@@ -22,11 +22,10 @@ public class TeacherController {
     @PostConstruct
     public void init() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Teacher teacher = ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
-                "email", ec.getRemoteUser()).get(0);
         session = (HttpSession) ec.getSession(true);
         session.setMaxInactiveInterval(-1);
-        session.setAttribute("teacher", teacher);
+        session.setAttribute("teacher", ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
+                "email", ec.getRemoteUser()).get(0));
     }
     
     public String goToCreateTest(){
@@ -50,8 +49,9 @@ public class TeacherController {
         ef.delete(Test.class, test.getId());
     }
 
-    public void edit(Test test) {
-
+    public String edit(Test test) {
+        session.setAttribute("testToEdit", test);
+        return "editTest";
     }
 
     public void details(Test test) {

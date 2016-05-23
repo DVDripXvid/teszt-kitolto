@@ -1,7 +1,6 @@
 package xyz.codingmentor.ejb.teacher;
 
 import java.util.List;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -38,9 +37,13 @@ public class QuestionController {
     public List<Question> getList() {
         return ((Test) session.getAttribute("test")).getQuestions();
     }
+    
+    public String edit(Question question){
+        session.setAttribute("questionToEdit", question);
+        return "editQuestion";
+    }
 
     public void delete(Question question) {
-        Logger.getAnonymousLogger().info(question.getId().toString());
         ((List) session.getAttribute("questionsToRemoveById")).add(question.getId());
         ((Test) session.getAttribute("test")).getQuestions().remove(question);
     }
