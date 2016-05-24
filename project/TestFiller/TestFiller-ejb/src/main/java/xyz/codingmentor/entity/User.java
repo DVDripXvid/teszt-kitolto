@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,6 +57,7 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.accepted = false;
+        this.registrationDate = Date.from(Calendar.getInstance().toInstant());
     }
 
     public Long getId() {
