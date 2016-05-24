@@ -21,17 +21,17 @@
 * ####NetBeans 8.1 Services:
 	
 	1.	Databases -> Register MySQL Server... 
-				Host: localhost
-				Port: 3306
-				User: root
-				Password: admin
+		+ Host: localhost
+		+ Port: 3306
+		+ User: root
+		+ Password: admin
 									
 	2.	A létrejött szerverhez csatlakozás adjunk hozzá egy adatbázist (Create Database)
-				Database name: tests	
+		+ Database name: tests	
 		
 	3.	Servers -> Add : Wildfly 
-				Server location:		teszt-kitolto\wildfly\wildfly-10.0.0.Final\
-				Server configuration:	teszt-kitolto\wildfly\wildfly-10.0.0.Final\standalone\configuration\standalone-full.xml
+		+ Server location:		teszt-kitolto\wildfly\wildfly-10.0.0.Final\
+		+ Server configuration:	teszt-kitolto\wildfly\wildfly-10.0.0.Final\standalone\configuration\standalone-full.xml
 			
 			
 ##### A létrejött adatbázishoz való csatlakozás, illetve a wildfly indítása után az alkalmazás futtatható.
