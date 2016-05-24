@@ -2,7 +2,6 @@ package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -42,6 +41,16 @@ public class Test implements Serializable {
     private List<FilledTest> filledTests;
     private Boolean active = false;
 
+    public Test(){
+    }
+
+    public Test(String name, Integer duration, Course course) {
+        this.name = name;
+        this.duration = duration;
+        this.course = course;
+        this.active = true;
+    }
+    
     public Long getId() {
         return id;
     }

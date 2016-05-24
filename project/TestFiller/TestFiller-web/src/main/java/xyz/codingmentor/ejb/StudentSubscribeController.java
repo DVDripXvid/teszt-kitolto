@@ -11,12 +11,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.Student;
+import xyz.codingmentor.entity.Test;
 
 @ManagedBean
 @SessionScoped
@@ -26,7 +26,7 @@ public class StudentSubscribeController implements Serializable {
     private static final String SuccessfullUnsubscribeMessage = "Unsubscription OK!";
     private static final String AlreadySubscribedMessage = "Your last subscribe demand is not accepted yet.";
 
-    private ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    private final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentSubscribeController.class);
 
     @EJB
@@ -72,6 +72,7 @@ public class StudentSubscribeController implements Serializable {
         if (activeStudent.getSubscribed() == null) {
             activeStudent.setSubscribed(selectedCourse);
             selectedCourse.getSubscribers().add(activeStudent);
+            addTestsToCourse(selectedCourse);
             entityFacade.update(activeStudent);
 
             //successfullSubscriptionMessage();
@@ -92,7 +93,7 @@ public class StudentSubscribeController implements Serializable {
 
     private void successfullSubscriptionMessage() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SuccessfullSubscribeMessage, null));
-        
+
     }
 
     private void successfullUnsubscriptionMessage() {
@@ -127,5 +128,15 @@ public class StudentSubscribeController implements Serializable {
         }
 
         return ((Comparable) value).compareTo(Date.valueOf(filterText)) >= 0;
+    }
+
+    private void addTestsToCourse(Course c) {
+        c.getTests().add(new Test(c.getName() + " - Test1", 20, c));
+        c.getTests().add(new Test(c.getName() + " - Test2", 20, c));
+        c.getTests().add(new Test(c.getName() + " - Test3", 20, c));
+        c.getTests().add(new Test(c.getName() + " - Test4", 20, c));
+        c.getTests().add(new Test(c.getName() + " - Test5", 20, c));
+        c.getTests().add(new Test(c.getName() + " - Test6", 20, c));
+        c.getTests().add(new Test(c.getName() + " - Test7", 20, c));
     }
 }

@@ -1,5 +1,7 @@
 package xyz.codingmentor.ejb;
 
+import java.util.Calendar;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -24,30 +26,32 @@ import xyz.codingmentor.role.RoleName;
 public class InitialEJB {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitialEJB.class);
-    
+
     @EJB
     private RoleFacade facade;
-    
+
     @EJB
     private EmailService emailService;
-    
+
     @PostConstruct
-    public void createEntity(){
+    public void createEntity() {
         LOGGER.info("singleton created: " + this);
         createRoles();
         createUser();
         generateTestData();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
-    
-    private void generateTestData(){
+
+    private void generateTestData() {
         Course course = new Course();
         course.setName("course");
+        course.setTime(Date.from(Calendar.getInstance().toInstant()));
         facade.create(course);
+        //facade.update(course);
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
         student.setSubscribed(course);
         facade.create(student);
-        
+
         Test test = new Test();
         test.setName("test");
         facade.create(test);
@@ -55,8 +59,8 @@ public class InitialEJB {
         teacher.getTests().add(test);
         facade.create(test);
     }
-       
-    private void createRoles(){
+
+    private void createRoles() {
         Role role = new Role(RoleName.ADMIN);
         facade.create(role);
         role = new Role(RoleName.TEACHER);
@@ -64,17 +68,17 @@ public class InitialEJB {
         role = new Role(RoleName.STUDENT);
         facade.create(role);
     }
-    
-    private void createUser(){
-        User user = new User("Admin", "Lajos", "pass" ,"admin");
+
+    private void createUser() {
+        User user = new User("Admin", "Lajos", "pass", "admin");
         user.setAccepted(true);
         facade.create(user);
         facade.findRole("ADMIN").getUsers().add(user);
-        Teacher teacher = new Teacher("Teacher", "Bela", "pass" ,"teacher");
+        Teacher teacher = new Teacher("Teacher", "Bela", "pass", "teacher");
         teacher.setAccepted(true);
         facade.create(teacher);
         facade.findRole("TEACHER").getUsers().add(teacher);
-        Student student = new Student("Student", "Laci", "pass" ,"student");
+        Student student = new Student("Student", "Laci", "pass", "student");
         student.setAccepted(true);
         facade.create(student);
         facade.findRole("STUDENT").getUsers().add(student);
