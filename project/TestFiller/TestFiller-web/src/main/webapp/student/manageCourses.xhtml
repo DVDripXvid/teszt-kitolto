@@ -1,104 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Registration</title>
+        <title>Manage Courses</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     </h:head>
-    <body>
+    <h:body>
         <h:form>
+            <p:growl id="growl" life="2000" />
             <br/>
             <div class="row">
                 <div class="col-md-1">
                 </div>
-                <div class="col-md-2">
-                    <h:inputText class="form-control" a:placeholder="Name: "/>
-                </div>
-                <div class="col-md-2">
-                    <h:inputText class="form-control" a:placeholder="Time: "/>
-                </div>
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Search"/>
-                </div>
-            </div>
-            <br/>
-            <div class="row">
                 <div class="col-md-1">
-                </div>
-                <div class="col-md-2">
-                    <label>Active Courses :</label>
-                </div>                
-            </div>
-            <div class="row">
-                <div class="col-md-1">
+                    <a href="index.xhtml" class="btn btn-default" role="button">
+                        <span class="glyphicon glyphicon-chevron-left"></span> Back
+                    </a>
                 </div>
                 <div class="col-md-8">
-                    <h:dataTable value="#{studentSubscribeController.coursesByUser}" var="course" class="table table-hover">
-                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
-                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
-                    </h:dataTable>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: center">
+                            <h4>Active Courses</h4>
+                        </div>
+                        <p:dataTable styleClass="borderless" 
+                                     value="#{studentSubscribeController.coursesByUser}" 
+                                     var="course"
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     paginatorPosition="bottom"
+                                     emptyMessage="No active Course found.">
+                            <p:column filterBy="#{course.name}" headerText="Name" filterMatchMode="contains">
+                                <h:outputText value="#{course.name}"/>
+                            </p:column>
+                            <p:column filterBy="#{course.time}" headerText="Time" filterFunction="#{studentSubscribeController.filterByPrice}">
+                                <h:outputText value="#{course.time}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="ECT"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                 </div>
             </div>
             <br/>
             <div class="row">
-                <div class="col-md-1">
-                </div>
                 <div class="col-md-2">
-                    <label>Subscribed Course :</label>
-                </div>                
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-1">
                 </div>
                 <div class="col-md-8">
-                    <h:dataTable value="#{studentSubscribeController.studentSubscibedCourse}" var="course" class="table table-hover">
-                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
-                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
-                        <h:column>
-                            <f:facet name="header">Unsubscribe</f:facet>
-                            <h:commandButton value="Unsubscribe" action="#{studentSubscribeController.unsubscribeFromCourse(course)}" class="btn btn-default"/>
-                        </h:column>
-                    </h:dataTable>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: center">
+                            <h4>Subscribed Course</h4>
+                        </div>
+                        <p:dataTable styleClass="borderless" 
+                                     value="#{studentSubscribeController.studentSubscibedCourse}" 
+                                     var="course"
+                                     rows="1"
+                                     emptyMessage="No subscribed Course found.">
+                            <p:column headerText="Name">
+                                <h:outputText value="#{course.name}"/>
+                            </p:column>
+                            <p:column headerText="Time">
+                                <h:outputText value="#{course.time}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="ECT"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Unsubscribe" 
+                                                 action="#{studentSubscribeController.unsubscribeFromCourse(course)}" 
+                                                 update="@form"
+                                                 style="background-color: white"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                 </div>
             </div>
             <br/>
             <div class="row">
-                <div class="col-md-1">
-                </div>
                 <div class="col-md-2">
-                    <label>Available Courses :</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-1">
                 </div>
                 <div class="col-md-8">
-                    <h:dataTable value="#{studentSubscribeController.allCourses}" var="course" class="table table-hover">
-                        <h:column><f:facet name="header">Name</f:facet>#{course.name}</h:column>
-                        <h:column><f:facet name="header">Time</f:facet>#{course.time}</h:column>
-                        <h:column>
-                            <f:facet name="header">Subscribe</f:facet>
-                            <h:commandButton value="Subscribe" action="#{studentSubscribeController.subscribeToCourse(course)}" class="btn btn-default"/>
-                        </h:column>
-                    </h:dataTable>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: center">
+                            <h4>Available Courses</h4>
+                        </div>
+                        <p:dataTable styleClass="borderless table-hover" 
+                                     value="#{studentSubscribeController.allCourses}" 
+                                     var="course"
+                                     widgetVar="availableCourseTable"
+                                     emptyMessage="No course found with given criteria"
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     paginatorPosition="bottom"
+                                     filteredValue="#{studentSubscribeController.filteredCourseList}">
+                            <p:growl id="growl" life="2000" />
+                            <p:column filterBy="#{course.name}" headerText="Name" filterMatchMode="contains">
+                                <h:outputText value="#{course.name}"/>
+                            </p:column>
+                            <p:column filterBy="#{course.time}" headerText="Time" filterFunction="#{studentSubscribeController.filterByPrice}">
+                                <h:outputText value="#{course.time}">
+                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="ECT"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton value="Subscribe" 
+                                                 action="#{studentSubscribeController.subscribeToCourse(course)}"
+                                                 update="@form"
+                                                 style="background-color: white"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1">
+                <div class="col-md-2">
                 </div>
                 <div class="col-md-2">
                     <a href="index.xhtml" class="btn btn-default" role="button">
@@ -106,6 +134,7 @@ and open the template in the editor.
                     </a>
                 </div>
             </div>
+            <br/>
         </h:form>
-    </body>
+    </h:body>
 </html>
