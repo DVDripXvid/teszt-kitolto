@@ -1,8 +1,8 @@
 # teszt-kitolto
 
-##Alkalmazás futtatása:
+## Alkalmazás futtatása:
 
-	###Wildfly:
+	* **Wildfly:**
 	
 		1.	Wildfly - 10.0.0.Final - Java EE7 Full & Web Distribution letöltése: http://wildfly.org/downloads/
 		
@@ -10,7 +10,7 @@
 		
 		3.	wildfly_config.sh futtatása
 	
-	###MySQL Szerver:
+	* **MySQL Szerver:**
 	
 		1. MySQL Community Server 5.7.12 letöltése: https://dev.mysql.com/downloads/mysql/
 		
@@ -18,7 +18,7 @@
 		
 		3. A root jelszava legyen: "admin"
 		
-	###NetBeans 8.1 Services:
+	* **NetBeans 8.1 Services:**
 	
 		1.	Databases -> Register MySQL Server... 
 									Host: localhost
@@ -35,4 +35,4 @@
 			
 			
 
-####A létrejött adatbázishoz való csatlakozás, illetve a wildfly indítása után az alkalmazás futtatható.
+#### A létrejött adatbázishoz való csatlakozás, illetve a wildfly indítása után az alkalmazás futtatható.
