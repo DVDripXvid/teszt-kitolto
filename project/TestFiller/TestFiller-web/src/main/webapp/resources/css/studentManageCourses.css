@@ -1,0 +1,48 @@
+.availableCoursesTableHeader {
+    background-color: white;
+}
+
+.ui-datatable.borderless tbody,
+.ui-datatable.borderless tbody tr,
+.ui-datatable.borderless tbody td {
+    border-style: none;
+}
+
+.ui-datatable.borderless thead th {
+    border-left-style: none;
+    border-right-style: none;
+    border-bottom-color: buttonface;
+    border-top-color: buttonface;
+    background-color: white;
+}
+
+.ui-datatable.borderless thead th,
+.ui-datatable.borderless tbody,
+.ui-datatable.borderless tbody tr,
+.ui-datatable.borderless tbody td {
+    font-size: 14px;
+    text-align: center;
+    align-content: center;
+}
+
+.nameColumn{
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+.timeColumn{
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+.subscribeColumn {
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+.headerClass {
+    text-align: center;
+}
