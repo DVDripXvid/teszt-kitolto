@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:bnu="http://bootsfaces.net/ui">
     <h:head>
         <title>Write Test</title>
         <meta charset="utf-8" />
@@ -13,7 +14,41 @@
     </h:head>
     <body>
         <h:form>
-            
+            <br/>
+            <div class="row">
+                <div class="col-md-2">
+                    <p:menu model="#{studentWriteTestController.menuModel}"
+                            style="background-color: white">
+                        <p:submenu label="Questions">
+                        </p:submenu>
+                    </p:menu>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: left">
+                            <h4>#{studentWriteTestController.questionHeader}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <h:outputText value="#{studentWriteTestController.actualQuestionText}"/>
+                            <br/>
+                            <h4>Answer</h4>
+                            <h:inputTextarea rendered="#{studentWriteTestController.actualQuestionTypeText}" 
+                                         value="#{studentWriteTestController.textFilledAnswer}"
+                                         style="height: 100px; width: 100%;"/>
+                            <br/>
+                            <p:commandButton value="Previous question"
+                                             rendered="#{studentWriteTestController.notFirstQuestion}"
+                                             action="#{studentWriteTestController.setPreviousQuestion()}"
+                                             style="background-color: white;"/>
+                            <p:commandButton value="Next question"
+                                             rendered="#{studentWriteTestController.notLastQuestion}"
+                                             action="#{studentWriteTestController.setNextQuestion()}"
+                                             style="background-color: white; "/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
         </h:form>
     </body>
 </html>

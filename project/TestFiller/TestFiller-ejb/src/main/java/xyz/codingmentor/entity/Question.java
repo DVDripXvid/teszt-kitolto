@@ -1,12 +1,16 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -24,6 +28,12 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "TEST_ID")
     private Test test;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<FilledAnswer> filledAnswers;
+    
+    public Question(){
+        this.filledAnswers = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -56,5 +66,12 @@ public class Question implements Serializable {
     public void setTest(Test test) {
         this.test = test;
     }
-    
+
+    public List<FilledAnswer> getFilledAnswers() {
+        return filledAnswers;
+    }
+
+    public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
+        this.filledAnswers = filledAnswers;
+    }
 }

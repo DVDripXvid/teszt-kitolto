@@ -2,7 +2,9 @@ package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,9 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "TEST.findAll",
             query = "SELECT t FROM Test t"),
     @NamedQuery(name = "TEST.searchByName",
-            query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')")
+            query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')"),
+    @NamedQuery(name = "TEST.findByCourseId", 
+            query = "SELECT t FROM Test t WHERE t.course = :course")
 })
 public class Test implements Serializable {
 
@@ -34,7 +38,7 @@ public class Test implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER)
     private List<Question> questions;
     @ManyToOne
     private Teacher teacher;
@@ -52,6 +56,8 @@ public class Test implements Serializable {
         this.duration = duration;
         this.course = course;
         this.active = true;
+        this.questions = new ArrayList<>();
+        this.filledTests = new ArrayList<>();
     }
     
     public Long getId() {
@@ -117,5 +123,4 @@ public class Test implements Serializable {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
 }

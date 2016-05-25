@@ -24,10 +24,12 @@ public class StudentHomepageController implements Serializable {
     private String selectedCourse;
     private List<String> selectableCourses;
     private List<Test> selectableTests;
+    private List<Test> searchedTests;
 
     public StudentHomepageController() {
         selectableCourses = new ArrayList<>();
         selectableTests = new ArrayList<>();
+        searchedTests = new ArrayList<>();
     }
 
     public String getSelectedCourse() {
@@ -58,18 +60,17 @@ public class StudentHomepageController implements Serializable {
     }
 
     public List<Test> getSelectableTests() {
+        selectableTests.clear();
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         for (Course c : activeStudent.getCourses()){
-            addTestToSelectableTests(c);
+            searchedTests = entityFacade.namedQueryOneParam("TEST.findByCourseId", Test.class, "course", c);
+            selectableTests.addAll(searchedTests);
         }
+        
         return selectableTests;
     }
     
-    private void addTestToSelectableTests(Course course){
-        for(Test t : course.getTests()){
-            if (!selectableTests.contains(t) && t.getActive()) {
-                selectableTests.add(t);
-            }
-        }
+    public boolean isSelectedTestHasQuestions(Test selectedTest){
+        return selectedTest.getQuestions().size() > 0;
     }
 }

@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
+import xyz.codingmentor.entity.Question;
+import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Teacher;
@@ -58,7 +60,9 @@ public class InitialEJB {
         Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
         teacher.getTests().add(test);
         facade.create(test);
-        
+
+        createQuestions(test);
+
         course.getTests().add(test);
         test.setCourse(course);
         test.setActive(Boolean.TRUE);
@@ -89,6 +93,15 @@ public class InitialEJB {
         facade.create(student);
         facade.findRole("STUDENT").getUsers().add(student);
     }
-    
-    
+
+    private void createQuestions(Test test) {
+        for (int i = 0; i < 20; i++) {
+            Question question = new Question();
+            question.setText("Question " + Integer.toString(i + 1) + " - Please give an answer.");
+            question.setTest(test);
+            question.setType(QuestionType.TEXT);
+            facade.create(question);
+            test.getQuestions().add(question);
+        }
+    }
 }
