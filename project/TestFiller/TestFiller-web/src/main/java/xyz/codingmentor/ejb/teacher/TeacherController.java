@@ -54,8 +54,8 @@ public class TeacherController {
         return "editTest";
     }
 
-    public void details(Test test) {
-
+    public String details(Test test) {
+        session.setAttribute("testToDetails", test);
+        return "detailsTest";
     }
-
 }

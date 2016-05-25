@@ -44,7 +44,9 @@ public class QuestionController {
     }
 
     public void delete(Question question) {
-        ((List) session.getAttribute("questionsToRemoveById")).add(question.getId());
+        if(question.getId() != null){
+            ((List) session.getAttribute("questionsToRemoveById")).add(question.getId());
+        }
         ((Test) session.getAttribute("test")).getQuestions().remove(question);
     }
 
