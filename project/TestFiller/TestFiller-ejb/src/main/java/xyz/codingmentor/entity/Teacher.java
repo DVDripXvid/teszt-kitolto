@@ -51,4 +51,10 @@ public class Teacher extends User implements Serializable {
         this.tests = tests;
     }
 
+    @Override
+    public boolean changeAdmin() {
+        setAdmin(!isAdmin());
+        return true;
+    }
+    
 }

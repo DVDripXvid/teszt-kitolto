@@ -51,7 +51,8 @@ public class User implements Serializable {
     private Date registrationDate;
     @Lob
     private byte[] image;
-    private boolean isTeacher;
+    @Column(name="IS_ADMIN")
+    private boolean admin;
     
     @ManyToMany(cascade= CascadeType.REMOVE)
     @JoinTable(inverseJoinColumns = {
@@ -136,12 +137,12 @@ public class User implements Serializable {
         this.accepted = accepted;
     }
 
-    public boolean isIsTeacher() {
-        return isTeacher;
+    public boolean isAdmin() {
+        return admin;
     }
 
-    public void setIsTeacher(boolean isTeacher) {
-        this.isTeacher = isTeacher;
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public List<Role> getRoles() {
@@ -152,5 +153,7 @@ public class User implements Serializable {
         this.roles = roles;
     }
     
-        
+    public boolean changeAdmin(){
+        return false;
+    }    
 }

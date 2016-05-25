@@ -45,7 +45,7 @@ public class InitialEJB {
     private void generateTestData() {
         Course course = new Course();
         course.setName("course");
-        course.setTime(Date.from(Calendar.getInstance().toInstant()));
+        //course.setTime(Date.from(Calendar.getInstance().toInstant()));
         facade.create(course);
         //facade.update(course);
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
