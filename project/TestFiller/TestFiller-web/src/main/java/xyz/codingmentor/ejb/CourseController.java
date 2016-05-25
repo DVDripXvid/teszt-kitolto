@@ -28,6 +28,8 @@ public class CourseController {
 
     @PostConstruct
     public void init() {
+        LOGGER.info("new one");
+        selectedCourse.setName("try");
         Course c = new Course();
         c.setName("JavaEE");
         courseFacade.create(c);
@@ -74,19 +76,12 @@ public class CourseController {
         courseFacade.delete(Course.class, c.getId());
     }
 
-    public void editCourse(Course course) {
-        course.setName(selectedCourse.getName());
-        courseFacade.update(course);
-    }
-
-    public void save(Course c) {
-        courseFacade.update(c);
-        this.selectedCourse.setName(null);
-        this.selectedCourse.setTime(null);
+    public void save() {
+        courseFacade.update(selectedCourse);
     }
 
     public void UnSuccessfulCourseRemove() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("WARNING!", UnSuccessfulCourseRemove));
     }
-
+    
 }

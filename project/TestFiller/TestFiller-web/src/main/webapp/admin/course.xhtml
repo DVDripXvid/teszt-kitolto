@@ -37,45 +37,47 @@
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15"
                          paginatorPosition="bottom"
-                         emptyMessage="No managable course found.">
+                         emptyMessage="No managable course found." >
                 <p:column filterBy="#{course.id}" headerText="#" filterMatchMode="contains">
                     <h:outputText value="#{course.id}"/>
                 </p:column>
-                <p:column filterBy="#{course.name}" headerText="name">
+                <p:column filterBy="#{course.name}" headerText="Name" filterMatchMode="contains">
                     <h:outputText value="#{course.name}">
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Time">
+                <p:column filterBy="#{course.time}" headerText="Start time" filterMatchMode="contains">
                     <h:outputText value="#{course.time}">
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Edit course">
-                    <p:commandButton value="Edit" 
-                                     oncomplete="PF('dlg1').show();" 
-                                     action="#{courseController.setSelectedCourse(course)}" 
-                                     update="@form" >
+                    <p:commandButton value="Edit"
+                                     icon="ui-icon-pencil"
+                                     oncomplete="PF('editDialog').show();"
+                                     update="@form">
+                        <f:setPropertyActionListener value="#{course}" target="#{courseController.selectedCourse}" />
                     </p:commandButton>
                 </p:column>
                 <p:column headerText="Delete course">
-                    <p:commandButton value="Delete" update="@form" action="#{courseController.deleteCourse(course.id)}"/>
+                    <p:commandButton value="Delete" 
+                                     update="@form" 
+                                     action="#{courseController.deleteCourse(course.id)}" 
+                                     icon="ui-icon-trash"/>
                 </p:column>
             </p:dataTable>
         </h:form>
-        <h:panelGrid columns="1">
-            <p:dialog header="Modal Dialog" widgetVar="dlg1" modal="true" height="300" width="400">
-                <h:form>
-                    <p:outputLabel>Course Name: </p:outputLabel>
-                    <p:inputText value="#{courseController.selectedCourse.name}" /><br/>
-                    <p:outputLabel>Course Time: </p:outputLabel>
-                    <p:calendar value="#{courseController.selectedCourse.time}" pattern="yyyy.MM.dd"/><br/>
-                    <pe:timePicker value="#{courseController.selectedCourse.time}" showNowButton="true" showMinutes="false" style="width: 200px "/><br/>
-                    <p:commandButton value="Save" action="#{courseController.save(courseController.selectedCourse)}" update="@all">
-
-                    </p:commandButton>
-                </h:form>
-            </p:dialog> 
-        </h:panelGrid>
-
+        <p:dialog header="Edit Course" widgetVar="editDialog" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <h:panelGrid columns="1">
+                        <p:outputLabel>Name: </p:outputLabel>
+                        <p:inputText value="#{courseController.selectedCourse.name}" /><br/>
+                        <p:outputLabel>Start time: </p:outputLabel>
+                        <p:calendar value="#{courseController.selectedCourse.time}" pattern="MM/dd/yyyy HH:mm:ss"/><br/>
+                        <p:commandButton value="Save" action="#{courseController.save()}" update="@all" oncomplete="PF('editDialog').hide();"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog> 
     </h:body>
 </html>
 
