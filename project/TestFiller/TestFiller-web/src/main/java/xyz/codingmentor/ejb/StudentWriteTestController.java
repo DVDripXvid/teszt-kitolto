@@ -15,4 +15,6 @@ public class StudentWriteTestController implements Serializable {
         writableTest = test;
         return "writeTest.xhtml";
     }
+    
+    
 }

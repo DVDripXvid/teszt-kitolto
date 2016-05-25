@@ -60,8 +60,16 @@ public class StudentHomepageController implements Serializable {
     public List<Test> getSelectableTests() {
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         for (Course c : activeStudent.getCourses()){
-            selectableTests.addAll(c.getTests());
+            addTestToSelectableTests(c);
         }
         return selectableTests;
+    }
+    
+    private void addTestToSelectableTests(Course course){
+        for(Test t : course.getTests()){
+            if (!selectableTests.contains(t) && t.getActive()) {
+                selectableTests.add(t);
+            }
+        }
     }
 }

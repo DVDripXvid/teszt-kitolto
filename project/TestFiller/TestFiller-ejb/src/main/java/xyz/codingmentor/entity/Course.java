@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -55,6 +56,15 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
     private List<Student> subscribers;
 
+    public Course(){
+        this.tests = new ArrayList<>();
+        this.subjects = new ArrayList<>();
+        this.students = new ArrayList<>();
+        this.teachers = new ArrayList<>();
+        this.filledTests = new ArrayList<>();
+        this.subscribers = new ArrayList<>();
+    }
+    
     public List<Student> getStudents() {
         return students;
     }

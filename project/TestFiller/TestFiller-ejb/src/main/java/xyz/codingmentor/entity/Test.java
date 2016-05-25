@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,6 +43,8 @@ public class Test implements Serializable {
     private Boolean active = false;
 
     public Test(){
+        this.questions = new ArrayList<>();
+        this.filledTests = new ArrayList<>();
     }
 
     public Test(String name, Integer duration, Course course) {

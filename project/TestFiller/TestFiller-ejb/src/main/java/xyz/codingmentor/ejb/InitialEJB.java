@@ -47,17 +47,23 @@ public class InitialEJB {
         course.setName("course");
         course.setTime(Date.from(Calendar.getInstance().toInstant()));
         facade.create(course);
-        //facade.update(course);
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
         student.setSubscribed(course);
         facade.create(student);
 
         Test test = new Test();
         test.setName("test");
+        test.setDuration(20);
         facade.create(test);
         Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
         teacher.getTests().add(test);
         facade.create(test);
+        
+        course.getTests().add(test);
+        test.setCourse(course);
+        test.setActive(Boolean.TRUE);
+        facade.update(course);
+        facade.update(test);
     }
 
     private void createRoles() {
