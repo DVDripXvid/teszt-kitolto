@@ -40,8 +40,6 @@ public class StudentWriteTestController implements Serializable {
     }
     
     public void save(){
-        //entityFacade.update(actualQuestion);
-        //entityFacade.update(writableTest);
         entityFacade.update(actualTest);
         
         try {
@@ -82,15 +80,12 @@ public class StudentWriteTestController implements Serializable {
 
     public void setTextFilledAnswer(String textFilledAnswerText) {
         textFilledAnswer.setText(textFilledAnswerText);
-//        entityFacade.update(textFilledAnswer);
         
         if (!actualQuestion.getFilledAnswers().contains(textFilledAnswer)) {
             actualQuestion.getFilledAnswers().add(textFilledAnswer);
         }
         
         entityFacade.update(actualTest);
-//        entityFacade.update(actualQuestion);
-//        entityFacade.update(writableTest);
     }
 
     public String getTextFilledAnswer() {

@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 public class TextFilledAnswer extends FilledAnswer implements Serializable{
 
     private String text;
-
+    
     public String getText() {
         return text;
     }
