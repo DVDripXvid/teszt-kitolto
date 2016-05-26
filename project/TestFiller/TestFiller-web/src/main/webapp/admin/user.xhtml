@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Subscribe Admin Area</title>
         <meta charset="utf-8" />
@@ -25,36 +26,20 @@
                 <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
                 <li><a data-toogle="tab" href="test.xhtml">Tests</a></li>
             </ul>
-            <div class="tab-content">
-                <div role="tabpanel" id="revisionRegistration" class ="tab-pane active">
-                    <table class="table table-hover" >
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Accept request</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody class="table table-hover ">
-                            <ui:repeat var="user" value="#{userController.nonAcceptedUsers}">
-                                <tr>
-                                    <td>#{user.id}</td>
-                                    <td>#{user.firstName} #{user.lastName}</td>
-                                    <td>#{user.email}</td>
-                                    <td>
-                                        <h:form>
-                                            <h:commandLink class="btn" value="accept" action="#{userController.acceptUser(user.id)}" />
-                                        </h:form>
-                                    </td>                        
-                                </tr>
-                            </ui:repeat>
-                        </tbody>
-                    </table>
-                    <ui:repeat value="#{userController.nonAcceptedUsers}" var="user">
-                    </ui:repeat>
-                </div>
-            </div>
+             <h:form>
+                 <h:dataTable value="#{userController.users}" var="user" class="table table-hover">
+                <h:column><f:facet name="header">#</f:facet>#{user.id}</h:column>
+                <h:column><f:facet name="header">Name</f:facet>#{user.firstName} #{user.lastName}</h:column>
+                <h:column><f:facet name="header">Time</f:facet>#{user.email}</h:column>
+                <h:column>
+                </h:column>
+                <h:column>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Delete User</f:facet>
+                    <h:commandButton value="Delete" action="#{userController.deleteUser(user)}" class="btn btn-default"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
     </h:body>
 </html>

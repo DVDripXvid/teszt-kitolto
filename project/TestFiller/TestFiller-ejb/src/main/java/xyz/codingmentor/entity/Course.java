@@ -133,4 +133,8 @@ public class Course implements Serializable {
         this.subscribers = Subscribers;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

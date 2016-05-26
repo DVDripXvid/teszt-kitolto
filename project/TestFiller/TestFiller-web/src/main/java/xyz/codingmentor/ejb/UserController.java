@@ -1,19 +1,15 @@
 package xyz.codingmentor.ejb;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.ejb.facade.UserFacade;
+import xyz.codingmentor.entity.QueryName;
+import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.User;
-import xyz.codingmentor.role.RoleName;
 
 /**
  *
@@ -41,5 +37,18 @@ public class UserController {
     
     public List<User> getNonAcceptedUsers(){
         return userFacade.getNonAcceptedUsers();
+    }
+    
+    public List<User> getUsers(){
+        return userFacade.namedQuery(QueryName.USERS_findAll, User.class);
+    }
+    public void deleteUser(User user){
+        List<Role> roles = userFacade.namedQueryOneParam(QueryName.ROLE_findByUser, Role.class,"user",user);
+        for(Role r : roles){
+            r.getUsers().remove(user);
+            userFacade.update(r);
+        }
+        
+        userFacade.delete(User.class, user.getId());
     }
 }

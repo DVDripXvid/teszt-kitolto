@@ -29,9 +29,9 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "TEST_ID")
     private Test test;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FilledAnswer> filledAnswers;
-    
+    private Integer lengthOfAnswer;
     public Question(){
         this.filledAnswers = new ArrayList<>();
     }
@@ -67,12 +67,20 @@ public class Question implements Serializable {
     public void setTest(Test test) {
         this.test = test;
     }
+public Integer getLengthOfAnswer() {
+        return lengthOfAnswer;
+    }
 
-    public List<FilledAnswer> getFilledAnswers() {
+    public void setLengthOfAnswer(Integer lengthOfAnswer) {
+        this.lengthOfAnswer = lengthOfAnswer;
+    }
+
+public List<FilledAnswer> getFilledAnswers() {
         return filledAnswers;
     }
 
     public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
         this.filledAnswers = filledAnswers;
     }
+
 }
