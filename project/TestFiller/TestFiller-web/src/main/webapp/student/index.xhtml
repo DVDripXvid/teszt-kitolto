@@ -62,12 +62,10 @@
                                 <h:outputText value="#{test.duration}"/>
                             </p:column>
                             <p:column>
-                                <p:button value="Start Test"
-                                                 rendered="#{studentHomepageController.isSelectedTestHasQuestions(test)}"
-                                                 outcome="writeTest.xhtml"
-                                                 style="background-color: white">
-                                    <f:param value="#{studentWriteTestController.writeTest(test)}"/>
-                                </p:button>
+                                <p:commandButton value="Start Test"
+                                          action="#{studentWriteTestController.writeTest(test)}"
+                                          rendered="#{studentHomepageController.isSelectedTestHasQuestions(test)}"
+                                          style="background-color: white"/>
                             </p:column>
                         </p:dataTable>
                     </div>

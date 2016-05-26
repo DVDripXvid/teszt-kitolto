@@ -49,9 +49,9 @@ public class Course implements Serializable {
     private List<Student> students;
     @ManyToMany(mappedBy = "courses")
     private List<Teacher> teachers;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
     private List<FilledTest> filledTests;
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<Test> tests;
     @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
     private List<Student> subscribers;

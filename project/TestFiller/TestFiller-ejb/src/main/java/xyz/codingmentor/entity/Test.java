@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,11 +39,11 @@ public class Test implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
-    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "test", fetch = FetchType.EAGER)
     private List<Question> questions;
     @ManyToOne
     private Teacher teacher;
-    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER) 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "test", fetch = FetchType.EAGER) 
     private List<FilledTest> filledTests;
     private Boolean active = false;
 

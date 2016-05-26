@@ -1,17 +1,18 @@
 package xyz.codingmentor.ejb;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.MenuItem;
-import org.primefaces.model.menu.MenuModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledAnswer;
+import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.OptionalFilledAnswer;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
@@ -26,41 +27,52 @@ public class StudentWriteTestController implements Serializable {
     @EJB
     private EntityFacade entityFacade;
     private final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    private static final Logger LOGGER = LoggerFactory.getLogger(StudentWriteTestController.class);
 
-    private Test writableTest;
-    private MenuModel menuModel;
+    private Test actualTest;
+    private Student activeStudent;
+    private FilledTest writableTest;
     private Question actualQuestion;
-    private String actualAnswer;
-    private Integer questionIndex;
     private OptionalFilledAnswer optionalFilledAnswer;
     private TextFilledAnswer textFilledAnswer;
 
     public StudentWriteTestController() {
-        this.menuModel = new DefaultMenuModel();
-        this.textFilledAnswer = new TextFilledAnswer();
-        this.optionalFilledAnswer = new OptionalFilledAnswer();
+    }
+    
+    public void save(){
+        //entityFacade.update(actualQuestion);
+        //entityFacade.update(writableTest);
+        entityFacade.update(actualTest);
+        
+        try {
+            ec.redirect(ec.getApplicationContextPath() + "/faces/student/index.xhtml");
+        } catch (IOException ex) {
+            LOGGER.info(ex.getMessage());
+        }
+    }
+    
+    public List<Question> getQuestions(){
+        return writableTest.getTest().getQuestions();
+    }
+    
+    public void setQuestionFromList(Question question){
+        entityFacade.update(actualTest);
+        actualQuestion = question;
+        initFilledAnswers();
     }
 
     public String getQuestionHeader() {
         return "Question "
-                + Integer.toString(writableTest.getQuestions().indexOf(actualQuestion) + 1)
+                + Integer.toString(writableTest.getTest().getQuestions().indexOf(actualQuestion) + 1)
                 + "/"
-                + Integer.toString(writableTest.getQuestions().size());
+                + Integer.toString(writableTest.getTest().getQuestions().size());
     }
 
-    public MenuModel getMenuModel() {
-        return menuModel;
-    }
-
-    public void setMenuModel(MenuModel menuModel) {
-        this.menuModel = menuModel;
-    }
-
-    public Test getWritableTest() {
+    public FilledTest getWritableTest() {
         return writableTest;
     }
 
-    public void setWritableTest(Test writableTest) {
+    public void setWritableTest(FilledTest writableTest) {
         this.writableTest = writableTest;
     }
 
@@ -68,44 +80,20 @@ public class StudentWriteTestController implements Serializable {
         this.actualQuestion = actualQuestion;
     }
 
-//    public void setActualAnswer(String actualAnswer) {
-//        this.actualAnswer = actualAnswer;
-//        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-//        for(FilledAnswer filledAnswer : actualQuestion.getFilledAnswers()){
-//            if (filledAnswer.getStudent().equals(activeStudent) && filledAnswer.getClass().equals(TextFilledAnswer.class)) {
-//                textFilledAnswer = (TextFilledAnswer)filledAnswer;
-//            }
-//            else if(filledAnswer.getStudent().equals(activeStudent) && filledAnswer.getClass().equals(OptionalFilledAnswer.class)) {
-//                optionalFilledAnswer = (OptionalFilledAnswer)filledAnswer;
-//            }
-//        }
-//        if (answer == null) {
-//            actualQuestion.getAnswerByStudents().put(activeStudent, actualAnswer);
-//        }
-//        else{
-//            actualQuestion.getAnswerByStudents().replace(activeStudent, answer, actualAnswer);
-//        }
-//    }
     public void setTextFilledAnswer(String textFilledAnswerText) {
-        if (textFilledAnswer.getStudent() == null) {
-            Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-            textFilledAnswer.setStudent(activeStudent);
+        textFilledAnswer.setText(textFilledAnswerText);
+//        entityFacade.update(textFilledAnswer);
+        
+        if (!actualQuestion.getFilledAnswers().contains(textFilledAnswer)) {
+            actualQuestion.getFilledAnswers().add(textFilledAnswer);
         }
         
-        this.textFilledAnswer.setText(textFilledAnswerText);
+        entityFacade.update(actualTest);
+//        entityFacade.update(actualQuestion);
+//        entityFacade.update(writableTest);
     }
 
     public String getTextFilledAnswer() {
-        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-        for (FilledAnswer answer : actualQuestion.getFilledAnswers()) {
-            if (answer.getStudent().equals(activeStudent)) {
-                textFilledAnswer = (TextFilledAnswer) answer;
-                return textFilledAnswer.getText();
-            }
-        }
-
-        textFilledAnswer.setStudent(activeStudent);
-        actualQuestion.getFilledAnswers().add(textFilledAnswer);
         return textFilledAnswer.getText();
     }
 
@@ -121,29 +109,25 @@ public class StudentWriteTestController implements Serializable {
         return actualQuestion;
     }
 
-//    public String getActualAnswer() {
-//        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-//        String answer = actualQuestion.getAnswerByStudents().get(activeStudent);
-//        actualAnswer = answer == null ? "" : answer;
-//        
-//        return actualAnswer;
-//    }
     public String getActualQuestionText() {
         return actualQuestion.getText();
     }
 
-    public String writeTest(Test test) {
-        this.writableTest = test;
-        actualQuestion = writableTest.getQuestions().get(0);
-        createMenu();
-        return "writeTest.xhtml";
-    }
-
-    private void createMenu() {
-        menuModel = new DefaultMenuModel();
-        for (Question question : writableTest.getQuestions()) {
-            MenuItem item = new DefaultMenuItem(question.getText());
-            menuModel.addElement(item);
+    public void writeTest(Test test) {
+        actualTest = test;
+        activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
+        writableTest = new FilledTest();
+        writableTest.setTest(actualTest);
+        writableTest.setStudent(activeStudent);
+        writableTest.setCourse(actualTest.getCourse());
+        writableTest.setReady(Boolean.FALSE);
+        actualTest.getFilledTests().add(writableTest);
+        actualQuestion = actualTest.getQuestions().get(0);
+        initFilledAnswers();
+        try {
+            ec.redirect(ec.getApplicationContextPath() + "/faces/student/writeTest.xhtml");
+        } catch (IOException ex) {
+            LOGGER.info(ex.getMessage());
         }
     }
 
@@ -154,20 +138,54 @@ public class StudentWriteTestController implements Serializable {
     public boolean isActualQuestionTypeChoose() {
         return actualQuestion.getType().equals(QuestionType.CHOOSER);
     }
-    
-    public void setPreviousQuestion(){
-        actualQuestion = writableTest.getQuestions().get(writableTest.getQuestions().indexOf(actualQuestion) - 1);
+
+    public void setPreviousQuestion() {
+        entityFacade.update(actualTest);
+        actualQuestion = writableTest.getTest().getQuestions()
+                .get(writableTest.getTest().getQuestions().indexOf(actualQuestion) - 1);
+        initFilledAnswers();
+    }
+
+    public void setNextQuestion() {
+        entityFacade.update(actualTest);
+        actualQuestion = writableTest.getTest().getQuestions()
+                .get(writableTest.getTest().getQuestions().indexOf(actualQuestion) + 1);
+        initFilledAnswers();
+    }
+
+    public boolean isNotFirstQuestion() {
+        return writableTest.getTest().getQuestions().indexOf(actualQuestion) > 0;
+    }
+
+    public boolean isNotLastQuestion() {
+        return writableTest.getTest().getQuestions()
+                .indexOf(actualQuestion) < writableTest.getTest().getQuestions().size() - 1;
+    }
+
+    private void initFilledAnswers() {
+        for (FilledAnswer answer : actualQuestion.getFilledAnswers()) {
+            if (answer.getStudent().equals(activeStudent)) {
+                if (answer.getClass().equals(TextFilledAnswer.class)) {
+                    textFilledAnswer = (TextFilledAnswer)answer;
+                    return;
+                }
+                else{
+                    optionalFilledAnswer = (OptionalFilledAnswer)answer;
+                    return;
+                }
+            }
+        }
+        
+        setUpFilledTests();
     }
     
-    public void setNextQuestion(){
-        actualQuestion = writableTest.getQuestions().get(writableTest.getQuestions().indexOf(actualQuestion) + 1);
-    }
-    
-    public boolean isNotFirstQuestion(){
-        return writableTest.getQuestions().indexOf(actualQuestion) > 0;
-    }
-    
-    public boolean isNotLastQuestion(){
-        return writableTest.getQuestions().indexOf(actualQuestion) < writableTest.getQuestions().size() - 1;
+    private void setUpFilledTests(){
+        textFilledAnswer = new TextFilledAnswer();
+        textFilledAnswer.setQuestion(actualQuestion);
+        textFilledAnswer.setStudent(activeStudent);
+        
+        optionalFilledAnswer = new OptionalFilledAnswer();
+        optionalFilledAnswer.setQuestion(actualQuestion);
+        optionalFilledAnswer.setStudent(activeStudent);
     }
 }

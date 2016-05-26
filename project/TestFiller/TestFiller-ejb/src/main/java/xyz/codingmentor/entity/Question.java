@@ -3,6 +3,7 @@ package xyz.codingmentor.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "TEST_ID")
     private Test test;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FilledAnswer> filledAnswers;
     
     public Question(){

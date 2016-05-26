@@ -10,6 +10,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
+import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Test;
 
@@ -42,7 +43,7 @@ public class StudentHomepageController implements Serializable {
 
     public List<String> getSelectableCourses() {
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-        for (Course c : activeStudent.getCourses()){
+        for (Course c : activeStudent.getCourses()) {
             if (!selectableCourses.contains(c.getName())) {
                 selectableCourses.add(c.getName());
             }
@@ -62,15 +63,27 @@ public class StudentHomepageController implements Serializable {
     public List<Test> getSelectableTests() {
         selectableTests.clear();
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-        for (Course c : activeStudent.getCourses()){
+        for (Course c : activeStudent.getCourses()) {
             searchedTests = entityFacade.namedQueryOneParam("TEST.findByCourseId", Test.class, "course", c);
-            selectableTests.addAll(searchedTests);
+            for (Test test : searchedTests) {
+                findNotFilledTests(test);
+            }
         }
-        
+
         return selectableTests;
     }
-    
-    public boolean isSelectedTestHasQuestions(Test selectedTest){
+
+    private void findNotFilledTests(Test test) {
+        for (FilledTest filledTest : test.getFilledTests()) {
+            if (filledTest.getStudent().equals(activeStudent)) {
+                return;
+            }
+        }
+        
+        selectableTests.add(test);
+    }
+
+    public boolean isSelectedTestHasQuestions(Test selectedTest) {
         return selectedTest.getQuestions().size() > 0;
     }
 }
