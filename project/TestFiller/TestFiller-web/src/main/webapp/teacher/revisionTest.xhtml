@@ -11,15 +11,19 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
+        <div class="col-md-2">
+            <a class="btn" href="index.xhtml">Back</a>
+        </div>
         <div class="row" style="margin-left: 1%">
             <h:form>
-                <h:dataTable value="#{testDetailsController.filledTests}" var="filledTest" class="table table-hover">
-                    <h:column><f:facet name="header">Student First Name</f:facet>#{filledTest.student.firstName}</h:column>
-                    <h:column><f:facet name="header">Student Last Name</f:facet>#{filledTest.student.lastName}</h:column>
-                    <h:column><f:facet name="header">Result</f:facet>#{filledTest.result}</h:column>
+                <h:dataTable value="#{revisionTestController.filledAnswers}" var="filledAnswer" class="table table-hover">
+                    <h:column><f:facet name="header">Question</f:facet>#{filledAnswer.question.text}</h:column>
+                    <h:column><f:facet name="header">Answer</f:facet>#{revisionTestController.getAnswer(filledAnswer)}</h:column>
                     <h:column>
-                        <h:commandButton value="Revision" action="#{testDetailsController.revision(filledTest)}" class="btn btn-default"/>
+                        <h:commandButton value="Evaluate" action="#{revisionTestController.evaluate(filledAnswer)}" class="btn btn-default"/>
                     </h:column>
+                    <h:column><f:facet name="header">Point</f:facet>#{filledAnswer.point}</h:column>
+                    <h:column><f:facet name="header">Comment</f:facet>#{filledAnswer.comment}</h:column>
                 </h:dataTable>
             </h:form>
         </div>

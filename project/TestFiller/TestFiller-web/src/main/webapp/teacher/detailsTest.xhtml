@@ -29,15 +29,18 @@
                 <br/>
                 <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
             </h:form>
+            <div class="col-md-2">
+                <a class="btn" href="index.xhtml">Back</a>
+            </div>
         </div>
         <div class="row" style="margin-left: 1%">
             <h:form>
-                <h:dataTable value="#{testDetailsController.filledTests}" var="filledTest" class="table table-hover">
+                <h:dataTable value="#{detailsTestController.filledTests}" var="filledTest" class="table table-hover">
                     <h:column><f:facet name="header">Student First Name</f:facet>#{filledTest.student.firstName}</h:column>
                     <h:column><f:facet name="header">Student Last Name</f:facet>#{filledTest.student.lastName}</h:column>
                     <h:column><f:facet name="header">Result</f:facet>#{filledTest.result}</h:column>
                     <h:column>
-                        <h:commandButton value="Revision" action="#{testDetailsController.revision(filledTest)}" class="btn btn-default"/>
+                        <h:commandButton value="Revision" action="#{detailsTestController.revision(filledTest)}" class="btn btn-default"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

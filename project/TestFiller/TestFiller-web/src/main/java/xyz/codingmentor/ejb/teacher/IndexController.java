@@ -10,11 +10,14 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledTest;
+import xyz.codingmentor.entity.Question;
+import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
+import xyz.codingmentor.entity.TextFilledAnswer;
 
 @ManagedBean
-public class TeacherController {
+public class IndexController {
 
     @EJB
     private EntityFacade ef;
@@ -28,7 +31,12 @@ public class TeacherController {
         session.setAttribute("teacher", ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
                 "email", ec.getRemoteUser()).get(0));
     }
-
+    
+    public String getTeacherFullName(){
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        return teacher.getFirstName()+" "+teacher.getLastName()+"!";
+    }
+    
     public String goToCreateTest() {
         return "createTest";
     }
@@ -42,7 +50,7 @@ public class TeacherController {
         ef.update(test);
     }
     
-    public int revievable(Test test){
+    public int numberOfRevievable(Test test){
         int c = 0;
         for (FilledTest filledTest:  test.getFilledTests()){
             if (filledTest.getReady() && filledTest.getResult() == null){
@@ -53,6 +61,13 @@ public class TeacherController {
     }
     
     public String details(Test test) {
+        FilledTest ft = new FilledTest();
+        ft.setResult(20F);
+        Student s = new Student();
+        s.setFirstName("Lajos");
+        s.setLastName("Feri");
+        ft.setStudent(s);
+        test.getFilledTests().add(ft);
         session.setAttribute("testToDetails", test);
         return "detailsTest";
     }

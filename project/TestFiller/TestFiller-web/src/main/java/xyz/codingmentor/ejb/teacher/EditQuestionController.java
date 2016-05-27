@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import xyz.codingmentor.entity.Question;
 
 @ManagedBean
-public class QuestionEditController {
+public class EditQuestionController {
 
     private HttpSession session;
     private Question question;

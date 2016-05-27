@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="testNameLabel" style="margin-left: 5%">Test name :</label>
-                    <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{testEditController.test.name}"/>
+                    <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{editTestController.test.name}"/>
                 </div><!--
                 <div class="col-md-2">
                     <label for="courseLabel" style="margin-left: 5%">Course :</label>
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="timeLabel" style="margin-left: 5%">Duration :</label>
-                    <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{testEditController.test.duration}"/>
+                    <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{editTestController.test.duration}"/>
                 </div>
             </div>
             <div class="row">    
@@ -36,7 +36,7 @@
                     <a class="btn" href="index.xhtml">Back</a>
                 </div>
                 <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Edit" style="margin-left: 5%" action="#{testEditController.edit()}"/>
+                    <h:commandButton class="btn btn-default" value="Edit" style="margin-left: 5%" action="#{editTestController.edit()}"/>
                 </div>
             </div>
         </h:form>

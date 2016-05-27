@@ -11,7 +11,7 @@ import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.Test;
 
 @ManagedBean
-public class QuestionController {
+public class ManageQuestionController {
 
     @EJB
     private EntityFacade ef;

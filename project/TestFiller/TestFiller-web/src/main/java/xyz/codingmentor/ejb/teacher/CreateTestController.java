@@ -1,33 +1,41 @@
 package xyz.codingmentor.ejb.teacher;
 
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
-import xyz.codingmentor.entity.FilledTest;
+import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 
 @ManagedBean
-public class TestDetailsController {
+public class CreateTestController {
 
     @EJB
     private EntityFacade ef;
     private HttpSession session;
-    
+    private Test test;
+
     @PostConstruct
-    private void init(){
+    private void init() {
+        test = new Test();
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     }
-    
-    public List<FilledTest> getFilledTests(){
-        return ((Test)session.getAttribute("testToDetails")).getFilledTests();
+
+    public Test getTest() {
+        return test;
     }
-    
-    public String revision(FilledTest filledTest){
-        session.setAttribute("revisionFilledTest", filledTest);
-        return "revisionTest";
+
+    public String create() {
+        Teacher teacher = (Teacher) session.getAttribute("teacher");
+        test.setTeacher(teacher);
+        teacher.getTests().add(test);
+        ef.update(teacher);
+        return "index";
+    }
+
+    public String back() {
+        return "index";
     }
 }

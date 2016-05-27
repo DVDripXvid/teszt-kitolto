@@ -23,6 +23,7 @@ public abstract class FilledAnswer implements Serializable {
     @ManyToOne
     private FilledTest filledTest;
     private String comment;
+    private Float point;
 
     public Long getId() {
         return id;
@@ -54,5 +55,13 @@ public abstract class FilledAnswer implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Float getPoint() {
+        return point;
+    }
+
+    public void setPoint(Float point) {
+        this.point = point;
     }
 }

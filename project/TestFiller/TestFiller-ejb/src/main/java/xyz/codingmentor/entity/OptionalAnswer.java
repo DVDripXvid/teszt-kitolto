@@ -21,6 +21,7 @@ public class OptionalAnswer implements Serializable {
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+    private String text;
 
     public Long getId() {
         return id;
@@ -45,5 +46,12 @@ public class OptionalAnswer implements Serializable {
     public void setQuestion(Question question) {
         this.question = question;
     }
-    
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
