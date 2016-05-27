@@ -1,12 +1,28 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Private Teacher Area</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <div class="row" style="margin-left: 1%">
+            <h:form>
+                <h:dataTable value="#{testDetailsController.filledTests}" var="filledTest" class="table table-hover">
+                    <h:column><f:facet name="header">Student First Name</f:facet>#{filledTest.student.firstName}</h:column>
+                    <h:column><f:facet name="header">Student Last Name</f:facet>#{filledTest.student.lastName}</h:column>
+                    <h:column><f:facet name="header">Result</f:facet>#{filledTest.result}</h:column>
+                    <h:column>
+                        <h:commandButton value="Revision" action="#{testDetailsController.revision(filledTest)}" class="btn btn-default"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
     </h:body>
 </html>
 

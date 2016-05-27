@@ -37,7 +37,7 @@
                     <h:column><f:facet name="header">Student Last Name</f:facet>#{filledTest.student.lastName}</h:column>
                     <h:column><f:facet name="header">Result</f:facet>#{filledTest.result}</h:column>
                     <h:column>
-                        <h:commandButton value="Revision" action="#{teacherController.revision(filledTest)}" class="btn btn-default"/>
+                        <h:commandButton value="Revision" action="#{testDetailsController.revision(filledTest)}" class="btn btn-default"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

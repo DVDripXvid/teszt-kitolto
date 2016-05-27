@@ -20,8 +20,8 @@ public class QuestionController {
 
     @PostConstruct
     public void init() {
-        question = new Question();
         session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        question = new Question();
     }
 
     public Question getQuestion() {

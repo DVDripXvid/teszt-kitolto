@@ -66,8 +66,15 @@
                     <h:column><f:facet name="header">Name</f:facet>#{test.name}</h:column>
                     <h:column><f:facet name="header">Time</f:facet>#{test.duration}</h:column>
                     <h:column><f:facet name="header">Course</f:facet>#{test.course}</h:column>
-                    <h:column><f:facet name="header">Active</f:facet>#{test.active}</h:column>
+                    <h:column>
+                        <f:facet name="header">Activate</f:facet>
+                        <h:commandButton value="#{test.active}" action="#{teacherController.activate(test)}" class="btn btn-default"/>
+                    </h:column>
                     <h:column><f:facet name="header">Number of fills</f:facet>#{test.filledTests.size()}</h:column>
+                    <h:column><f:facet name="header">Revievable</f:facet>#{teacherController.revievable(test)}</h:column>
+                    <h:column>
+                        <h:commandButton value="Details" action="#{teacherController.details(test)}" class="btn btn-default"/>
+                    </h:column>
                     <h:column>
                         <h:commandButton value="Manage questions" action="#{teacherController.goToManageQuestions(test)}" class="btn btn-default"/>
                     </h:column>
@@ -76,9 +83,6 @@
                     </h:column>
                     <h:column>
                         <h:commandButton value="Delete" action="#{teacherController.delete(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Details" action="#{teacherController.details(test)}" class="btn btn-default"/>
                     </h:column>
                 </h:dataTable>
             </h:form>

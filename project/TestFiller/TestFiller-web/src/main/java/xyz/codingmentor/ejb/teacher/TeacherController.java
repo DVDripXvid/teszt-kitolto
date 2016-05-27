@@ -9,6 +9,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
+import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 
@@ -27,9 +28,33 @@ public class TeacherController {
         session.setAttribute("teacher", ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
                 "email", ec.getRemoteUser()).get(0));
     }
-    
-    public String goToCreateTest(){
+
+    public String goToCreateTest() {
         return "createTest";
+    }
+
+    public List<Test> getTests() {
+        return ((Teacher) session.getAttribute("teacher")).getTests();
+    }
+    
+    public void activate(Test test){
+        test.setActive(!test.getActive());
+        ef.update(test);
+    }
+    
+    public int revievable(Test test){
+        int c = 0;
+        for (FilledTest filledTest:  test.getFilledTests()){
+            if (filledTest.getReady() && filledTest.getResult() == null){
+                c++;
+            }
+        }
+        return c;
+    }
+    
+    public String details(Test test) {
+        session.setAttribute("testToDetails", test);
+        return "detailsTest";
     }
 
     public String goToManageQuestions(Test test) {
@@ -38,24 +63,15 @@ public class TeacherController {
         return "manageQuestion";
     }
 
-    public List<Test> getTests() {
-        return ((Teacher) session.getAttribute("teacher")).getTests();
+    public String edit(Test test) {
+        session.setAttribute("testToEdit", test);
+        return "editTest";
     }
-
+    
     public void delete(Test test) {
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         teacher.getTests().remove(test);
         ef.update(teacher);
         ef.delete(Test.class, test.getId());
-    }
-
-    public String edit(Test test) {
-        session.setAttribute("testToEdit", test);
-        return "editTest";
-    }
-
-    public String details(Test test) {
-        session.setAttribute("testToDetails", test);
-        return "detailsTest";
     }
 }

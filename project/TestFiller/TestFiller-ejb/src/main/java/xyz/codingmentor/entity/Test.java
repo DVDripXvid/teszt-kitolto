@@ -39,7 +39,8 @@ public class Test implements Serializable {
     private List<Question> questions;
     @ManyToOne
     private Teacher teacher;
-    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER) 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+    @JoinColumn(name = "FILLED_TEST_ID")
     private List<FilledTest> filledTests;
     private Boolean active = false;
 
