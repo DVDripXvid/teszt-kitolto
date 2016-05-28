@@ -56,7 +56,7 @@ public class IndexController {
     public int numberOfRevievable(Test test){
         int c = 0;
         for (FilledTest filledTest:  test.getFilledTests()){
-            if (filledTest.getReady() && filledTest.getResult() == null){
+            if (filledTest.getReady() == null){
                 c++;
             }
         }

@@ -3,7 +3,6 @@ package xyz.codingmentor.entity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,8 +22,6 @@ public class FilledTest implements Serializable {
     @GeneratedValue
     private Long id;
     private Boolean ready;
-    @Column(name = "TEST_RESULT")
-    private Float result;
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
@@ -34,7 +31,7 @@ public class FilledTest implements Serializable {
     @JoinColumn(name = "STUDENT_ID")
     private Student student;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "FILLED_ANSWER_ID")
+    @JoinColumn(name = "FILLED_TEST_ID")
     private List<FilledAnswer> filledAnswers;
 
     public Long getId() {
@@ -51,14 +48,6 @@ public class FilledTest implements Serializable {
 
     public void setReady(Boolean ready) {
         this.ready = ready;
-    }
-
-    public Float getResult() {
-        return result;
-    }
-
-    public void setResult(Float result) {
-        this.result = result;
     }
 
     public Course getCourse() {

@@ -23,7 +23,7 @@ public class Question implements Serializable {
     @ManyToOne
     private Test test;
     private Integer lengthOfAnswer;
-
+    
     public Long getId() {
         return id;
     }

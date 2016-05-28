@@ -40,7 +40,7 @@ public class Test implements Serializable {
     @ManyToOne
     private Teacher teacher;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
-    @JoinColumn(name = "FILLED_TEST_ID")
+    @JoinColumn(name = "TEST_ID")
     private List<FilledTest> filledTests;
     private Boolean active = false;
 
