@@ -1,6 +1,7 @@
 package xyz.codingmentor.ejb.teacher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,6 +11,8 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledTest;
+import xyz.codingmentor.entity.OptionalAnswer;
+import xyz.codingmentor.entity.OptionalFilledAnswer;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Teacher;
@@ -62,11 +65,21 @@ public class IndexController {
     
     public String details(Test test) {
         FilledTest ft = new FilledTest();
-        ft.setResult(20F);
         Student s = new Student();
         s.setFirstName("Lajos");
         s.setLastName("Feri");
         ft.setStudent(s);
+        TextFilledAnswer tfa = new TextFilledAnswer();
+        tfa.setText("asd");
+        OptionalFilledAnswer ofa = new OptionalFilledAnswer();
+        OptionalAnswer oa = new OptionalAnswer();
+        oa.setText("text");
+        ofa.setAnswer(oa);
+        ofa.setComment("comment");
+        ofa.setQuestion(new Question());
+        tfa.setQuestion(new Question());
+        ft.setFilledAnswer(Arrays.asList(tfa, ofa));
+        ft.setReady(Boolean.TRUE);
         test.getFilledTests().add(ft);
         session.setAttribute("testToDetails", test);
         return "detailsTest";

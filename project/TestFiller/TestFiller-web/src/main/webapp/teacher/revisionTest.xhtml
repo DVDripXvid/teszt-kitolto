@@ -12,8 +12,13 @@
     </h:head>
     <h:body>
         <div class="col-md-2">
-            <a class="btn" href="index.xhtml">Back</a>
+            <a class="btn" href="detailsTest.xhtml">Back</a>
         </div>
+        <h:form>
+            <div class="col-md-2">
+                <h:commandButton class="btn btn-default" value="Finish" action="#{revisionTestController.finish()}" style="margin-left: 5%"/>
+            </div>
+        </h:form>
         <div class="row" style="margin-left: 1%">
             <h:form>
                 <h:dataTable value="#{revisionTestController.filledAnswers}" var="filledAnswer" class="table table-hover">
@@ -29,4 +34,3 @@
         </div>
     </h:body>
 </html>
-
