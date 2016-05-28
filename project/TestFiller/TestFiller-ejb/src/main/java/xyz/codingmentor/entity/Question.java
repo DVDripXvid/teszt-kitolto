@@ -30,7 +30,7 @@ public class Question implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FilledAnswer> filledAnswers;
     private Integer lengthOfAnswer;
-
+    
     public Question() {
         this.filledAnswers = new ArrayList<>();
     }
