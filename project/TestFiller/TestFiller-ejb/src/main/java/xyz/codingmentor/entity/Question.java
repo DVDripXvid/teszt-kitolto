@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -22,7 +21,6 @@ public class Question implements Serializable {
     @Enumerated
     private QuestionType type;
     @ManyToOne
-    @JoinColumn(name = "TEST_ID")
     private Test test;
     private Integer lengthOfAnswer;
 

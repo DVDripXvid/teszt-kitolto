@@ -20,6 +20,10 @@ public abstract class FilledAnswer implements Serializable {
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+    @ManyToOne
+    private FilledTest filledTest;
+    private String comment;
+    private Float point;
 
     public Long getId() {
         return id;
@@ -35,5 +39,29 @@ public abstract class FilledAnswer implements Serializable {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public FilledTest getFilledTest() {
+        return filledTest;
+    }
+
+    public void setFilledTest(FilledTest filledTest) {
+        this.filledTest = filledTest;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Float getPoint() {
+        return point;
+    }
+
+    public void setPoint(Float point) {
+        this.point = point;
     }
 }

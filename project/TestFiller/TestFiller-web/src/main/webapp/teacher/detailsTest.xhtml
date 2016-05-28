@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Private Teacher Area</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <div class="row">
+            <h:form>
+                <div class="col-md-2">
+                    <label for="nameLabel" style="margin-left: 5%">Name :</label>
+                    <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="courseLabel" style="margin-left: 5%">Course :</label>
+                    <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <div class="col-md-2">
+                    <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
+                    <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
+                </div>
+                <br/>
+                <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
+            </h:form>
+            <div class="col-md-2">
+                <a class="btn" href="index.xhtml">Back</a>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 1%">
+            <h:form>
+                <h:dataTable value="#{detailsTestController.filledTests}" var="filledTest" class="table table-hover">
+                    <h:column><f:facet name="header">Student First Name</f:facet>#{filledTest.student.firstName}</h:column>
+                    <h:column><f:facet name="header">Student Last Name</f:facet>#{filledTest.student.lastName}</h:column>
+                    <h:column><f:facet name="header">Result</f:facet>#{filledTest.result}</h:column>
+                    <h:column>
+                        <h:commandButton value="Revision" action="#{detailsTestController.revision(filledTest)}" class="btn btn-default"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+    </h:body>
+</html>

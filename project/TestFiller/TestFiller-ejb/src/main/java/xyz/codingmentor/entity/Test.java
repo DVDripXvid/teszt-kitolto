@@ -2,6 +2,7 @@ package xyz.codingmentor.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,11 +34,13 @@ public class Test implements Serializable {
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
     private Course course;
-    @OneToMany(mappedBy = "test")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "TEST_ID")
     private List<Question> questions;
     @ManyToOne
     private Teacher teacher;
-    @OneToMany(mappedBy = "test", fetch = FetchType.EAGER) 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+    @JoinColumn(name = "FILLED_TEST_ID")
     private List<FilledTest> filledTests;
     private Boolean active = false;
 
