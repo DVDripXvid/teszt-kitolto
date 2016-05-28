@@ -47,7 +47,6 @@ public class InitialEJB {
     private void generateTestData() {
         createCourses();
         createTests();
-        course.setTime(Date.from(Calendar.getInstance().toInstant()));
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
         Course course1 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-1").get(0);
         Course course2 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-2").get(0);
