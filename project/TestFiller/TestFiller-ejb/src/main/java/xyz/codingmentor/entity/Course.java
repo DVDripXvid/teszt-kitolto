@@ -31,7 +31,10 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "COURSE.findByName", 
             query = "SELECT c from Course c Where c.name LIKE :name"),
     @NamedQuery(name = "COURSE.findForUser",
-            query = "SELECT c FROM Course c WHERE :student NOT MEMBER OF c.students AND :student NOT MEMBER OF c.subscribers")
+            query = "SELECT c "
+                    + "FROM Course c "
+                    + "WHERE :student NOT MEMBER OF c.students "
+                    + "AND :student NOT MEMBER OF c.subscribers")
 })
 public class Course implements Serializable {
 

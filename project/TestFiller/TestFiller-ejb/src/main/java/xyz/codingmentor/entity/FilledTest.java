@@ -7,12 +7,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Olivér
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "FILLEDTEST.findByStudentIdAndTestId",
+            query = "SELECT ft "
+                    + "FROM FilledTest ft "
+                    + "WHERE ft.student.id = :studentId "
+                    + "AND ft.test.id = :testId "
+                    + "AND ft.ready = FALSE")
+})
 public class FilledTest implements Serializable {
 
     @Id

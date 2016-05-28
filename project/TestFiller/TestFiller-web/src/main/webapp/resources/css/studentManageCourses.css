@@ -58,3 +58,19 @@
 .headerClass {
     text-align: center;
 }
+
+.menu .ui-selectonemenu-label { 
+    background: white;
+}
+
+.ui-selectonemenu-label.menu {
+    background-color: white;
+}
+
+.ui-selectonemenu input.ui-selectonemenu-label{ 
+    background: white; 
+}
+
+.panel .ui-selectonemenu-list { 
+    background: white;
+}

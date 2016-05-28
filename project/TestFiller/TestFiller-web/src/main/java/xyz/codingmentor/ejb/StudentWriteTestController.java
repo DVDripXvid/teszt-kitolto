@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
-import xyz.codingmentor.entity.FilledAnswer;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.OptionalFilledAnswer;
 import xyz.codingmentor.entity.Question;
@@ -39,14 +38,21 @@ public class StudentWriteTestController implements Serializable {
     public StudentWriteTestController() {
     }
     
-    public void save(){
-        entityFacade.update(actualTest);
-        
+    public void save(){      
+        actualTest.getFilledTests().add(writableTest);        
         try {
             ec.redirect(ec.getApplicationContextPath() + "/faces/student/index.xhtml");
         } catch (IOException ex) {
             LOGGER.info(ex.getMessage());
         }
+    }
+
+    public Test getActualTest() {
+        return actualTest;
+    }
+
+    public void setActualTest(Test actualTest) {
+        this.actualTest = actualTest;
     }
     
     public List<Question> getQuestions(){
@@ -54,7 +60,6 @@ public class StudentWriteTestController implements Serializable {
     }
     
     public void setQuestionFromList(Question question){
-        entityFacade.update(actualTest);
         actualQuestion = question;
         initFilledAnswers();
     }
@@ -85,7 +90,7 @@ public class StudentWriteTestController implements Serializable {
             actualQuestion.getFilledAnswers().add(textFilledAnswer);
         }
         
-        entityFacade.update(actualTest);
+        entityFacade.update(textFilledAnswer);
     }
 
     public String getTextFilledAnswer() {
@@ -129,20 +134,18 @@ public class StudentWriteTestController implements Serializable {
     public boolean isActualQuestionTypeText() {
         return actualQuestion.getType().equals(QuestionType.TEXT);
     }
-
+    
     public boolean isActualQuestionTypeChoose() {
         return actualQuestion.getType().equals(QuestionType.CHOOSER);
     }
 
     public void setPreviousQuestion() {
-        entityFacade.update(actualTest);
         actualQuestion = writableTest.getTest().getQuestions()
                 .get(writableTest.getTest().getQuestions().indexOf(actualQuestion) - 1);
         initFilledAnswers();
     }
 
     public void setNextQuestion() {
-        entityFacade.update(actualTest);
         actualQuestion = writableTest.getTest().getQuestions()
                 .get(writableTest.getTest().getQuestions().indexOf(actualQuestion) + 1);
         initFilledAnswers();
@@ -158,20 +161,13 @@ public class StudentWriteTestController implements Serializable {
     }
 
     private void initFilledAnswers() {
-        for (FilledAnswer answer : actualQuestion.getFilledAnswers()) {
-            if (answer.getStudent().equals(activeStudent)) {
-                if (answer.getClass().equals(TextFilledAnswer.class)) {
-                    textFilledAnswer = (TextFilledAnswer)answer;
-                    return;
-                }
-                else{
-                    optionalFilledAnswer = (OptionalFilledAnswer)answer;
-                    return;
-                }
-            }
+        List<TextFilledAnswer> textFilledAnswers = entityFacade.namedQueryTwoParam("TEXTFILLEDANSWER.findByUserId", TextFilledAnswer.class, "studentId", activeStudent.getId(), "questionId", actualQuestion.getId());
+        if (textFilledAnswers.size() > 0) {
+            textFilledAnswer = textFilledAnswers.get(0);
         }
-        
-        setUpFilledTests();
+        else{
+            setUpFilledTests();
+        }        
     }
     
     private void setUpFilledTests(){

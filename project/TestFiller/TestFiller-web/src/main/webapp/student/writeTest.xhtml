@@ -2,16 +2,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:bnu="http://bootsfaces.net/ui">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Write Test</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
-        <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet> 
     </h:head>
     <body>
         <h:form>
@@ -49,12 +47,18 @@
                             <h:inputTextarea rendered="#{studentWriteTestController.actualQuestionTypeText}" 
                                              value="#{studentWriteTestController.textFilledAnswer}"
                                              style="height: 100px; width: 100%;"/>
+                            
+                            <p:panel rendered="#{studentWriteTestController.actualQuestionTypeChoose}"
+                                     style="height: 100px; width: 100%;">
+                                <p:selectOneRadio value=""
+                            </p:panel>
                             <br/>
                             <p:commandButton value="Previous question"
                                              rendered="#{studentWriteTestController.notFirstQuestion}"
                                              action="#{studentWriteTestController.setPreviousQuestion()}"
                                              update="@form"
                                              style="background-color: white;"/>
+
                             <p:commandButton value="Next question"
                                              rendered="#{studentWriteTestController.notLastQuestion}"
                                              action="#{studentWriteTestController.setNextQuestion()}"
