@@ -2,7 +2,10 @@ package xyz.codingmentor.ejb;
 
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,5 +53,21 @@ public class UserController {
         }
         
         userFacade.delete(User.class, user.getId());
+    }
+    
+    public void changeAdmin(User user){
+        if(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser().equals(user.getEmail())){
+            addMessage("ERROR!","Cannot modify yourself");
+            return;
+        }
+        if(!user.changeAdmin()){
+            addMessage("ERROR!","Student cannot be admin");
+        }
+        
+        userFacade.update(user);
+    }
+    
+    public void addMessage(String summary, String detail) {
+        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(summary,detail));
     }
 }

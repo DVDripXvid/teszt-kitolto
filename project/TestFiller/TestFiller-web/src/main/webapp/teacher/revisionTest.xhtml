@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Private Teacher Area</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <div class="col-md-2">
+            <a class="btn" href="detailsTest.xhtml">Back</a>
+        </div>
+        <h:form>
+            <div class="col-md-2">
+                <h:commandButton class="btn btn-default" value="Finish" action="#{revisionTestController.finish()}" style="margin-left: 5%"/>
+            </div>
+        </h:form>
+        <div class="row" style="margin-left: 1%">
+            <h:form>
+                <h:dataTable value="#{revisionTestController.filledAnswers}" var="filledAnswer" class="table table-hover">
+                    <h:column><f:facet name="header">Question</f:facet>#{filledAnswer.question.text}</h:column>
+                    <h:column><f:facet name="header">Answer</f:facet>#{revisionTestController.getAnswer(filledAnswer)}</h:column>
+                    <h:column>
+                        <h:commandButton value="Evaluate" action="#{revisionTestController.evaluate(filledAnswer)}" class="btn btn-default"/>
+                    </h:column>
+                    <h:column><f:facet name="header">Point</f:facet>#{filledAnswer.point}</h:column>
+                    <h:column><f:facet name="header">Comment</f:facet>#{filledAnswer.comment}</h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
+    </h:body>
+</html>

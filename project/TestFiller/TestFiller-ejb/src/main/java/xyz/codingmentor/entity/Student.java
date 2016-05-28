@@ -62,5 +62,5 @@ public class Student extends User implements Serializable {
     public void setSubscribed(Course subscribed) {
         this.subscribed = subscribed;
     }
-
+    
 }
