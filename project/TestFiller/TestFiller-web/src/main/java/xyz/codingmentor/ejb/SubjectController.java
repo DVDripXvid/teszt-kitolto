@@ -1,5 +1,6 @@
 package xyz.codingmentor.ejb;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -12,7 +13,7 @@ import xyz.codingmentor.entity.Subject;
 
 @ManagedBean
 @ViewScoped
-public class SubjectController {
+public class SubjectController implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubjectController.class);
     @EJB(name = "entityFacade")
     private EntityFacade ef;

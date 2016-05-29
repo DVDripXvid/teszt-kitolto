@@ -1,5 +1,6 @@
 package xyz.codingmentor.ejb;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -21,7 +22,7 @@ import xyz.codingmentor.entity.User;
  */
 @Named
 @SessionScoped
-public class UserController {
+public class UserController implements Serializable {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

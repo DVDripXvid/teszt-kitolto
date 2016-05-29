@@ -1,5 +1,6 @@
 package xyz.codingmentor.ejb;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
@@ -12,7 +13,7 @@ import xyz.codingmentor.entity.Test;
 
 @Named
 @SessionScoped
-public class TestController {
+public class TestController implements Serializable{
     
     @EJB(name = "entityFacade")
     private EntityFacade facade;
@@ -32,6 +33,7 @@ public class TestController {
     }
     
     public List<FilledTest> getFilledTestsByTest(Test test){
+        test = facade.read(Test.class, test.getId());
         return test.getFilledTests();
     }
     
