@@ -23,7 +23,9 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "TEST.findAll",
             query = "SELECT t FROM Test t"),
     @NamedQuery(name = "TEST.searchByName",
-            query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')")
+            query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')"),
+    @NamedQuery(name = "TEST.findByCourseId", 
+            query = "SELECT t FROM Test t WHERE t.course = :course")
 })
 public class Test implements Serializable {
 
@@ -46,6 +48,8 @@ public class Test implements Serializable {
     private Boolean active = false;
 
     public Test(){
+        this.questions = new ArrayList<>();
+        this.filledTests = new ArrayList<>();
     }
 
     public Test(String name, Integer duration, Course course) {
@@ -53,6 +57,8 @@ public class Test implements Serializable {
         this.duration = duration;
         this.course = course;
         this.active = true;
+        this.questions = new ArrayList<>();
+        this.filledTests = new ArrayList<>();
     }
     
     public Long getId() {

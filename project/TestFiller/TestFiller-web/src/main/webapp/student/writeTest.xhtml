@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Write Test</title>
@@ -10,10 +9,83 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet> 
     </h:head>
     <body>
         <h:form>
-            
+            <br/>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: center">
+                            <h4>Questions</h4>
+                        </div>
+                        <div class="panel-body">
+                            <p:dataTable styleClass="borderless"
+                                         rowStyleClass="rowClass"
+                                         value="#{studentWriteTestController.questions}" 
+                                         var="question">
+                                <p:column>
+                                    <p:commandButton value="#{question.text}" 
+                                                     action="#{studentWriteTestController.setQuestionFromList(question)}"
+                                                     update="@form"
+                                                     style="background-color: white; border-style: none;"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align: left">
+                            <h4>#{studentWriteTestController.questionHeader}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <h:outputText value="#{studentWriteTestController.actualQuestionText}"/>
+                            <br/>
+                            <h4>Answer</h4>
+                            <h:inputTextarea rendered="#{studentWriteTestController.actualQuestionTypeText}" 
+                                             value="#{studentWriteTestController.textFilledAnswer}"
+                                             style="height: 100px; width: 100%;"/>
+                            
+                            <p:panel rendered="#{studentWriteTestController.actualQuestionTypeChoose}"
+                                     style="height: 100px; width: 100%;">
+                                <p:selectOneRadio value=""
+                            </p:panel>
+                            <br/>
+                            <p:commandButton value="Previous question"
+                                             rendered="#{studentWriteTestController.notFirstQuestion}"
+                                             action="#{studentWriteTestController.setPreviousQuestion()}"
+                                             update="@form"
+                                             style="background-color: white;"/>
+
+                            <p:commandButton value="Next question"
+                                             rendered="#{studentWriteTestController.notLastQuestion}"
+                                             action="#{studentWriteTestController.setNextQuestion()}"
+                                             update="@form"
+                                             style="background-color: white; float: right;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <p:commandButton value="Finish"
+                                     action="#{studentWriteTestController.save()}"
+                                     style="background-color: white;">
+                        <p:confirm header="Confirmation" message="Can not continue test after confirmation!"/>
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Finish" 
+                                         type="button" 
+                                         styleClass="ui-confirmdialog-yes"/>
+                        <p:commandButton value="Cancel" 
+                                         type="button" 
+                                         styleClass="ui-confirmdialog-no"
+                                         style="float: right"/>
+                    </p:confirmDialog>
+                </div>
+            </div>
+            <br/>
         </h:form>
     </body>
 </html>

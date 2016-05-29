@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -30,7 +31,10 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "COURSE.findByName", 
             query = "SELECT c from Course c Where c.name LIKE :name"),
     @NamedQuery(name = "COURSE.findForUser",
-            query = "SELECT c FROM Course c WHERE :student NOT MEMBER OF c.students AND :student NOT MEMBER OF c.subscribers")
+            query = "SELECT c "
+                    + "FROM Course c "
+                    + "WHERE :student NOT MEMBER OF c.students "
+                    + "AND :student NOT MEMBER OF c.subscribers")
 })
 public class Course implements Serializable {
 
@@ -48,13 +52,22 @@ public class Course implements Serializable {
     private List<Student> students;
     @ManyToMany(mappedBy = "courses")
     private List<Teacher> teachers;
-    @OneToMany(mappedBy = "course")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
     private List<FilledTest> filledTests;
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<Test> tests;
     @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
     private List<Student> subscribers;
 
+    public Course(){
+        this.tests = new ArrayList<>();
+        this.subjects = new ArrayList<>();
+        this.students = new ArrayList<>();
+        this.teachers = new ArrayList<>();
+        this.filledTests = new ArrayList<>();
+        this.subscribers = new ArrayList<>();
+    }
+    
     public List<Student> getStudents() {
         return students;
     }

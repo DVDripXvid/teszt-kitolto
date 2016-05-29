@@ -10,8 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
+import xyz.codingmentor.entity.FilledTest;
+import xyz.codingmentor.entity.Question;
+import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
+import xyz.codingmentor.entity.Subject;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.User;
@@ -30,35 +34,45 @@ public class InitialEJB {
     @EJB
     private RoleFacade facade;
 
-    @EJB
-    private EmailService emailService;
-
     @PostConstruct
     public void createEntity() {
         LOGGER.info("singleton created: " + this);
         createRoles();
         createUser();
         generateTestData();
-        //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
+        createSubjects();
+        createFilledTests();
     }
 
     private void generateTestData() {
-        Course course = new Course();
-        course.setName("course");
-        //course.setTime(Date.from(Calendar.getInstance().toInstant()));
-        facade.create(course);
-        //facade.update(course);
+        createCourses();
+        createTests();
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
-        student.setSubscribed(course);
+        Course course1 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-1").get(0);
+        Course course2 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-2").get(0);
+        Test test1 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-1").get(0);
+        Test test2 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-2").get(0);
+        student.setSubscribed(course1);
+        student.setSubscribed(course2);
         facade.create(student);
 
-        Test test = new Test();
-        test.setName("test");
-        test.setActive(true);
-        facade.create(test);
         Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
-        teacher.getTests().add(test);
-        facade.create(test);
+        teacher.getTests().add(test1);
+        facade.create(test1);
+
+        createQuestions(test1);
+
+        course1.getTests().add(test1);
+        test1.setCourse(course1);
+        test1.setActive(Boolean.TRUE);
+        facade.update(course1);
+        facade.update(test1);
+        
+        course2.getTests().add(test2);
+        test2.setCourse(course2);
+        test2.setActive(Boolean.TRUE);
+        facade.update(course2);
+        facade.update(test2);
     }
 
     private void createRoles() {
@@ -84,5 +98,51 @@ public class InitialEJB {
         facade.create(student);
         student.getRoles().add(facade.findRole("STUDENT"));
     }    
+
+    private void createQuestions(Test test) {
+        for (int i = 0; i < 20; i++) {
+            Question question = new Question();
+            question.setText("Question " + Integer.toString(i + 1) + " - Please give an answer.");
+            question.setTest(test);
+            question.setType(QuestionType.TEXT);
+            facade.create(question);
+            test.getQuestions().add(question);
+        }
+    }
+
+    private void createCourses() {
+        Course course;
+        for (int i = 0; i < 5; i++) {
+            course = new Course();
+            course.setName("Course-" + Integer.toString(i));
+            course.setTime(Date.from(Calendar.getInstance().toInstant()));
+            facade.create(course);
+        }
+    }
+
+    private void createTests() {
+        Test test;
+        for (int i = 0; i < 5; i++) {
+            test = new Test();
+            test.setName("Test-" + Integer.toString(i));
+            test.setDuration(20);
+            facade.create(test);
+        }
+        
+    }
+    private void createSubjects(){
+        Subject s = new Subject();
+        s.setName("Analízis");
+        facade.create(s);
+    }
     
+    private void createFilledTests(){
+        Test test2 = new Test();
+        test2.setName("test Test");
+        FilledTest filledTest = new FilledTest();
+        filledTest.setReady(Boolean.TRUE);
+        filledTest.setTest(test2);
+        facade.create(test2);
+        facade.create(filledTest);
+    }
 }

@@ -19,11 +19,20 @@ public abstract class FilledAnswer implements Serializable {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
-    private Question question;
+    private Question question;    
     @ManyToOne
     private FilledTest filledTest;
     private String comment;
     private Float point;
+    private Student student;
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public Long getId() {
         return id;

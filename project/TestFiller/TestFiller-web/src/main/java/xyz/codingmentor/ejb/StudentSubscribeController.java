@@ -1,5 +1,6 @@
 package xyz.codingmentor.ejb;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -31,9 +32,22 @@ public class StudentSubscribeController implements Serializable {
 
     @EJB
     private EntityFacade entityFacade;
+    private Student activeStudent;
     private List<Course> subscribedCourses;
     private List<Course> allCourses;
     private List<Course> filteredCourseList;
+
+    public StudentSubscribeController() {
+    }
+
+    public void manageCourses() {
+        activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
+        try {
+            ec.redirect(ec.getApplicationContextPath() + "/faces/student/manageCourses.xhtml");
+        } catch (IOException ex) {
+            LOGGER.info(ex.getMessage());
+        }
+    }
 
     public List<Course> getSubscribedCourses() {
         return subscribedCourses;
@@ -52,7 +66,6 @@ public class StudentSubscribeController implements Serializable {
     }
 
     public List<Course> getAllCourses() {
-        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         allCourses = entityFacade.namedQueryOneParam("COURSE.findForUser", Course.class, "student", activeStudent);
         return allCourses;
     }
@@ -62,17 +75,13 @@ public class StudentSubscribeController implements Serializable {
     }
 
     public List<Course> getCoursesByUser() {
-        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         return activeStudent.getCourses();
     }
 
     public void subscribeToCourse(Course selectedCourse) {
-        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-
         if (activeStudent.getSubscribed() == null) {
             activeStudent.setSubscribed(selectedCourse);
             selectedCourse.getSubscribers().add(activeStudent);
-            addTestsToCourse(selectedCourse);
             entityFacade.update(activeStudent);
 
             //successfullSubscriptionMessage();
@@ -82,7 +91,6 @@ public class StudentSubscribeController implements Serializable {
     }
 
     public void unsubscribeFromCourse(Course course) {
-        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         activeStudent.setSubscribed(null);
         course.getSubscribers().remove(activeStudent);
         entityFacade.update(activeStudent);
@@ -90,22 +98,8 @@ public class StudentSubscribeController implements Serializable {
 
         //successfullUnsubscriptionMessage();
     }
-
-    private void successfullSubscriptionMessage() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SuccessfullSubscribeMessage, null));
-
-    }
-
-    private void successfullUnsubscriptionMessage() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SuccessfullUnsubscribeMessage, null));
-    }
-
-    private void warnMessage() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, AlreadySubscribedMessage, null));
-    }
-
+    
     public List<Course> getStudentSubscibedCourse() {
-        Student activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         List<Course> returnList = new ArrayList<>();
         if (activeStudent.getSubscribed() == null) {
             returnList.clear();
@@ -128,6 +122,19 @@ public class StudentSubscribeController implements Serializable {
         }
 
         return ((Comparable) value).compareTo(Date.valueOf(filterText)) >= 0;
+    }
+
+    private void successfullSubscriptionMessage() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SuccessfullSubscribeMessage, null));
+
+    }
+
+    private void successfullUnsubscriptionMessage() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SuccessfullUnsubscribeMessage, null));
+    }
+
+    private void warnMessage() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, AlreadySubscribedMessage, null));
     }
 
     private void addTestsToCourse(Course c) {

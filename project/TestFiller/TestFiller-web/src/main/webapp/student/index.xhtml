@@ -12,18 +12,27 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
         <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
     </h:head>
-    <body>
+    <body onload="#{studentHomepageController.load()}">
         <h:form>
             <br/>
             <div class="row">
                 <div class="col-md-1">
                 </div>
-                <div class="col-md-2">
-                    <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
+                <div class="col-md-1">
+                    <p:commandButton value="Profile" 
+                                     action="#{userProfileModification.modifyProfile()}"
+                                     style="background-color: white;"/>
                 </div>
                 <div class="col-md-2">
-                    <h:button class="btn btn-default" value="Manage courses" style="margin-left: 5%" outcome="manageCourses.xhtml"/>
-                </div>            
+                    <p:commandButton value="Manage Courses" 
+                                     action="#{studentSubscribeController.manageCourses()}"
+                                     style="background-color: white;"/>           
+                </div>
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-1">
+                    <p:commandButton value="Logout" action="#{loginEJB.logout()}" style="background-color: white;"/>
+                </div>
             </div>
             <br/>
 
@@ -31,10 +40,17 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                    <label for="roleSelector">Courses :</label>
-                    <h:selectOneMenu  class="form-control col-md-3" id="roleSelector" value="#{studentHomepageController.selectedCourse}">
-                        <f:selectItems value="#{studentHomepageController.selectableCourses}"/>
-                    </h:selectOneMenu>
+                    <p:outputLabel value="Courses: " rendered="#{studentHomepageController.thereAnyAvailableCourse}"/>
+                    <p:selectOneMenu styleClass="menu" panelStyleClass="panel" 
+                                     id="selectCourses"
+                                     value="#{studentHomepageController.selectedCourse}" 
+                                     effect="fold" var="selectedCourse" 
+                                     filter="true" filterMatchMode="contains"
+                                     rendered="#{studentHomepageController.thereAnyAvailableCourse}">
+                        <f:selectItems class="menu" value="#{studentHomepageController.selectableCourses}" 
+                                       var="course"/>
+                        <p:ajax event="change" update="@form" />
+                    </p:selectOneMenu>
                 </div>
             </div>
             <br/>
@@ -46,7 +62,7 @@
                         <div class="panel-heading" style="text-align: center">
                             <h4>Tests</h4>
                         </div>
-                        <p:dataTable styleClass="borderless" 
+                        <p:dataTable id="selectableTests" styleClass="borderless" 
                                      value="#{studentHomepageController.selectableTests}" 
                                      var="test"
                                      rows="10"
@@ -64,18 +80,11 @@
                             <p:column>
                                 <p:commandButton value="Start Test"
                                                  action="#{studentWriteTestController.writeTest(test)}"
+                                                 rendered="#{studentHomepageController.isSelectedTestHasQuestions(test)}"
                                                  style="background-color: white"/>
                             </p:column>
                         </p:dataTable>
                     </div>
-                </div>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}"/>
                 </div>
             </div>
             <br/>

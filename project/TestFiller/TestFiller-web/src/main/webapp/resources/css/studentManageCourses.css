@@ -2,6 +2,18 @@
     background-color: white;
 }
 
+.ui-datatable.outlinebordered thead th,
+.ui-datatable outlinebordered tbody,
+.ui-datatable outlinebordered tbody tr,
+.ui-datatable outlinebordered tbody td {
+    border-style: none;
+    border-color: white;
+}
+
+.rowClass {
+    background-color: white;
+}
+
 .ui-datatable.borderless tbody,
 .ui-datatable.borderless tbody tr,
 .ui-datatable.borderless tbody td {
@@ -45,4 +57,20 @@
 
 .headerClass {
     text-align: center;
+}
+
+.menu .ui-selectonemenu-label { 
+    background: white;
+}
+
+.ui-selectonemenu-label.menu {
+    background-color: white;
+}
+
+.ui-selectonemenu input.ui-selectonemenu-label{ 
+    background: white; 
+}
+
+.panel .ui-selectonemenu-list { 
+    background: white;
 }
