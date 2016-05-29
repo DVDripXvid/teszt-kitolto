@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
+import xyz.codingmentor.entity.OptionalAnswer;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
