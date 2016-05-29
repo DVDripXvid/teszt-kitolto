@@ -40,7 +40,8 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                    <p:outputLabel value="Courses: " rendered="#{studentHomepageController.thereAnyAvailableCourse}"/>
+                    <p:outputLabel value="Courses: " for="selectCourses" rendered="#{studentHomepageController.thereAnyAvailableCourse}"/>
+                    <br/>
                     <p:selectOneMenu styleClass="menu" panelStyleClass="panel" 
                                      id="selectCourses"
                                      value="#{studentHomepageController.selectedCourse}" 
@@ -98,8 +99,8 @@
                             <h4>Test Results</h4>
                         </div>
                         <p:dataTable id="testResults" styleClass="borderless" 
-                                     value="#{studentHomepageController.selectableTests}" 
-                                     var="test"
+                                     value="#{studentHomepageController.selectableFilledTests}" 
+                                     var="filledTest"
                                      rows="10"
                                      paginator="true"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -107,20 +108,14 @@
                                      paginatorPosition="bottom"
                                      emptyMessage="No Test found.">
                             <p:column headerText="Name">
-                                <h:outputText value="#{test.name}"/>
+                                <h:outputText value="#{filledTest.test.name}"/>
                             </p:column>
-                            <p:column headerText="Time">
-                                <h:outputText value="#{test.duration}"/>
+                            <p:column headerText="Result">
+                                <h:outputText value="#{filledTest.finalResult}"/>
                             </p:column>
                             <p:column>
-                                <p:commandButton value="Start Test"
-                                                 action="#{studentWriteTestController.writeTest(test)}"
-                                                 rendered="#{studentHomepageController.isSelectedTestStartable(test)}"
-                                                 style="background-color: white"/>
-
-                                <p:commandButton value="Continue Test"
-                                                 action="#{studentWriteTestController.writeTest(test)}"
-                                                 rendered="#{studentHomepageController.isSelectedTestContinuable(test)}"
+                                <p:commandButton value="Details"
+                                                 action="#{studentTestDetailsController.getDetails(filledTest)}"
                                                  style="background-color: white"/>
                             </p:column>
                         </p:dataTable>

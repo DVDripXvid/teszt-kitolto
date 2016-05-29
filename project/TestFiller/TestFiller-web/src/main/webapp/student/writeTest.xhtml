@@ -51,10 +51,11 @@
                             
                             <p:panelGrid rendered="#{studentWriteTestController.actualQuestionTypeChoose}"
                                          style="height: 100px; width: 100%;">
-                                <p:selectOneRadio value="#{studentWriteTestController.selectedOptionalAnswerText}">
+                                <p:selectOneRadio value="#{studentWriteTestController.selectedOptionalAnswer}">
                                     <f:selectItems value="#{studentWriteTestController.optionalAnswers}"
                                                    var="optionalAnswer"
-                                                   itemLabel="#{optionalAnswer.text}"/>
+                                                   itemLabel="#{optionalAnswer.text}"
+                                                   itemValue="#{optionalAnswer}"/>
                                 </p:selectOneRadio>
                             </p:panelGrid>
                             <br/>

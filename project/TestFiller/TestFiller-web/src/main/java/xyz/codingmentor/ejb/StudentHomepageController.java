@@ -26,12 +26,14 @@ public class StudentHomepageController implements Serializable {
     private List<String> selectableCourses;
     private List<Test> selectableTests;
     private List<Test> searchedTests;
+    private List<FilledTest> selectableFilledTests;
 
     public StudentHomepageController() {
         selectableCourses = new ArrayList<>();
         selectableCourses.add("ALL");
         selectableTests = new ArrayList<>();
         searchedTests = new ArrayList<>();
+        selectableFilledTests = new ArrayList();
     }
 
     public void load() {
@@ -59,6 +61,10 @@ public class StudentHomepageController implements Serializable {
         this.selectableTests = selectableTests;
     }
 
+    public void setSelectableFilledTests(List<FilledTest> selectableFilledTests) {
+        this.selectableFilledTests = selectableFilledTests;
+    }
+
     public List<Test> getSelectableTests() {
         selectableTests.clear();
         if (selectableCourses != null && selectableCourses.size() > 0) {
@@ -66,6 +72,15 @@ public class StudentHomepageController implements Serializable {
         }
 
         return selectableTests;
+    }
+
+    public List<FilledTest> getSelectableFilledTests() {
+        selectableFilledTests.clear();
+        if (selectableCourses != null && selectableCourses.size() > 0) {
+            setFilledTestsList();
+        }
+
+        return selectableFilledTests;
     }
 
     private void setTestsList() {
@@ -76,6 +91,17 @@ public class StudentHomepageController implements Serializable {
         } else {
             Course course = entityFacade.namedQueryOneParam("COURSE.findByName", Course.class, "name", selectedCourse).get(0);
             findTestsToCourses(course);
+        }
+    }
+
+    private void setFilledTestsList() {
+        if (selectedCourse == null || selectedCourse.equals(selectableCourses.get(0))) {
+            for (Course course : activeStudent.getCourses()) {
+                findFilledTestsToCourses(course);
+            }
+        } else {
+            Course course = entityFacade.namedQueryOneParam("COURSE.findByName", Course.class, "name", selectedCourse).get(0);
+            findFilledTestsToCourses(course);
         }
     }
 
@@ -91,6 +117,18 @@ public class StudentHomepageController implements Serializable {
         if (filledTests.isEmpty()) {
             selectableTests.add(test);
         }
+    }
+
+    private void findFilledTestsToCourses(Course course) {
+        searchedTests = entityFacade.namedQueryOneParam("TEST.findByCourseId", Test.class, "course", course);
+        for (Test test : searchedTests) {
+            findFilledTests(test);
+        }
+    }
+
+    private void findFilledTests(Test test) {
+        List<FilledTest> filledTests = entityFacade.namedQueryTwoParam("FILLEDTEST.findByStudentIdAndTestIdAndReady", FilledTest.class, "studentId", activeStudent.getId(), "testId", test.getId());
+        selectableFilledTests.addAll(filledTests);
     }
 
     public boolean isSelectedTestStartable(Test selectedTest) {

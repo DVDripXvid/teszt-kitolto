@@ -52,7 +52,7 @@ public class Course implements Serializable {
     private List<Student> students;
     @ManyToMany(mappedBy = "courses")
     private List<Teacher> teachers;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<FilledTest> filledTests;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<Test> tests;

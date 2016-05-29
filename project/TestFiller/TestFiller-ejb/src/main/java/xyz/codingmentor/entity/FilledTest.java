@@ -49,6 +49,7 @@ public class FilledTest implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "FILLED_TEST_ID")
     private List<FilledAnswer> filledAnswers;
+    private Float finalResult;
 
     public Long getId() {
         return id;
@@ -96,5 +97,21 @@ public class FilledTest implements Serializable {
 
     public void setFilledAnswer(List<FilledAnswer> filledAnswers) {
         this.filledAnswers = filledAnswers;
+    }
+
+    public Float getFinalResult() {
+        if (filledAnswers != null && filledAnswers.size() > 0) {
+            for (FilledAnswer filledAnswer : filledAnswers) {
+                finalResult += filledAnswer.getPoint();
+            }
+            
+            return finalResult / filledAnswers.size();
+        }else {
+            return null;
+        }
+    }
+
+    public void setFinalResult(Float finalResult) {
+        this.finalResult = finalResult;
     }
 }

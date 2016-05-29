@@ -58,7 +58,7 @@ public class StudentWriteTestController implements Serializable {
             LOGGER.info(ex.getMessage());
         }
     }
-    
+
     public void save() {
         try {
             entityFacade.create(writableTest);
@@ -77,8 +77,14 @@ public class StudentWriteTestController implements Serializable {
         return selectedOptionalAnswer;
     }
 
-    public void setSelectedOptionalAnswer(String selectedText) {
+    public void setSelectedOptionalAnswer(OptionalAnswer selectedOptionalAnswer) {
+        this.selectedOptionalAnswer = selectedOptionalAnswer;
+        optionalFilledAnswer.setAnswer(selectedOptionalAnswer);
+        if (!actualQuestion.getFilledAnswers().contains(optionalFilledAnswer)) {
+            actualQuestion.getFilledAnswers().add(optionalFilledAnswer);
+        }
 
+        entityFacade.update(optionalFilledAnswer);
     }
 
     public String getSelectedOptionalAnswerText() {
@@ -86,15 +92,20 @@ public class StudentWriteTestController implements Serializable {
     }
 
     public void setSelectedOptionalAnswerText(String selectedOptionalAnswerText) {
-        this.selectedOptionalAnswerText = selectedOptionalAnswerText;
-        for (OptionalAnswer optionalAnswer : optionalAnswers) {
-            if (optionalAnswer.getText().equals(selectedOptionalAnswerText)) {
-                selectedOptionalAnswer = optionalAnswer;
-            }
-        }
-
-        optionalFilledAnswer.setAnswer(selectedOptionalAnswer);
-        entityFacade.update(optionalFilledAnswer);
+//        this.selectedOptionalAnswerText = selectedOptionalAnswerText;
+//        for (OptionalAnswer optionalAnswer : optionalAnswers) {
+//            if (optionalAnswer.getText().equals(selectedOptionalAnswerText)) {
+//                selectedOptionalAnswer = optionalAnswer;
+//            }
+//        }
+//
+//        optionalFilledAnswer.setAnswer(selectedOptionalAnswer);
+//
+//        if (!actualQuestion.getFilledAnswers().contains(textFilledAnswer)) {
+//            actualQuestion.getFilledAnswers().add(textFilledAnswer);
+//        }
+//
+//        entityFacade.update(optionalFilledAnswer);
     }
 
     public List<OptionalAnswer> getOptionalAnswers() {
@@ -242,14 +253,18 @@ public class StudentWriteTestController implements Serializable {
     }
 
     private void initOptionalFilledAnswer() {
-        List<OptionalFilledAnswer> optionalFilledAnswers = entityFacade.namedQueryTwoParam(
-                "OPTIONFILLEDALANSWER.findByStudentIdAndQuestionId",
-                OptionalFilledAnswer.class,
-                "studentId", activeStudent.getId(), "questionId", actualQuestion.getId());
+        try {
+            List<OptionalFilledAnswer> optionalFilledAnswers = entityFacade.namedQueryTwoParam(
+                    "OPTIONFILLEDALANSWER.findByStudentIdAndQuestionId",
+                    OptionalFilledAnswer.class,
+                    "studentId", activeStudent.getId(), "questionId", actualQuestion.getId());
 
-        if (optionalFilledAnswers.size() > 0) {
-            optionalFilledAnswer = optionalFilledAnswers.get(0);
-        } else {
+            if (optionalFilledAnswers.size() > 0) {
+                optionalFilledAnswer = optionalFilledAnswers.get(0);
+            } else {
+                setUpOptionalFilledAnswer();
+            }
+        } catch (Exception e) {
             setUpOptionalFilledAnswer();
         }
 
@@ -257,7 +272,9 @@ public class StudentWriteTestController implements Serializable {
     }
 
     private void initOptionalAnswers() {
-        optionalAnswers = entityFacade.namedQueryOneParam("OPTIONALANSWER.findByQuestionId", OptionalAnswer.class, "questionId", actualQuestion.getId());
+        optionalAnswers = entityFacade.namedQueryOneParam(
+                "OPTIONALANSWER.findByQuestionId", OptionalAnswer.class,
+                "questionId", actualQuestion.getId());
     }
 
     private void setUpTextFilledAnswer() {
