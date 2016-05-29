@@ -14,7 +14,7 @@ import javax.persistence.NamedQuery;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "findByQuestionId",
+    @NamedQuery(name = "OPTIONALANSWER.findByQuestionId",
             query = "SELECT o FROM OptionalAnswer o WHERE o.question.id = :questionId")
 })
 public class OptionalAnswer implements Serializable {

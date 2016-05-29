@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Manage Courses</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    </h:head>
+    <h:body>
+        <h:form>
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2">
+                    <p:button outcome="index.xhtml"
+                              value="Back"
+                              icon="ui-icon-carat-1-w"
+                              style="background-color: white;"/>
+                </div>
+                <div class="col-md-5">
+                    <h:outputText value="#{studentTestDetailsController.filledTest.course.name}"/>
+                    <h:outputText value="#{studentTestDetailsController.filledTest.test.name}"/>
+                    <h:outputText value="#{studentTestDetailsController.filledTest.finalResult}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <p:dataTable styleClass="borderless" 
+                                 value="#{studentTestDetailsController.filledTest.filledAnswers}" 
+                                 var="filledAnswer"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} 
+                                 {FirstPageLink} 
+                                 {PreviousPageLink} 
+                                 {PageLinks} 
+                                 {NextPageLink} 
+                                 {LastPageLink} 
+                                 {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="No active Course found.">
+                        <p:column filterBy="#{filledAnswer.question.text}" headerText="Question" filterMatchMode="contains">
+                            <h:outputText value="#{filledAnswer.question.text}"/>
+                        </p:column>
+                        <p:column filterBy="#{filledAnswer.point}" headerText="Result">
+                            <h:outputText value="#{filledAnswer.point}"/>
+                        </p:column>
+                        <p:column filterBy="#{filledAnswer.comment}" headerText="Comment">
+                            <h:outputText value="#{filledAnswer.comment}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>
