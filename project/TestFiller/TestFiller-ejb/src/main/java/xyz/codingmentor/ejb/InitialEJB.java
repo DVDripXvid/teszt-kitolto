@@ -14,6 +14,7 @@ import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
+import xyz.codingmentor.entity.Subject;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.User;
@@ -41,6 +42,7 @@ public class InitialEJB {
         createRoles();
         createUser();
         generateTestData();
+        createSubjects();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
 
@@ -129,4 +131,10 @@ public class InitialEJB {
             facade.create(test);
         }
     }
+    private void createSubjects(){
+        Subject s = new Subject();
+        s.setName("Analízis");
+        facade.create(s);
+    }
+    
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Named;
@@ -23,7 +24,9 @@ import xyz.codingmentor.entity.User;
 public class UserController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
+    private final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    
+    private User user;
     @EJB
     private UserFacade userFacade;   
     
@@ -69,5 +72,15 @@ public class UserController {
     
     public void addMessage(String summary, String detail) {
         FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(summary,detail));
+    }
+    
+    public void denyRegistrationRequest(User user){
+        emailService.sendEmail(user.getEmail(), "Deny Registration", "Your registration request was denied");
+        userFacade.delete(User.class, user.getId());
+    }
+    
+    public String getCurrentUser(){
+        user = userFacade.namedQueryOneParam("USERS.findByEmail",User.class, "email",ec.getRemoteUser()).get(0);
+        return user.getFirstName() + " " + user.getLastName();
     }
 }
