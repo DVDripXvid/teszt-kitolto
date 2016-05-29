@@ -54,6 +54,7 @@ public class InitialEJB {
 
         Test test = new Test();
         test.setName("test");
+        test.setActive(true);
         facade.create(test);
         Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
         teacher.getTests().add(test);
@@ -82,7 +83,6 @@ public class InitialEJB {
         student.setAccepted(true);
         facade.create(student);
         student.getRoles().add(facade.findRole("STUDENT"));
-    }
-    
+    }    
     
 }
