@@ -4,14 +4,19 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Olivér
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "findByQuestionId",
+            query = "SELECT o FROM OptionalAnswer o WHERE o.question.id = :questionId")
+})
 public class OptionalAnswer implements Serializable {
 
     @Id
@@ -19,7 +24,6 @@ public class OptionalAnswer implements Serializable {
     private Long id;
     private Boolean correct;
     @ManyToOne
-    @JoinColumn(name = "QUESTION_ID")
     private Question question;
     private String text;
 
@@ -54,4 +58,5 @@ public class OptionalAnswer implements Serializable {
     public void setText(String text) {
         this.text = text;
     }
+    
 }
