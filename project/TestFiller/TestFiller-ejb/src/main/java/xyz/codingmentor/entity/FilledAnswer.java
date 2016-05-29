@@ -1,7 +1,9 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -24,6 +26,7 @@ public abstract class FilledAnswer implements Serializable {
     private FilledTest filledTest;
     private String comment;
     private Float point;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Student student;
 
     public Student getStudent() {

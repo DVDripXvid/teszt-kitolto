@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -17,6 +19,10 @@ import javax.persistence.OneToMany;
  * @author Olivér
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "QUESTION.findByTestId", 
+            query = "SELECT q FROM Question q WHERE q.test.id = :testId")
+})
 public class Question implements Serializable {
 
     @Id

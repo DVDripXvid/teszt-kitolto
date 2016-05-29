@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
+import xyz.codingmentor.entity.OptionalAnswer;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
@@ -67,7 +68,7 @@ public class InitialEJB {
         test1.setActive(Boolean.TRUE);
         facade.update(course1);
         facade.update(test1);
-        
+
         course2.getTests().add(test2);
         test2.setCourse(course2);
         test2.setActive(Boolean.TRUE);
@@ -100,13 +101,34 @@ public class InitialEJB {
     }
 
     private void createQuestions(Test test) {
-        for (int i = 0; i < 20; i++) {
+        
+        
+        for (int i = 0; i < 10; i++) {
             Question question = new Question();
             question.setText("Question " + Integer.toString(i + 1) + " - Please give an answer.");
             question.setTest(test);
             question.setType(QuestionType.TEXT);
             facade.create(question);
             test.getQuestions().add(question);
+        }
+        for (int i = 0; i < 10; i++) {
+            Question question = new Question();
+            question.setText("Question " + Integer.toString(i + 1) + " - Please give an answer.");
+            question.setTest(test);
+            question.setType(QuestionType.CHOOSER);
+            facade.create(question);
+            test.getQuestions().add(question);
+            createOptionalAnswers(question);
+        }
+    }
+
+    private void createOptionalAnswers(Question question) {
+        for (int i = 0; i < 4; i++) {
+            OptionalAnswer optionalAnswer = new OptionalAnswer();
+            optionalAnswer.setText("Option " + Integer.toString(i + 1));
+            optionalAnswer.setCorrect(Boolean.TRUE);
+            optionalAnswer.setQuestion(question);
+            facade.create(optionalAnswer);
         }
     }
 

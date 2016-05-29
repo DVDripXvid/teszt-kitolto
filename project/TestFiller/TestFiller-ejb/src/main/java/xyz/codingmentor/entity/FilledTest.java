@@ -24,7 +24,13 @@ import javax.persistence.NamedQuery;
                     + "FROM FilledTest ft "
                     + "WHERE ft.student.id = :studentId "
                     + "AND ft.test.id = :testId "
-                    + "AND ft.ready = FALSE")
+                    + "AND ft.ready = FALSE"),
+    @NamedQuery(name = "FILLEDTEST.findByStudentIdAndTestIdAndReady",
+            query = "SELECT ft "
+                    + "FROM FilledTest ft "
+                    + "WHERE ft.student.id = :studentId "
+                    + "AND ft.test.id = :testId "
+                    + "AND ft.ready = TRUE")
 })
 public class FilledTest implements Serializable {
 

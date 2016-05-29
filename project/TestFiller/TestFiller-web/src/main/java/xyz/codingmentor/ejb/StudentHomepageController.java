@@ -87,14 +87,32 @@ public class StudentHomepageController implements Serializable {
     }
 
     private void findNotFilledTests(Test test) {
-        List<FilledTest> filledTests = entityFacade.namedQueryTwoParam("FILLEDTEST.findByStudentIdAndTestId", FilledTest.class, "studentId", activeStudent.getId(), "testId", test.getId());
+        List<FilledTest> filledTests = entityFacade.namedQueryTwoParam("FILLEDTEST.findByStudentIdAndTestIdAndReady", FilledTest.class, "studentId", activeStudent.getId(), "testId", test.getId());
         if (filledTests.isEmpty()) {
             selectableTests.add(test);
         }
     }
 
-    public boolean isSelectedTestHasQuestions(Test selectedTest) {
-        return selectedTest.getQuestions().size() > 0;
+    public boolean isSelectedTestStartable(Test selectedTest) {
+        if (selectedTest != null) {
+            return selectedTest.getQuestions().size() > 0
+                    && entityFacade.namedQueryTwoParam(
+                            "FILLEDTEST.findByStudentIdAndTestId", FilledTest.class,
+                            "studentId", activeStudent.getId(), "testId", selectedTest.getId()).isEmpty();
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isSelectedTestContinuable(Test selectedTest) {
+        if (selectedTest != null) {
+            return selectedTest.getQuestions().size() > 0
+                    && entityFacade.namedQueryTwoParam(
+                            "FILLEDTEST.findByStudentIdAndTestId", FilledTest.class,
+                            "studentId", activeStudent.getId(), "testId", selectedTest.getId()).size() > 0;
+        } else {
+            return false;
+        }
     }
 
     public boolean isThereAnyAvailableCourse() {
