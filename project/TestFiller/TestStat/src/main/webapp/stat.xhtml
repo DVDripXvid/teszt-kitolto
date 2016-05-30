@@ -19,11 +19,11 @@
                     <h:outputText value="Here you can see progressions of tests" style="float: left; font-size: 24px"/>
                 </f:facet>
                 <f:facet name="right">
-                    <p:commandButton style="background-color: white; float: right "
-                                     action="#{controller.goHome()}"
-                                     value="back"
-                                     icon="ui-icon-carat-1-w"
-                                     />
+                    <p:button style="background-color: white; float: right "
+                              href="#{controller.testFillerPath}"
+                              value="back"
+                              icon="ui-icon-carat-1-w"
+                              />
                 </f:facet>
             </p:toolbar>    
             <p:panel id="tests" header="All tests" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="upperPanel" style="margin-bottom:20px">
@@ -47,12 +47,12 @@
                         <h:outputText value="#{test.course}">
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Add to watchlist">
-                        <p:commandButton value="Add"
-                                         icon="ui-icon-plusthick"
-                                         action="#{controller.subscribe(test)}"
-                                         update="@form"
-                                         style="align-content: center">
+                    <p:column headerText="Watch it" style="width: 80px">
+                        <p:commandButton 
+                            icon="ui-icon-plusthick"
+                            action="#{controller.subscribe(test)}"
+                            update="@form"
+                            style="background-color: white; margin-left: auto; margin-right: auto">
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>

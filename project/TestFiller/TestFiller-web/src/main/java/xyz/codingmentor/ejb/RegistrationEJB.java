@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Role;
+import xyz.codingmentor.entity.Student;
+import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.User;
 import xyz.codingmentor.role.RoleName;
 
@@ -39,15 +41,22 @@ public class RegistrationEJB implements Serializable{
     
     public String register(){
         Role role = facade.findRole(selectedRole);
+        if(selectedRole.equals(RoleName.STUDENT)){
+            user = new Student(user);
+        }
+        if(selectedRole.equals(RoleName.TEACHER)){
+            user = new Teacher(user);
+        }
         user.setAccepted(false);
         char[] pw = new char[6];
         for(int i=0; i<6; i++){
             pw[i] = (char) (new Random().nextInt(26)+65);
         }
         user.setPassword(String.copyValueOf(pw).toLowerCase());
+        user.getRoles().add(role);
         facade.create(user);
-        role.getUsers().add(user);
-        facade.update(role);
+        /*role.getUsers().add(user);
+        facade.update(role);*/
         
         return "notification";
     }
