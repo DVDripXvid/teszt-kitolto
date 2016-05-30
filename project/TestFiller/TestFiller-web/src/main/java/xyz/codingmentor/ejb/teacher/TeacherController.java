@@ -10,6 +10,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
+import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.OptionalAnswer;
 import xyz.codingmentor.entity.OptionalFilledAnswer;
@@ -31,8 +32,15 @@ public class TeacherController {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         session = (HttpSession) ec.getSession(true);
         session.setMaxInactiveInterval(-1);
-        session.setAttribute("teacher", ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
-                "email", ec.getRemoteUser()).get(0));
+        Teacher t = ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
+                "email", ec.getRemoteUser()).get(0);
+        Course c1 = new Course();
+        c1.setName("asd");
+        Course c2 = new Course();
+        c2.setName("dsa");
+        t.setCourses(Arrays.asList(c1,c2));
+        
+        session.setAttribute("teacher", t);
     }
     
     public String getTeacherFullName(){
@@ -43,14 +51,19 @@ public class TeacherController {
     public String goToCreateTest() {
         return "createTest";
     }
+    
+    public List<Course> getCourses(){
+        return ((Teacher) session.getAttribute("teacher")).getCourses();
+    }
 
     public List<Test> getTests() {
         return ((Teacher) session.getAttribute("teacher")).getTests();
     }
     
-    public void activate(Test test){
+    public String activate(Test test){
         test.setActive(!test.getActive());
         ef.update(test);
+        return "index";
     }
     
     public int numberOfRevievable(Test test){
@@ -96,10 +109,11 @@ public class TeacherController {
         return "editTest";
     }
     
-    public void delete(Test test) {
+    public String delete(Test test) {
         Teacher teacher = (Teacher) session.getAttribute("teacher");
         teacher.getTests().remove(test);
         ef.update(teacher);
         ef.delete(Test.class, test.getId());
+        return "index";
     }
 }
