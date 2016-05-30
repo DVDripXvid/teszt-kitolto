@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Private Teacher Area</title>
         <meta charset="utf-8" />
@@ -11,7 +11,7 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <h1 align="center">Welcome #{indexController.teacherFullName}</h1>
+        <h1 align="center">Welcome #{teacherController.teacherFullName}</h1>
         <h:form>
             <div class="row">
                 <div class="col-md-2">
@@ -22,61 +22,70 @@
                 </div>
                 <div class="col-md-2">
                     <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
-                </div>            
+                </div>
+                <div class="col-md-2">
+                    <h:column>
+                        <h:commandButton value="Create Test" action="#{teacherController.goToCreateTest()}" style="margin-left: 5%" class="btn btn-default"/>
+                    </h:column>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align: center">
+                    <h4>Tests</h4>
+                </div>
+                <h:panelGrid columns="2" cellpadding="10" >
+                    <p:dataTable id="tests" styleClass="borderless" 
+                                 value="#{teacherController.tests}" 
+                                 var="test"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="No Test found.">
+                        <p:column headerText="Name" filterBy="#{test.name}" filterMatchMode="contains">
+                            <h:outputText value="#{test.name}"/>
+                        </p:column>
+                        <p:column headerText="Duration" filterBy="#{test.duration}" filterMatchMode="contains">
+                            <h:outputText value="#{test.duration} min"/>
+                        </p:column>
+                        <p:column headerText="Course" filterBy="#{test.course.name}" filterMatchMode="contains">
+                            <h:outputText value="#{test.course.name}"/>
+                        </p:column>
+                        <p:column headerText="Active" filterBy="#{test.active}">
+                            <p:commandButton value="#{test.active}"
+                                             action="#{teacherController.activate(test)}"
+                                             style="background-color: white"/>
+                        </p:column>
+                        <p:column headerText="Number of fills" filterBy="#{test.filledTests.size()}">
+                            <h:outputText value="#{test.filledTests.size()}"/>
+                        </p:column>
+                        <p:column headerText="Number of revievable" filterBy="#{teacherController.numberOfRevievable(test)}">
+                            <h:outputText value="#{teacherController.numberOfRevievable(test)}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Details"
+                                             action="#{teacherController.details(test)}"
+                                             style="background-color: white"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Manage questions"
+                                             action="#{teacherController.goToManageQuestions(test)}"
+                                             style="background-color: white"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Edit"
+                                             action="#{teacherController.edit(test)}"
+                                             style="background-color: white"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Delete"
+                                             action="#{teacherController.delete(test)}"
+                                             style="background-color: white"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
             </div>
         </h:form>
-        <div class="row">
-            <h:form>
-                <div class="col-md-2">
-                    <label for="nameLabel" style="margin-left: 5%">Name :</label>
-                    <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <label for="courseLabel" style="margin-left: 5%">Course :</label>
-                    <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
-                    <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
-                </div>
-                <br/>
-                <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
-            </h:form>
-            <h:form>
-                <div>
-                    <h:column>
-                        <h:commandButton value="Create Test" action="#{indexController.goToCreateTest()}" style="margin-left: 5%" class="btn btn-default"/>
-                    </h:column>
-                </div>
-            </h:form>
-        </div>
-        <div class="row" style="margin-left: 1%">
-            <h:form>
-                <h:dataTable value="#{indexController.tests}" var="test" class="table table-hover">
-                    <h:column><f:facet name="header">Id</f:facet>#{test.id}</h:column>
-                    <h:column><f:facet name="header">Name</f:facet>#{test.name}</h:column>
-                    <h:column><f:facet name="header">Time</f:facet>#{test.duration}</h:column>
-                    <h:column><f:facet name="header">Course</f:facet>#{test.course}</h:column>
-                    <h:column>
-                        <f:facet name="header">Activate</f:facet>
-                        <h:commandButton value="#{test.active}" action="#{indexController.activate(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column><f:facet name="header">Number of fills</f:facet>#{test.filledTests.size()}</h:column>
-                    <h:column><f:facet name="header">Number of revievable</f:facet>#{indexController.numberOfRevievable(test)}</h:column>
-                    <h:column>
-                        <h:commandButton value="Details" action="#{indexController.details(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Manage questions" action="#{indexController.goToManageQuestions(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Edit" action="#{indexController.edit(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Delete" action="#{indexController.delete(test)}" class="btn btn-default"/>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-        </div>
     </h:body>
 </html>

@@ -20,7 +20,7 @@ import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.TextFilledAnswer;
 
 @ManagedBean
-public class IndexController {
+public class TeacherController {
 
     @EJB
     private EntityFacade ef;
