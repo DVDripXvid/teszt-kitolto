@@ -41,9 +41,9 @@ public class InitialEJB {
     @PostConstruct
     public void createEntity() {
 //        LOGGER.info("singleton created: " + this);
-//        createRoles();
+       createRoles();
 //        createUser();
-//        generateTestData();
+        generateTestData();
         createSubjects();
         createFilledTests();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
