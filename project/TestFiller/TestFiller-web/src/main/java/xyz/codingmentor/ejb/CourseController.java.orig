@@ -17,9 +17,14 @@ import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
-@SessionScoped
+<<<<<<< HEAD
+@ApplicationScoped
 @Interceptors({LoggerInterceptor.class})
 public class CourseController implements Serializable {
+=======
+@SessionScoped
+public class CourseController {
+>>>>>>> statistics
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
     private static final String UnSuccessfulCourseRemove = "Cannot remove course with subscribed student!";

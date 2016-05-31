@@ -9,8 +9,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+<<<<<<< HEAD
 import javax.interceptor.Interceptors;
+=======
 import javax.servlet.http.HttpServletRequest;
+>>>>>>> statistics
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.UserFacade;
@@ -37,7 +40,11 @@ public class UserController implements Serializable {
 
     @EJB(name = "emailService")
     private EmailService emailService;
+<<<<<<< HEAD
 
+    public void acceptUser(Long id) {
+=======
+    
     @PostConstruct
     public void logHttpData(){
         LOGGER.info("App Context Path: " + FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
@@ -49,7 +56,8 @@ public class UserController implements Serializable {
         LOGGER.info("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/TestFiller-web");
     }
     
-    public void acceptUser(Long id) {
+    public void acceptUser(Long id){
+>>>>>>> statistics
         User user = userFacade.read(User.class, id);
         LOGGER.info(user.toString());
         user.setAccepted(true);
@@ -90,9 +98,15 @@ public class UserController implements Serializable {
     public void addMessage(String summary, String detail) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary, detail));
     }
+<<<<<<< HEAD
 
     public void denyRegistrationRequest(User user) {
+        emailService.sendEmail(user.getEmail(), "Deny Registration", "Your registration request was denied");
+=======
+    
+    public void denyRegistrationRequest(User user){
         emailService.sendEmail(user.getEmail(), "Deny Registration", "Your registration request was denied on TestFiller");
+>>>>>>> statistics
         userFacade.delete(User.class, user.getId());
     }
 

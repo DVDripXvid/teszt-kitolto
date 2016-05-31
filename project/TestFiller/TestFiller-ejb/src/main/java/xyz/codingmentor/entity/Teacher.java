@@ -30,6 +30,10 @@ public class Teacher extends User implements Serializable {
 
     public Teacher() {
     }
+    
+    public Teacher(User user){
+        super(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
+    }
 
     public Teacher(String firstName, String lastName, String password, String email) {
         super(firstName, lastName, password, email);

@@ -59,7 +59,7 @@ public class FilledTest implements Serializable {
         this.id = id;
     }
 
-    public Boolean getReady() {
+    public Boolean isReady() {
         return ready;
     }
 

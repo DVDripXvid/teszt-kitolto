@@ -9,15 +9,25 @@
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
+<<<<<<< HEAD
     <h:body style="background-color: #E9EBEE"> 
         <div class="row" style="background-color: #125298;">
             <div class="col-md-4">
             </div>
             <div class="col-md-4">
                 <h1 align="center" style="color: white;">Welcome to TestFiller</h1>
+=======
+    <h:body> 
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h1 align="center">TestFiller</h1>
+>>>>>>> statistics
             </div>
         </div>
         <div class="row">
+<<<<<<< HEAD
             <div class="col-md-6">
                 <img src="resources/images/Survey-Mascot-Pencil-Large_color.jpg" 
                      style="position: relative; width: 100%; height: 30%;"/>
@@ -37,6 +47,15 @@
                           outcome="registration" 
                           value="Registration"
                           style="margin-left: 15%"/>
+=======
+            <div class="col-md-4">
+            </div>
+            <h:button class="btn btn-default col-md-4" outcome="user/index" value="Login" />
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-4">
+>>>>>>> statistics
             </div>
         </div>
         <div class="row">

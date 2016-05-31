@@ -34,6 +34,10 @@ public class Student extends User implements Serializable {
 
     public Student() {
     }
+    
+    public Student(User user){
+        super(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
+    }
 
     public Student(String firstName, String lastName, String password, String email) {
         super(firstName, lastName, password, email);
