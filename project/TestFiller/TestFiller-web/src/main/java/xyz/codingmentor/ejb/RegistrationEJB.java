@@ -7,9 +7,11 @@ import java.util.Random;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.interceptor.Interceptors;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.User;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 import xyz.codingmentor.role.RoleName;
 
 /**
@@ -18,6 +20,7 @@ import xyz.codingmentor.role.RoleName;
  */
 @ManagedBean(name="registrationEJB")
 @RequestScoped
+@Interceptors({LoggerInterceptor.class})
 public class RegistrationEJB implements Serializable{    
     
     @EJB(name = "emailService")

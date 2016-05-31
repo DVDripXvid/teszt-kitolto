@@ -5,14 +5,17 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledAnswer;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.OptionalFilledAnswer;
 import xyz.codingmentor.entity.TextFilledAnswer;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
+@Interceptors({LoggerInterceptor.class})
 public class RevisionTestController {
 
     @EJB

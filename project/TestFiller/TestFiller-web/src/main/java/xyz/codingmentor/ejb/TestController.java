@@ -5,14 +5,17 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.QueryName;
 import xyz.codingmentor.entity.Test;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 
 @Named
 @SessionScoped
+@Interceptors({LoggerInterceptor.class})
 public class TestController implements Serializable{
     
     @EJB(name = "entityFacade")

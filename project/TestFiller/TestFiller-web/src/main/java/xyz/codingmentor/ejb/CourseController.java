@@ -1,5 +1,6 @@
 package xyz.codingmentor.ejb;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -8,14 +9,17 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.interceptor.Interceptors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.CourseFacade;
 import xyz.codingmentor.entity.Course;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
 @ApplicationScoped
-public class CourseController {
+@Interceptors({LoggerInterceptor.class})
+public class CourseController implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CourseController.class);
     private static final String UnSuccessfulCourseRemove = "Cannot remove course with subscribed student!";

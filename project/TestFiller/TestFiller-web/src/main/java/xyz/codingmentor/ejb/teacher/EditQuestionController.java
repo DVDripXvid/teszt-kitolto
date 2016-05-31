@@ -3,10 +3,13 @@ package xyz.codingmentor.ejb.teacher;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.entity.Question;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
+@Interceptors({LoggerInterceptor.class})
 public class EditQuestionController {
 
     private HttpSession session;

@@ -8,14 +8,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.interceptor.Interceptors;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Test;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
 @SessionScoped
+@Interceptors({LoggerInterceptor.class})
 public class StudentHomepageController implements Serializable {
 
     @EJB

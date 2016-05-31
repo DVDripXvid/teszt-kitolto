@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.interceptor.Interceptors;
 import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledTest;
@@ -18,8 +19,10 @@ import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.TextFilledAnswer;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
+@Interceptors({LoggerInterceptor.class})
 public class IndexController {
 
     @EJB

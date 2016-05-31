@@ -5,14 +5,17 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.interceptor.Interceptors;
 import org.primefaces.event.CellEditEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Subject;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
 @ViewScoped
+@Interceptors({LoggerInterceptor.class})
 public class SubjectController implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubjectController.class);
     @EJB(name = "entityFacade")
