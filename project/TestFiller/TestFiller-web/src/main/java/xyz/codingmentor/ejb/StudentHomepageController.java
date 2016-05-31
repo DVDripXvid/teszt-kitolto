@@ -55,11 +55,12 @@ public class StudentHomepageController implements Serializable {
     }
 
     private StreamedContent getImage() {
-        if (FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-            return new DefaultStreamedContent();
-        } else {
-            return new DefaultStreamedContent(new ByteArrayInputStream(activeStudent.getImage()));
-        }
+        return new DefaultStreamedContent(new ByteArrayInputStream(activeStudent.getImage()));
+//        if (FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+//            return new DefaultStreamedContent();
+//        } else {
+//            return new DefaultStreamedContent(new ByteArrayInputStream(activeStudent.getImage()));
+//        }
     }
 
     public StreamedContent getProfilePicture() {
