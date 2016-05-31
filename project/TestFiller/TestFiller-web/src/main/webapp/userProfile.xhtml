@@ -10,7 +10,7 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Home page</title>
+        <title>Profile</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
@@ -18,8 +18,41 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
     </h:head>
     <body>
+        <div class="row" style="background-color: #125298;">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h1 align="center" style="color: white;">Update profile information</h1>
+            </div>
+        </div>
         <h:form>
-            
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">                    
+                    <div class="colt-md-6">
+                        <label for="firsName" value="First name: "/>
+                        <h:inputText id="firstName" value="#{userProfileModification.switchUser.firstName}" class="form-control"/>
+                        <br/>
+                        <p:outputLabel value="Last name: "/>
+                        <h:inputText value="#{userProfileModification.switchUser.lastName}" class="form-control"/>
+                        <br/>
+                        <p:outputLabel value="Password: "/>
+                        <p:commandLink value="Change password" action="#{passwordController.initPage()}"/>
+                        <br/>
+                        <p:commandButton value="Upload photo" 
+                                         action="#{userProfileModification.modifyProfilePicture()}" 
+                                         rendered="#{userProfileModification.userHaveProfilePicture()}"
+                                         style="background-color: white;"/>
+                        <p:commandButton value="Change photo" 
+                                         action="#{userProfileModification.modifyProfilePicture()}" 
+                                         rendered="#{!userProfileModification.userHaveProfilePicture()}"
+                                         style="background-color: white;"/>
+                        <br/>
+                        <p:graphicImage value="#{userProfileModification.image}" width="50%"/>
+                    </div>
+                    <div class="colt-md-6"></div>
+                </div>
+            </div>
         </h:form>
     </body>
 </html>
