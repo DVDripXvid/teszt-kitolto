@@ -28,29 +28,40 @@ and open the template in the editor.
         <h:form>
             <div class="row">
                 <div class="col-md-4"></div>
-                <div class="col-md-2">                    
-                    <div class="colt-md-6">
-                        <label for="firsName" value="First name: "/>
-                        <h:inputText id="firstName" value="#{userProfileModification.switchUser.firstName}" class="form-control"/>
-                        <br/>
-                        <p:outputLabel value="Last name: "/>
-                        <h:inputText value="#{userProfileModification.switchUser.lastName}" class="form-control"/>
-                        <br/>
-                        <p:outputLabel value="Password: "/>
-                        <p:commandLink value="Change password" action="#{passwordController.initPage()}"/>
-                        <br/>
-                        <p:commandButton value="Upload photo" 
-                                         action="#{userProfileModification.modifyProfilePicture()}" 
-                                         rendered="#{userProfileModification.userHaveProfilePicture()}"
-                                         style="background-color: white;"/>
-                        <p:commandButton value="Change photo" 
-                                         action="#{userProfileModification.modifyProfilePicture()}" 
-                                         rendered="#{!userProfileModification.userHaveProfilePicture()}"
-                                         style="background-color: white;"/>
-                        <br/>
-                        <p:graphicImage value="#{userProfileModification.image}" width="50%"/>
-                    </div>
-                    <div class="colt-md-6"></div>
+                <div class="col-md-4">
+                    <label for="firsName" value="First name: "/>
+                    <h:inputText id="firstName" value="#{userProfileModification.switchUser.firstName}" class="form-control"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <label for="lastName" value="Last name: "/>
+                    <h:inputText id="lastName" value="#{userProfileModification.switchUser.lastName}" class="form-control"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <p:outputLabel value="Password: "/>
+                </div>
+                <div class="col-md-2">
+                    <p:commandLink value="Change password" 
+                                   action="#{passwordController.initPage()}"
+                                   style="width: 100%;"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <p:commandButton value="Upload photo" 
+                                     action="#{userProfileModification.modifyProfilePicture()}" 
+                                     rendered="#{userProfileModification.userHaveProfilePicture()}"
+                                     style="background-color: white;"/>
+
+                </div>
+                <div class="col-md-2">
+                    <p:graphicImage value="#{userProfileModification.image}" width="100%"/>
                 </div>
             </div>
         </h:form>
