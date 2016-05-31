@@ -10,8 +10,14 @@
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
-    <h:body>
-        <h1 align="center">Sign in</h1>
+    <h:body style="background-color: #E9EBEE">
+        <div class="row" style="background-color: #125298;">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h1 align="center" style="color: white;">Sign in</h1>
+            </div>
+        </div>
+        <br/>
         <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';"> 
             <div class="row">
                 <div class="col-md-4">
@@ -21,6 +27,7 @@
                     <input class="form-control" id="usernameInput" name="j_username" type="text" />
                 </div>
             </div>
+            <br/>
             <div class="row">
                 <div class="col-md-4">
                 </div>
@@ -33,7 +40,7 @@
             <div class="row">
                 <div class="col-md-5">
                 </div>
-                <h:commandButton class="btn btn-default col-md-2" value="Login"></h:commandButton>
+                <h:commandButton class="btn btn-default col-md-2" value="Sign in"></h:commandButton>
             </div>
             <div class="row">
                 <div class="col-md-4">

@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Registration</title>
         <meta charset="utf-8" />
@@ -11,8 +10,13 @@
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
-    <h:body style="align-content: center">
-        <h1 align="center">Registration page</h1>
+    <h:body style="align-content: center; background-color: #E9EBEE;">
+        <div class="row" style="background-color: #125298;">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h1 align="center" style="color: white;">Registration</h1>
+            </div>
+        </div>
         <br/>
         <h:form >
             <div class="row">
@@ -20,11 +24,13 @@
                 </div>
                 <div class="col-md-2">
                     <label for="firstName">First name :</label>
-                    <h:inputText id="firstName" class="form-control" value="#{registrationEJB.user.firstName}"/><br/>
+                    <h:inputText id="firstName" class="form-control" value="#{registrationEJB.user.firstName}"/>
+                    <br/>
                 </div>
                 <div class="col-md-2">
                     <label for="lastName">Last name :</label>
-                    <h:inputText id="lastName" class="form-control"  value="#{registrationEJB.user.lastName}"/><br/>
+                    <h:inputText id="lastName" class="form-control"  value="#{registrationEJB.user.lastName}"/>
+                    <br/>
                 </div>
                 <div class ="col-md-4">
                 </div>
@@ -34,7 +40,8 @@
                 </div>
                 <div class="col-md-4">
                     <label for="email">E-mail address :</label>
-                    <h:inputText id="email" class="form-control" value="#{registrationEJB.user.email}"/><br/>
+                    <h:inputText id="email" class="form-control" value="#{registrationEJB.user.email}"/>
+                    <br/>
                 </div>
                 <div class ="col-md-4">
                 </div>

@@ -14,29 +14,25 @@
     </h:head>
     <body onload="#{studentHomepageController.load()}" style="background-color: #E9EBEE">
         <h:form>
-            <div class="row" style="background-color: #125298; vertical-align: middle;">
+            <div class="row" style="background-color: #125298;">
                 <div class="col-md-1"></div>
-                <div class="col-md-2" style="display: inline-block; vertical-align: middle;">
-                    <p:commandLink style="border-style: none;"
+                <div class="col-md-2">
+                    <p:commandLink style="border-style: none; vertical-align: bottom;"
                             action="#{userProfileModification.modifyProfile()}">
                         <p:graphicImage value="#{studentHomepageController.profilePicture}"
                                         height="20%"
                                         width="20%"
-                                        style="float: left; margin-right: 3%; margin-bottom: 3%; margin-top: 3%; border-color: white; border-style: solid;"/>
-
-                        <b style="font-size: medium; color: white; float: left; vertical-align: middle;">Profile</b>
+                                        style="float: left; margin-right: 3%; margin-top: 5%;"/>
                     </p:commandLink>
                 </div>                
-                <div class="col-md-2" style="float: left;">
+                <div class="col-md-8">
                     <p:commandLink action="#{studentSubscribeController.manageCourses()}"
-                                   style="border-style: none; color: white;">
-                        <b style="font-size: medium; color: white;">Manage Courses</b>
+                                   style="float: left; color: white; margin-top: 2%; margin-bottom: 2%;">
+                        <b style="font-size: large; color: white; vertical-align: bottom;">Manage Courses</b>
                     </p:commandLink>
-                </div>
-                <div class="col-md-5"></div>
-                <div class="col-md-1">
-                    <p:commandLink action="#{loginEJB.logout()}" style="vertical-align: middle; float: right; color: white;">
-                        <b style="font-size: medium; color: white;">Logout</b>
+                    <p:commandLink action="#{loginEJB.logout()}" 
+                                   style="float: right; color: white; margin-top: 2%; margin-bottom: 2%;">
+                        <b style="font-size: large; color: white; vertical-align: bottom;">Logout</b>
                     </p:commandLink>
                 </div>
             </div>
