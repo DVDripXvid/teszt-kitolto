@@ -11,17 +11,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import xyz.codingmentor.annotation.Validate;
 
 /**
  *
  * @author Olivér
  */
 @Entity
+@Validate
 public class Question implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull @Size(min = 5)
     private String text;
     @Enumerated
     private QuestionType type;

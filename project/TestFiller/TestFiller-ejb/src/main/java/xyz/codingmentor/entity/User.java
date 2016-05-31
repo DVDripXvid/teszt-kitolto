@@ -20,11 +20,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import xyz.codingmentor.annotation.Validate;
 
 /**
  *
  * @author Olivér
  */
+@Validate
 @Entity
 @Table(name = "USERS")
 @NamedQueries({
@@ -41,10 +46,13 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull @Size(min = 2)
     private String firstName;
+    @NotNull @Size(min = 2)
     private String lastName;
     private String password;
     @Column(unique = true)
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
     private boolean accepted;
     @Temporal(TemporalType.DATE)
