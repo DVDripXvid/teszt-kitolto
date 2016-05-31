@@ -11,46 +11,355 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
     </h:head>
-    <h:body style="margin: 20px ">
-        <h:form>
+    <h:body style="margin: 30px ">
+        <nav class="navbar navbar-default">
             <div class="row">
-                <h:commandButton class="btn btn-default col-md-2 right" value="logout" action="#{loginEJB.logout()}"/>
-                <a class="btn col-md-2" href="../index.xhtml">Back to Homepage</a>
-            </div>
-        
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="index.xhtml">Revision Registration</a></li>
-                <li><a data-toogle="tab" href="subscribe.xhtml">Revision Subscribe</a></li>
-                <li><a data-toogle="tab" href="user.xhtml">Users</a></li>
-                <li><a data-toogle="tab" href="course.xhtml">Courses</a></li>
-                <li><a data-toogle="tab" href="subject.xhtml">Subject</a></li>
-                <li><a data-toogle="tab" href="test.xhtml">Tests</a></li>
-            </ul>
-            <div class="tab-content">
-                <div role="tabpanel" id="revisionRegistration" class ="tab-pane active">
-                    <p:dataTable styleClass="borderless" 
-                                 value="#{userController.nonAcceptedUsers}" 
-                                     var="user"
-                                     rows="10"
-                                     paginator="true"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="5,10,15"
-                                     paginatorPosition="bottom"
-                                     emptyMessage="No registration request found.">
-                            <p:column filterBy="#{user.id}" headerText="#" filterMatchMode="contains">
-                                <h:outputText value="#{user.id}"/>
-                            </p:column>
-                        <p:column filterBy="#{user.firstName} #{user.lastName}" headerText="name">
-                                <h:outputText value="#{user.firstName} #{user.lastName}">
-                                </h:outputText>
-                            </p:column>
-                        <p:column headerText="Accept Request">
-                            <p:commandButton value="accept" update="@form" action="#{userController.acceptUser(user.id)}"/>
-                        </p:column>
-                        </p:dataTable>
+                <div class="col-md-4">
+                    <h1>TestFiller AdminPage</h1>
+                </div>
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-3">
+                    <h:form>
+                        <p:button style="background-color: white; float: right " 
+                                  outcome="home"
+                                  value="back"
+                                  icon="ui-icon-carat-1-w"
+                                  /><br/>
+                        <h:outputText style="float: right" 
+                                      title="Signed in as: " 
+                                      value ="Signed in as: #{userController.currentUser}">
+                        </h:outputText><br/>
+                        <p:commandButton style="background-color: white; float: right" 
+                                         value="logout" 
+                                         action="#{loginEJB.logout()}"/><br/>
+                    </h:form>
                 </div>
             </div>
+
+
+
+            <!--            <div class="container-fluid">
+                            <div class="navbar-header">
+                                <h1>TestFiller AdminPage</h1>
+                            </div>
+                        </div>
+                        <h:form>
+            
+                        </h:form>-->
+        </nav>
+
+
+        <h:form>
+            <p:messages id="messages" autoUpdate="true" closable="true" showDetail="true"></p:messages>
+            <p:tabView dynamic="true" cache="true" style="background-color: white">
+                <p:tab title="Revision Registration">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" 
+                             style="text-align: center">
+                            <h4>Revision Registration</h4>
+                        </div>
+                        <h:panelGrid columns="2" cellpadding="10" >
+
+                            <p:dataTable styleClass="borderless" 
+                                         value="#{userController.nonAcceptedUsers}" 
+                                         var="user"
+                                         rows="10"
+                                         style="width: 100%; height: 100%"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15"
+                                         paginatorPosition="bottom"
+                                         emptyMessage="No registration request found.">
+
+                                <p:column filterBy="#{user.id}" 
+                                          headerText="#" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{user.id}"/>
+                                </p:column>
+                                <p:column 
+                                    filterBy="#{user.firstName} #{user.lastName}" 
+                                    headerText="name">
+                                    <h:outputText value="#{user.firstName} #{user.lastName}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Accept Request">
+                                    <p:commandButton value="accept"
+                                                     style="background-color: white"
+                                                     update="@form" action="#{userController.acceptUser(user.id)}"/>
+                                </p:column>
+                                <p:column headerText="Deny">
+                                    <p:commandButton value="Deny"
+                                                     style="background-color: white"
+                                                     update="@form" action="#{userController.denyRegistrationRequest(user)}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </h:panelGrid>
+                    </div>
+                </p:tab>
+                <p:tab title="Revision Subscribe" >
+                    <div class="panel panel-default">
+                        <div class="panel-heading" 
+                             style="text-align: center">
+                            <h4>Revision Subscribes</h4>
+                        </div>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:dataTable styleClass="borderless" 
+                                         value="#{subscribtionHandler.subscribers}" 
+                                         var="subscriber"
+                                         rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15"
+                                         paginatorPosition="bottom"
+                                         emptyMessage="No subscribe request found.">
+
+                                <p:column filterBy="#{subscriber.id}" 
+                                          headerText="#" filterMatchMode="contains">
+                                    <h:outputText value="#{subscriber.id}"/>
+                                </p:column>
+                                <p:column filterBy="#{subscriber.firstName} #{subscriber.lastName}" 
+                                          headerText="name">
+                                    <h:outputText value="#{subscriber.firstName} #{subscriber.lastName}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Accept Subscribe">
+                                    <p:commandButton value="accept" 
+                                                     update="@form"
+                                                     style="background-color: white"
+                                                     action="#{subscribtionHandler.acceptSubscribtion(subscriber)}"/>
+                                </p:column>
+                                <p:column headerText="Deny Subscribe">
+                                    <p:commandButton value="Deny" 
+                                                     update="@form"
+                                                     style="background-color: white"
+                                                     action="#{subscribtionHandler.denySubscribtion(student)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </div>
+                </p:tab>
+                <p:tab title="Users">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" 
+                             style="text-align: center">
+                            <h4>Registrated Users</h4>
+                        </div>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:dataTable styleClass="borderless" 
+                                         value="#{userController.users}" 
+                                         var="user"
+                                         rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15"
+                                         paginatorPosition="bottom"
+                                         emptyMessage="No users found.">
+                                <p:column filterBy="#{user.id}" 
+                                          headerText="#" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{user.id}"/>
+                                </p:column>
+                                <p:column filterBy="#{user.firstName} #{user.lastName}" 
+                                          headerText="name">
+                                    <h:outputText value="#{user.firstName} #{user.lastName}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Admin">
+                                    <p:selectBooleanButton value="#{user.admin}"
+                                                           style="background-color: white"
+                                                           onLabel="Yes" offLabel="No">
+                                        <p:ajax listener="#{userController.changeAdmin(user)}" 
+                                                update="@form"/>
+                                    </p:selectBooleanButton>
+                                </p:column>
+                                <p:column headerText="Accept Request">
+                                    <p:commandButton value="Delete" 
+                                                     update="@form"
+                                                     style="background-color: white"
+                                                     icon="ui-icon-trash"
+                                                     action="#{userController.deleteUser(user)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid >
+                    </div>
+                </p:tab>
+                <p:tab title="Courses">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" 
+                             style="text-align: center">
+                            <h4>Edit Courses</h4>
+                        </div>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:dataTable styleClass="borderless" 
+                                         value="#{courseController.courses}" 
+                                         var="course"
+                                         rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15"
+                                         paginatorPosition="bottom"
+                                         emptyMessage="No managable course found." >
+                                <p:column filterBy="#{course.id}" 
+                                          headerText="#" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{course.id}"/>
+                                </p:column>
+                                <p:column filterBy="#{course.name}" 
+                                          headerText="Name" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{course.name}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column filterBy="#{course.time}" 
+                                          headerText="Start time" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{course.time}">
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Edit course">
+                                    <p:commandButton value="Edit"
+                                                     style="background-color: white"
+                                                     icon="ui-icon-pencil"
+                                                     oncomplete="PF('editDialog').show();"
+                                                     update="@form">
+                                        <f:setPropertyActionListener value="#{course}" 
+                                                                     target="#{courseController.selectedCourse}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Delete course">
+                                    <p:commandButton value="Delete" 
+                                                     update="@form"
+                                                     style="background-color: white"
+                                                     action="#{courseController.deleteCourse(course.id)}" 
+                                                     icon="ui-icon-trash"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </div>
+                </p:tab>
+                <p:tab title ="Subjects">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" 
+                             style="text-align: center">
+                            <h4>Subjects</h4>
+                        </div>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:dataTable styleClass="borderless" 
+                                         value="#{subjectController.subjects}" 
+                                         var="subject"
+                                         rows="10"
+                                         editable="true"
+                                         editMode="cell"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15"
+                                         paginatorPosition="bottom"
+                                         emptyMessage="No subject found." >
+                                <f:facet name="header">
+                                    Subjects
+                                </f:facet>
+                                <p:column filterBy="#{subject.id}" 
+                                          headerText="#" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{subject.id}"/>
+                                </p:column>
+                                <p:column filterBy="#{subject.name}"
+                                          headerText="Name" 
+                                          filterMatchMode="contains">
+                                    <h:outputText value="#{subject.name}"/>
+                                </p:column>
+                                <p:column headerText="Edit Subject">
+                                    <p:commandButton value="Edit"
+                                                     icon="ui-icon-pencil"
+                                                     style="background-color: white"
+                                                     oncomplete="PF('subjectDialog').show();"
+                                                     update="@form">
+                                        <f:setPropertyActionListener value="#{subject}" target="#{subjectController.subject}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Delete subject">
+                                    <p:commandButton value="Delete" 
+                                                     update="@form"
+                                                     style="background-color: white"
+                                                     action="#{subjectController.removeSubject(subject)}" 
+                                                     icon="ui-icon-trash"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:panelGrid>
+                    </div>
+                </p:tab>
+                <p:tab title="Tests">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" 
+                             style="text-align: center">
+                            <h4>Revision Filled Tests</h4>
+                        </div>
+                        <p:accordionPanel multiple="true" value="#{testController.tests}" var="test">
+                            <p:tab  titleStyle="" title="Test: #{test.id} #{test.name}" >
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <p:dataTable styleClass="borderless" 
+                                                 value="#{testController.getFilledTestsByTest(test)}" 
+                                                 var="filledTest"
+                                                 rows="10"
+                                                 editable="true"
+                                                 editMode="cell"
+                                                 paginator="true"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="5,10,15"
+                                                 paginatorPosition="bottom"
+                                                 emptyMessage="Nobody filled this test." >
+                                        <p:column headerText="Student name">
+                                            <h:outputText value="#{filledTest.student.firstName} #{filledTest.student.lastName}"/>
+                                        </p:column>
+                                        <p:column headerText="Result">
+                                            <h:outputText value="#{filledTest.result}"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </div>
+                </p:tab>
+            </p:tabView>
         </h:form>
+        <p:dialog header="Edit Course" widgetVar="editDialog" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <h:panelGrid columns="1">
+                        <p:outputLabel>Name: </p:outputLabel>
+                        <p:inputText value="#{courseController.selectedCourse.name}" /><br/>
+                        <p:outputLabel>Start time: </p:outputLabel>
+                        <p:calendar value="#{courseController.selectedCourse.time}" 
+                                    pattern="MM/dd/yyyy HH:mm"/><br/>
+                        <p:commandButton value="Save" 
+                                         action="#{courseController.save()}" 
+                                         update="@all"
+                                         style="background-color: white"
+                                         oncomplete="PF('editDialog').hide();"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog header="Edit Subject" 
+                  widgetVar="subjectDialog" 
+                  modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <h:panelGrid columns="1">
+                        <p:outputLabel>Name: </p:outputLabel>
+                        <p:inputText value="#{subjectController.subject.name}" /><br/>
+                        <p:commandButton value="Save" 
+                                         action="#{subjectController.save()}" 
+                                         update="@all"
+                                         style="background-color: white"
+                                         oncomplete="PF('subjectDialog').hide();"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>

@@ -10,11 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
-import xyz.codingmentor.entity.OptionalAnswer;
+import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
+import xyz.codingmentor.entity.Subject;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.User;
@@ -42,6 +43,8 @@ public class InitialEJB {
 //        createRoles();
 //        createUser();
 //        generateTestData();
+        createSubjects();
+        createFilledTests();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
 
@@ -158,5 +161,22 @@ public class InitialEJB {
             test.setDuration(20);
             facade.create(test);
         }
+        
     }
+    private void createSubjects(){
+        Subject s = new Subject();
+        s.setName("Analízis");
+        facade.create(s);
+    }
+    
+    private void createFilledTests(){
+        Test test2 = new Test();
+        test2.setName("test Test");
+        FilledTest filledTest = new FilledTest();
+        filledTest.setReady(Boolean.TRUE);
+        filledTest.setTest(test2);
+        facade.create(test2);
+        facade.create(filledTest);
+    }
+    
 }

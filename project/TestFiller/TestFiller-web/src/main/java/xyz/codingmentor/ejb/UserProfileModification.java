@@ -8,15 +8,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import org.primefaces.model.DefaultStreamedContent;
+import javax.interceptor.Interceptors;
 import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.User;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
 @SessionScoped
+@Interceptors({LoggerInterceptor.class})
 public class UserProfileModification implements Serializable {
 
     private final ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

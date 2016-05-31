@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.interceptor.Interceptors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
@@ -20,9 +21,11 @@ import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.TextFilledAnswer;
+import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
 @SessionScoped
+@Interceptors({LoggerInterceptor.class})
 public class StudentWriteTestController implements Serializable {
 
     @EJB
