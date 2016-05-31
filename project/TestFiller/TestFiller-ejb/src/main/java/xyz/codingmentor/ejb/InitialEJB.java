@@ -39,7 +39,7 @@ public class InitialEJB {
     public void createEntity() {
 //        LOGGER.info("singleton created: " + this);
        createRoles();
-//        createUser();
+        createUser();
         generateTestData();
         createSubjects();
         createFilledTests();

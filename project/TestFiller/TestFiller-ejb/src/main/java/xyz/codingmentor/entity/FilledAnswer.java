@@ -8,12 +8,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import xyz.codingmentor.annotation.Validate;
 
 /**
  *
  * @author Olivér
  */
 @Entity
+@Validate
 public abstract class FilledAnswer implements Serializable {
 
     @Id
@@ -24,7 +28,9 @@ public abstract class FilledAnswer implements Serializable {
     private Question question;    
     @ManyToOne
     private FilledTest filledTest;
+    @NotNull @Size(min = 5)
     private String comment;
+    @NotNull 
     private Float point;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Student student;

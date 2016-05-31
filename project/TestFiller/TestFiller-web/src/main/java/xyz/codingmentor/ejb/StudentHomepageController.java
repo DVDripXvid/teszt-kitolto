@@ -57,6 +57,9 @@ public class StudentHomepageController implements Serializable {
     }
 
     private StreamedContent getImage() {
+        if (activeStudent.getImage() == null) {
+            return null;
+        }
         return new DefaultStreamedContent(new ByteArrayInputStream(activeStudent.getImage()));
 //        if (FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
 //            return new DefaultStreamedContent();

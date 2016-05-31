@@ -15,7 +15,7 @@ import javax.persistence.NamedQuery;
             query = "SELECT a FROM TextFilledAnswer a WHERE a.student.id = :studentId AND a.question.id = :questionId")
 })
 public class TextFilledAnswer extends FilledAnswer implements Serializable{
-
+    
     private String text;
     
     public String getText() {
