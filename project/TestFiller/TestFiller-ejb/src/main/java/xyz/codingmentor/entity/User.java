@@ -33,7 +33,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "USERS.findByEmail",
             query = "SELECT u FROM User u WHERE u.email=:email"),
     @NamedQuery(name = "USERS.findAll",
-            query = "SELECT u FROM User u")
+            query = "SELECT u FROM User u"),
+    @NamedQuery(name = "USERS.findImageByUserId", 
+            query = "SELECT u.image FROM User u WHERE u.email LIKE :userEmail")
 })
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {

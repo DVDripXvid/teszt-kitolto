@@ -25,7 +25,7 @@ import javax.persistence.OneToMany;
 })
 public class Student extends User implements Serializable {
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     private List<FilledTest> filledTests;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses = new ArrayList<>();

@@ -38,14 +38,22 @@ public class InitialEJB {
 
     @PostConstruct
     public void createEntity() {
-        LOGGER.info("singleton created: " + this);
-        createRoles();
-        createUser();
-        generateTestData();
+//        LOGGER.info("singleton created: " + this);
+//        createRoles();
+//        createUser();
+//        generateTestData();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
 
     private void generateTestData() {
+        
+//        RunSqlScript runSqlScript = new RunSqlScript();
+//        try {
+//            runSqlScript.execute("Course.sql");
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            java.util.logging.Logger.getLogger(InitialEJB.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
         createCourses();
         createTests();
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse");

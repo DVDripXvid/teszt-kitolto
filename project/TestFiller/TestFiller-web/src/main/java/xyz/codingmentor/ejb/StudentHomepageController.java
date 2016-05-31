@@ -1,5 +1,6 @@
 package xyz.codingmentor.ejb;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
@@ -27,6 +31,7 @@ public class StudentHomepageController implements Serializable {
     private List<Test> selectableTests;
     private List<Test> searchedTests;
     private List<FilledTest> selectableFilledTests;
+    private StreamedContent profilePicture;
 
     public StudentHomepageController() {
         selectableCourses = new ArrayList<>();
@@ -38,6 +43,31 @@ public class StudentHomepageController implements Serializable {
 
     public void load() {
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
+        profilePicture = getImage();
+    }
+
+    public Student getActiveStudent() {
+        return activeStudent;
+    }
+
+    public void setActiveStudent(Student activeStudent) {
+        this.activeStudent = activeStudent;
+    }
+
+    private StreamedContent getImage() {
+        if (FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            return new DefaultStreamedContent();
+        } else {
+            return new DefaultStreamedContent(new ByteArrayInputStream(activeStudent.getImage()));
+        }
+    }
+
+    public StreamedContent getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(StreamedContent profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public String getSelectedCourse() {

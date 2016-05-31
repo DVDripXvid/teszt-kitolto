@@ -1,3 +1,38 @@
+.ui-selectonemenu-list selector {
+    background-color: white;
+}
+
+.ui-selectonemenu-label {
+    background-color: white;
+}
+
+.ui-selectonemenu {
+    background-color: white;
+}
+
+.ui-paginator-page{
+    background-color: white !important;
+    border-color: #125298;
+    background-image: none;
+}
+.ui-paginator{
+    background-color: white !important;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: solid;
+    border-top-color: #E9EBEE;
+}
+
+.ui-paginator-button {
+    background-color: white;
+    background-image: none;
+}
+
+.pageination li a:hover{
+    background-color: #E9EBEE;
+}
+
 .availableCoursesTableHeader {
     background-color: white;
 }
