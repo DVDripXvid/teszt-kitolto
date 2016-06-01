@@ -1,14 +1,11 @@
 package xyz.codingmentor.ejb.teacher;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
@@ -25,51 +22,48 @@ public class TeacherController {
 
     @EJB
     private EntityFacade ef;
-    private HttpSession session;
+    private Teacher teacher;
+    private Test test;
 
     @PostConstruct
     public void init() {
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        session = (HttpSession) ec.getSession(true);
-        session.setMaxInactiveInterval(-1);
-        Teacher t = ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
-                "email", ec.getRemoteUser()).get(0);
-        Course c1 = new Course();
-        c1.setName("asd");
-        Course c2 = new Course();
-        c2.setName("dsa");
-        t.setCourses(Arrays.asList(c1,c2));
-        
-        session.setAttribute("teacher", t);
+        teacher = ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
+                "email", FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()).get(0);
+        test = new Test();
     }
     
     public String getTeacherFullName(){
-        Teacher teacher = (Teacher) session.getAttribute("teacher");
         return teacher.getFirstName()+" "+teacher.getLastName()+"!";
     }
-    
-    public String goToCreateTest() {
-        return "createTest";
+
+    public Test getTest() {
+        return test;
     }
     
     public List<Course> getCourses(){
-        return ((Teacher) session.getAttribute("teacher")).getCourses();
+        return teacher.getCourses();
+    }
+    
+    public void createTest(){
+        test.setTeacher(teacher);
+        teacher.getTests().add(test);
+        ef.create(test);
+        ef.update(teacher);
     }
 
     public List<Test> getTests() {
-        return ((Teacher) session.getAttribute("teacher")).getTests();
+        return teacher.getTests();
     }
     
-    public String activate(Test test){
+    public void activate(Test test){
         test.setActive(!test.getActive());
         ef.update(test);
-        return "index";
     }
     
     public int numberOfRevievable(Test test){
         int c = 0;
         for (FilledTest filledTest:  test.getFilledTests()){
-            if (filledTest.isReady() == null){
+            if (filledTest.isReady() == true){
                 c++;
             }
         }
@@ -93,27 +87,21 @@ public class TeacherController {
         tfa.setQuestion(new Question());
         ft.setFilledAnswer(Arrays.asList(tfa, ofa));
         ft.setReady(Boolean.TRUE);
-        test.getFilledTests().add(ft);
-        session.setAttribute("testToDetails", test);
+        test.getFilledTests().add(ft);    
         return "detailsTest";
     }
 
-    public String goToManageQuestions(Test test) {
-        session.setAttribute("test", test);
-        session.setAttribute("questionsToRemoveById", new ArrayList<Long>());
-        return "manageQuestion";
+    public void goToManageQuestions(Test test) {
+        
     }
 
-    public String edit(Test test) {
-        session.setAttribute("testToEdit", test);
-        return "editTest";
+    public void edit(Test test) {
+        
     }
     
-    public String delete(Test test) {
-        Teacher teacher = (Teacher) session.getAttribute("teacher");
+    public void delete(Test test) {
         teacher.getTests().remove(test);
         ef.update(teacher);
         ef.delete(Test.class, test.getId());
-        return "index";
     }
 }

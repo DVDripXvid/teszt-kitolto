@@ -14,43 +14,24 @@
     <h:body>
         <h1 align="center">Welcome #{teacherController.teacherFullName}</h1>
         <h:form>
-            <div class="row">
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <h:column>
-                        <h:commandButton value="Create Test" action="#{teacherController.goToCreateTest()}" style="margin-left: 5%" class="btn btn-default"/>
-                    </h:column>
-                </div>
-                <div class="col-md-2">
-                    <p:commandButton id="createTestBtn" value="Create Test" type="button"/>
-                    <p:overlayPanel id="createTestPanel" for="createTestBtn" hideEffect="fade" dynamic="true" style="width:600px; height:600px" >
-                        <h1 align="center">Create Test</h1>
-                        <p:panelGrid columns="2" layout="grid">
+            <p:commandButton id="createTestBtn" value="Create Test"/>
+            <p:overlayPanel id="createTestPanel" for="createTestBtn" hideEffect="fade" dynamic="true" style="width:600px; height:600px" >
+                <h1 align="center">Create Test</h1>
+                <p:panelGrid columns="2" layout="grid">
+                    <label for="testNameLabel" style="margin-left: 5%">Test name :</label>
+                    <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.name}"/>
 
-                            <label for="testNameLabel" style="margin-left: 5%">Test name :</label>
-                            <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{createTestController.test.name}"/>
+                    <label for="course">Course :</label>
+                    <p:selectOneMenu id="course">
+                        <f:selectItems value="#{teacherController.courses}"/>
+                    </p:selectOneMenu>
 
-                            <label for="course">Course :</label>
-                            <p:selectOneMenu id="course" value="">
-                                    <f:selectItems value="#{teacherController.courses}"/>
-                                </p:selectOneMenu>
+                    <label for="timeLabel" style="margin-left: 5%">Duration :</label>
+                    <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.duration}"/>
 
-                            <label for="timeLabel" style="margin-left: 5%">Duration :</label>
-                            <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{createTestController.test.duration}"/>
-
-                            <h:commandButton class="btn btn-default" value="Create" style="margin-left: 5%" action="#{createTestController.create()}"/>
-                        </p:panelGrid>
-                    </p:overlayPanel>
-                </div>
-            </div>
+                    <p:commandButton value="Create" action="#{teacherController.createTest()}" style="background-color: white" ajax="false"/>                        
+                </p:panelGrid>
+            </p:overlayPanel>
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: center">
                     <h4>Tests</h4>
@@ -77,7 +58,8 @@
                         <p:column headerText="Active" filterBy="#{test.active}">
                             <p:commandButton value="#{test.active}"
                                              action="#{teacherController.activate(test)}"
-                                             style="background-color: white"/>
+                                             style="background-color: white"
+                                             ajax="false"/>
                         </p:column>
                         <p:column headerText="Number of fills" filterBy="#{test.filledTests.size()}">
                             <h:outputText value="#{test.filledTests.size()}"/>
@@ -88,22 +70,26 @@
                         <p:column>
                             <p:commandButton value="Details"
                                              action="#{teacherController.details(test)}"
-                                             style="background-color: white"/>
+                                             style="background-color: white"
+                                             ajax="false"/>
                         </p:column>
                         <p:column>
                             <p:commandButton value="Manage questions"
                                              action="#{teacherController.goToManageQuestions(test)}"
-                                             style="background-color: white"/>
+                                             style="background-color: white"
+                                             ajax="false"/>
                         </p:column>
                         <p:column>
                             <p:commandButton value="Edit"
                                              action="#{teacherController.edit(test)}"
-                                             style="background-color: white"/>
+                                             style="background-color: white"
+                                             ajax="false"/>
                         </p:column>
                         <p:column>
                             <p:commandButton value="Delete"
                                              action="#{teacherController.delete(test)}"
-                                             style="background-color: white"/>
+                                             style="background-color: white"
+                                             ajax="false"/>
                         </p:column>
                     </p:dataTable>
                 </h:panelGrid>
