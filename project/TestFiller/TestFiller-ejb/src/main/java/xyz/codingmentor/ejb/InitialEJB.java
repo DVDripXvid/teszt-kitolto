@@ -41,8 +41,8 @@ public class InitialEJB {
        createRoles();
         createUser();
         generateTestData();
-        createSubjects();
-        createFilledTests();
+//        createSubjects();
+//        createFilledTests();
     }
 
     private void generateTestData() {
