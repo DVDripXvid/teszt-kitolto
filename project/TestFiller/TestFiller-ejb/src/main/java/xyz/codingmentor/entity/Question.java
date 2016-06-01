@@ -22,14 +22,11 @@ import xyz.codingmentor.annotation.Validate;
  * @author Olivér
  */
 @Entity
-<<<<<<< HEAD
 @NamedQueries({
     @NamedQuery(name = "QUESTION.findByTestId", 
             query = "SELECT q FROM Question q WHERE q.test.id = :testId")
 })
-=======
 @Validate
->>>>>>> admin_page
 public class Question implements Serializable {
 
     @Id
@@ -96,5 +93,5 @@ public class Question implements Serializable {
     public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
         this.filledAnswers = filledAnswers;
     }
-
+    
 }
