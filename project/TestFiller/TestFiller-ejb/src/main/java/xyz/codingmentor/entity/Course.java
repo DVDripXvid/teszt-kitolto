@@ -17,11 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import xyz.codingmentor.annotation.Validate;
 
 /**
  *
  * @author Olivér
  */
+@Validate
 @Entity
 @NamedQueries({
     @NamedQuery(name = "COURSE.findAll",
@@ -41,10 +44,11 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @NotNull
+    @NotNull @Size(min = 3)
     private String name;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "COURSE_TIME")
+    @NotNull
     private Date time;
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Subject> subjects;

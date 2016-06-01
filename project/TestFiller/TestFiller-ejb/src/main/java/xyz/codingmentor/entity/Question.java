@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import xyz.codingmentor.annotation.Validate;
 
 /**
  *
@@ -23,11 +26,13 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "QUESTION.findByTestId", 
             query = "SELECT q FROM Question q WHERE q.test.id = :testId")
 })
+@Validate
 public class Question implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull @Size(min = 5)
     private String text;
     @Enumerated
     private QuestionType type;
@@ -88,5 +93,5 @@ public class Question implements Serializable {
     public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
         this.filledAnswers = filledAnswers;
     }
-
+    
 }

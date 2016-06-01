@@ -54,7 +54,7 @@ public class InitialEJB {
     private void generateTestData() {
         createCourses();
         createTests();
-        Student student = new Student("Student", "wantCourse", "pass", "wantcourse");
+        Student student = new Student("Student", "wantCourse", "pass", "wantcourse@wantcourse.hu");
         Course course1 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-1").get(0);
         Course course2 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-2").get(0);
         Test test1 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-1").get(0);
@@ -63,7 +63,7 @@ public class InitialEJB {
         student.setSubscribed(course2);
         facade.create(student);
 
-        Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest");
+        Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest@withtest.hu");
         teacher.getTests().add(test1);
         facade.create(test1);
 
@@ -92,15 +92,15 @@ public class InitialEJB {
     }
 
     private void createUser() {
-        User user = new User("Admin", "Lajos", "pass", "admin");
+        User user = new User("Admin", "Lajos", "pass", "admin@admin.hu");
         user.setAccepted(true);
         facade.create(user);
         user.getRoles().add(facade.findRole("ADMIN"));
-        Teacher teacher = new Teacher("Teacher", "Bela", "pass", "teacher");
+        Teacher teacher = new Teacher("Teacher", "Bela", "pass", "teacher@teacher.hu");
         teacher.setAccepted(true);
         facade.create(teacher);
         teacher.getRoles().add(facade.findRole("TEACHER"));
-        Student student = new Student("Student", "Laci", "pass", "student");
+        Student student = new Student("Student", "Laci", "pass", "student@student.hu");
         student.setAccepted(true);
         uploadImageForUser(student);
         facade.create(student);

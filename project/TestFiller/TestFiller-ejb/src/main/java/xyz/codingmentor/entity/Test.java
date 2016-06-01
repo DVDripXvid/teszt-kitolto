@@ -13,11 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import xyz.codingmentor.annotation.Validate;
 
 /**
  *
  * @author Olivér
  */
+@Validate
 @Entity
 @NamedQueries({
     @NamedQuery(name = "TEST.findAll",
@@ -32,7 +36,9 @@ public class Test implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private String name;
+    @Min(20)
     private Integer duration;
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")

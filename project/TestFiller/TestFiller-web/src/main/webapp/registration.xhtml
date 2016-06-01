@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Registration</title>
         <meta charset="utf-8" />
@@ -19,6 +20,7 @@
         </div>
         <br/>
         <h:form >
+            <p:messages autoUpdate="true"/>
             <div class="row">
                 <div class ="col-md-4">
                 </div>
@@ -40,7 +42,14 @@
                 </div>
                 <div class="col-md-4">
                     <label for="email">E-mail address :</label>
-                    <h:inputText id="email" class="form-control" value="#{registrationEJB.user.email}"/>
+                    <p:inputText class="form-control" id="email"
+                                 value="#{registrationEJB.user.email}"
+                                 required="true" requiredMessage="Please enter your email address"
+                                 
+                                 validatorMessage="This e-mail address is not valid"
+                                 type="text" >
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
                     <br/>
                 </div>
                 <div class ="col-md-4">

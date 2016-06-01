@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui" 
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Login Form</title>
         <meta charset="utf-8" />
@@ -18,13 +19,19 @@
             </div>
         </div>
         <br/>
-        <h:form id="loginForm" onsubmit="document.loginForm.action = 'j_security_check';"> 
+        <h:form id="loginForm" prependId="false" onsubmit="document.loginForm.action = 'j_security_check';"> 
+            <p:messages autoUpdate="true"/>
             <div class="row">
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
-                    <h:outputLabel for="usernameInput" value="E-mail "></h:outputLabel>  
-                    <input class="form-control" id="usernameInput" name="j_username" type="text" />
+                    <h:outputLabel for="j_username" value="E-mail "></h:outputLabel>  
+                    <p:inputText class="form-control" id="j_username" 
+                                 required="true" requiredMessage="Please enter your email address"
+                                 validatorMessage="This e-mail address is not valid"
+                                 type="text" >
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
                 </div>
             </div>
             <br/>
@@ -32,15 +39,19 @@
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
-                    <h:outputLabel for="passwordInput" value="Password "></h:outputLabel>  
-                    <input class="form-control" id="passwordInput" name="j_password" type="password" />
+                    <h:outputLabel for="j_password" value="Password "></h:outputLabel>  
+                    <p:inputText class="form-control" id="j_password" 
+                                 required="true" requiredMessage="Your pw"
+                                 validatorMessage="wrong pw"
+                                 type="text" >
+                    </p:inputText>
                 </div>
             </div>
             <br/>
             <div class="row">
                 <div class="col-md-5">
                 </div>
-                <h:commandButton class="btn btn-default col-md-2" value="Sign in"></h:commandButton>
+                <p:commandButton validateClient="true" id="submit" class="btn btn-default col-md-2" value="Sign in" ajax="false"/>
             </div>
             <div class="row">
                 <div class="col-md-4">
