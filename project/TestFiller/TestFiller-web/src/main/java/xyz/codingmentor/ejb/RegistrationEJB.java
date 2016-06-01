@@ -3,6 +3,7 @@ package xyz.codingmentor.ejb;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.interceptor.Interceptors;
+import static javax.servlet.SessionTrackingMode.URL;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
@@ -49,10 +51,10 @@ public class RegistrationEJB implements Serializable {
 
     public String register() {
         Role role = facade.findRole(selectedRole);
-        if(selectedRole.equals(RoleName.STUDENT)){
+        if (selectedRole.equals(RoleName.STUDENT)) {
             user = new Student(user);
         }
-        if(selectedRole.equals(RoleName.TEACHER)){
+        if (selectedRole.equals(RoleName.TEACHER)) {
             user = new Teacher(user);
         }
         user.setAccepted(false);
@@ -91,7 +93,7 @@ public class RegistrationEJB implements Serializable {
     }
 
     private void setProfilePicture() {
-        File file = new File("../../Web Pages/resources/images/default_user_profile_picture.jpg");
+        File file = new File("b:\\Bala\\PROGRAMMING\\Java\\képzés\\projekt\\kepek weblaphoz\\default_user_profile_picture.jpg");
         try {
             user.setImage(Files.readAllBytes(file.toPath()));
         } catch (IOException ex) {

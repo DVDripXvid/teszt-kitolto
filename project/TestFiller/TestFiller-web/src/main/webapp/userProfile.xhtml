@@ -7,7 +7,6 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Profile</title>
@@ -17,7 +16,7 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
         <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
     </h:head>
-    <body>
+    <body style="background-color: #E9EBEE;">
         <div class="row" style="background-color: #125298;">
             <div class="col-md-4">
             </div>
@@ -25,7 +24,7 @@ and open the template in the editor.
                 <h1 align="center" style="color: white;">Update profile information</h1>
             </div>
         </div>
-        <h:form>
+        <h:form enctype="multipart/form-data">
             <br/>
             <div class="row">
                 <div class="col-md-4"></div>
@@ -48,24 +47,58 @@ and open the template in the editor.
                 <div class="col-md-2">
                     <p:outputLabel value="Password: " style="font-size: medium;"/>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" style="align-content: center; align-items: center; text-align: center;">
                     <p:commandLink value="Change password" 
                                    action="#{passwordController.initPage()}"
-                                   style="width: 100%; font-size: medium;"/>
+                                   style="width: 100%; font-size: medium; float:"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <p:fileUpload class="text-center center-block well well-sm"
+                                  rendered="#{userProfileModification.wantToUpload}"
+                                  skinSimple="true"
+                                  allowTypes="\\.(jpe?g|png)" mode="simple"
+                                  value="#{userProfileModification.uploadPicture}"
+                                  invalidFileMessage="Invalid file type"
+                                  update="@form"/>
+
+                    <p:commandButton value="Upload"
+                                     action="#{userProfileModification.uploadNewPicture()}"
+                                     rendered="#{userProfileModification.wantToUpload}"
+                                     ajax="false"
+                                     style="background-color: white; font-size: medium; width: 100%;"/>
+                    <br/>
                 </div>
             </div>
             <br/>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
-                    <p:commandButton value="Upload photo" 
-                                     action="#{userProfileModification.modifyProfilePicture()}" 
-                                     rendered="#{userProfileModification.userHaveProfilePicture()}"
+                    <p:commandButton value="Upload new photo"
+                                     action="#{userProfileModification.modifyProfilePicture()}"
+                                     rendered="#{userProfileModification.showUploadPictureButton()}"
+                                     update="@form"
                                      style="background-color: white; font-size: medium; width: 100%;"/>
-
                 </div>
                 <div class="col-md-2">
-                    <p:graphicImage value="#{userProfileModification.image}" width="100%"/>
+                    <p:graphicImage value="#{userProfileModification.image}" width="100%" cache="false"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <p:commandButton action="#{userProfileModification.cancel()}"
+                                     value="Cancel"
+                                     style="background-color: white; width: 100%; font-size: medium;"/>
+                </div>
+                <div class="col-md-2">
+                    <p:commandButton action="#{userProfileModification.save()}"
+                                     value="Save"
+                                     style="background-color: white; width: 100%; font-size: medium;"/>
                 </div>
             </div>
         </h:form>
