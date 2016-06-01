@@ -1,9 +1,14 @@
 package xyz.codingmentor.ejb;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -18,40 +23,41 @@ import xyz.codingmentor.role.RoleName;
  *
  * @author Olivér
  */
-@ManagedBean(name="registrationEJB")
+@ManagedBean(name = "registrationEJB")
 @RequestScoped
 @Interceptors({LoggerInterceptor.class})
-public class RegistrationEJB implements Serializable{    
-    
+public class RegistrationEJB implements Serializable {
+
     @EJB(name = "emailService")
     private EmailService emailService;
-    
+
     @EJB
     private RoleFacade facade;
-    
+
     private User user = new User();
-    
+
     private String selectedRole;
-    
+
     private static final Map<String, String> ROLE_NAMES = new HashMap<>();
-    
+
     static {
         ROLE_NAMES.put(RoleName.STUDENT, RoleName.STUDENT);
         ROLE_NAMES.put(RoleName.TEACHER, RoleName.TEACHER);
     }
-    
-    public String register(){
+
+    public String register() {
         Role role = facade.findRole(selectedRole);
         user.setAccepted(false);
         char[] pw = new char[6];
-        for(int i=0; i<6; i++){
-            pw[i] = (char) (new Random().nextInt(26)+65);
+        for (int i = 0; i < 6; i++) {
+            pw[i] = (char) (new Random().nextInt(26) + 65);
         }
         user.setPassword(String.copyValueOf(pw).toLowerCase());
+        setProfilePicture();
         facade.create(user);
         role.getUsers().add(user);
         facade.update(role);
-        
+
         return "notification";
     }
 
@@ -62,7 +68,7 @@ public class RegistrationEJB implements Serializable{
     public void setUser(User user) {
         this.user = user;
     }
-    
+
     public Map<String, String> getRoleNames() {
         return ROLE_NAMES;
     }
@@ -75,4 +81,12 @@ public class RegistrationEJB implements Serializable{
         this.selectedRole = selectedRole;
     }
 
+    private void setProfilePicture() {
+        File file = new File("../../Web Pages/resources/images/default_user_profile_picture.jpg");
+        try {
+            user.setImage(Files.readAllBytes(file.toPath()));
+        } catch (IOException ex) {
+            Logger.getLogger(RegistrationEJB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

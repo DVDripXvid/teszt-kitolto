@@ -44,8 +44,8 @@ public class InitialEJB {
 //        createRoles();
 //        createUser();
 //        generateTestData();
-        createSubjects();
-        createFilledTests();
+//        createSubjects();
+//        createFilledTests();
         //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
 

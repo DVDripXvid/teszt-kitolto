@@ -26,38 +26,42 @@ and open the template in the editor.
             </div>
         </div>
         <h:form>
+            <br/>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <label for="firsName" value="First name: "/>
+                    <label for="firsName">First name: </label>
                     <h:inputText id="firstName" value="#{userProfileModification.switchUser.firstName}" class="form-control"/>
                 </div>
             </div>
+            <br/>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <label for="lastName" value="Last name: "/>
+                    <label for="lastName">Last name: </label>
                     <h:inputText id="lastName" value="#{userProfileModification.switchUser.lastName}" class="form-control"/>
                 </div>
             </div>
+            <br/>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
-                    <p:outputLabel value="Password: "/>
+                    <p:outputLabel value="Password: " style="font-size: medium;"/>
                 </div>
                 <div class="col-md-2">
                     <p:commandLink value="Change password" 
                                    action="#{passwordController.initPage()}"
-                                   style="width: 100%;"/>
+                                   style="width: 100%; font-size: medium;"/>
                 </div>
             </div>
+            <br/>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-2">
                     <p:commandButton value="Upload photo" 
                                      action="#{userProfileModification.modifyProfilePicture()}" 
                                      rendered="#{userProfileModification.userHaveProfilePicture()}"
-                                     style="background-color: white;"/>
+                                     style="background-color: white; font-size: medium; width: 100%;"/>
 
                 </div>
                 <div class="col-md-2">
