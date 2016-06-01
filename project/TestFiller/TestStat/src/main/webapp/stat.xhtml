@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>statistics</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:toolbar style="background: white">
+                <f:facet name="left">
+                    <h:outputText value="Here you can see progressions of tests" style="float: left; font-size: 24px"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:button style="background-color: white; float: right "
+                              href="#{controller.testFillerPath}"
+                              value="back"
+                              icon="ui-icon-carat-1-w"
+                              />
+                </f:facet>
+            </p:toolbar>    
+            <p:panel id="tests" header="All tests" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="upperPanel" style="margin-bottom:20px">
+                <p:dataTable styleClass="borderless" 
+                             value="#{controller.tests}" 
+                             var="test"
+                             rows="10"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="bottom"
+                             emptyMessage="No tests found." >
+                    <p:column filterBy="#{test.id}" headerText="#" filterMatchMode="contains">
+                        <h:outputText value="#{test.id}"/>
+                    </p:column>
+                    <p:column filterBy="#{test.name}" headerText="Name" filterMatchMode="contains">
+                        <h:outputText value="#{test.name}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{test.course}" headerText="Course" filterMatchMode="contains">
+                        <h:outputText value="#{test.course}">
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Watch it" style="width: 80px">
+                        <p:commandButton 
+                            icon="ui-icon-plusthick"
+                            action="#{controller.subscribe(test)}"
+                            update="@form"
+                            style="background-color: white;">
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+            <p:panel id="testStat" header="Watchlist" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="lowerPanel" style="margin-bottom:20px">
+                <p:tabView value="#{controller.subscribtions}" var="test">
+
+                    <p:ajax event="tabClose" listener="#{controller.unsubscribe(test)}" update="@form"/>
+
+                    <p:tab title="#{test.name}" closable="true">
+                        <h1 align="center">Statistics data of #{test.name}</h1>
+                        <p:panelGrid columns="2" rendered="#{test.active eq true}" style="margin: 0 auto">
+                            <h:outputText value="Number of finished test: " style="float: right"/>
+                            <h:outputText value="#{controller.countReady(test)}" style="float: left"/>
+                            <h:outputText value="Number of started test: " style="float: right"/>
+                            <h:outputText value="#{controller.countStarted(test)}" style="float: left"/>
+                            <h:outputText value="Duration: " style="float: right"/>
+                            <h:outputText value="#{test.duration}" style="float: left"/>
+                            <h:outputText value="Responsible teacher: " style="float: right"/>
+                            <h:outputText value="#{test.teacher.firstName} #{test.teacher.lastName}" style="float: left"/>
+                        </p:panelGrid>
+                        <h:outputText value="Test with name #{test.name} is not active" rendered="#{test.active eq false}" style="align-content: center; font-size: 24px"/>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

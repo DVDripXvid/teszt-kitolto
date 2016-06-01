@@ -35,9 +35,6 @@ public class InitialEJB {
     @EJB
     private RoleFacade facade;
 
-    @EJB
-    private EmailService emailService;
-
     @PostConstruct
     public void createEntity() {
 //        LOGGER.info("singleton created: " + this);
@@ -46,7 +43,6 @@ public class InitialEJB {
 //        generateTestData();
 //        createSubjects();
 //        createFilledTests();
-        //emailService.sendEmail("adamkassai@gmail.com", "maybe working", "trojan virus, sry");
     }
 
     private void generateTestData() {
@@ -110,7 +106,7 @@ public class InitialEJB {
         student.setAccepted(true);
         facade.create(student);
         student.getRoles().add(facade.findRole("STUDENT"));
-    }
+    }    
 
     private void createQuestions(Test test) {
         
@@ -179,5 +175,4 @@ public class InitialEJB {
         facade.create(test2);
         facade.create(filledTest);
     }
-    
 }

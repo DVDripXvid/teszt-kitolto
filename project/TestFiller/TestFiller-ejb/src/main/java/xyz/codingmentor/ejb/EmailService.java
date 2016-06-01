@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,7 +23,7 @@ import xyz.codingmentor.entity.User;
  */
 @Stateless(name = "emailService")
 public class EmailService {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     private final int port = 587;
@@ -32,9 +33,14 @@ public class EmailService {
     private final String password = "javateam2";
     private final String regSubject = "registration accepted on testfiller";
     private final String regBody = ",\nyour password is: ";
-    
-    public void sendRegistrationEmail(User user){
-        String body = "Dear " + user.getFirstName() + regBody + user.getPassword();
+    private final String byMessage = "\nWarm regards,\nTeam TestFiller";
+
+    public void sendRegistrationEmail(User user, String appPath) {
+        String body = "Dear " + user.getFirstName() + " " + user.getLastName() 
+                + regBody + user.getPassword() 
+                + "\nYou can sign in by clickig the link below:\n" 
+                + appPath
+                + byMessage;
         sendEmail(user.getEmail(), regSubject, body);
     }
 

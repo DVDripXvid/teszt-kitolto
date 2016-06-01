@@ -2,14 +2,15 @@ package xyz.codingmentor.ejb;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.facelets.FaceletContext;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.UserFacade;
@@ -37,11 +38,22 @@ public class UserController implements Serializable {
     @EJB(name = "emailService")
     private EmailService emailService;
 
+    @PostConstruct
+    public void logHttpData(){
+        LOGGER.info("App Context Path: " + FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
+        LOGGER.info("Request Context Path: " + FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
+        LOGGER.info("Request Servlet Path: " + FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath());
+        LOGGER.info("Request Server Name: " + FacesContext.getCurrentInstance().getExternalContext().getRequestServerName());
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LOGGER.info("port: " + request.getServerPort());
+        LOGGER.info("http://" + request.getRemoteHost() + ":" + request.getServerPort() + "/TestFiller-web");
+    }
+    
     public void acceptUser(Long id) {
         User user = userFacade.read(User.class, id);
         LOGGER.info(user.toString());
         user.setAccepted(true);
-        emailService.sendRegistrationEmail(user);
+        emailService.sendRegistrationEmail(user, FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
         userFacade.update(user);
     }
 
@@ -80,7 +92,7 @@ public class UserController implements Serializable {
     }
 
     public void denyRegistrationRequest(User user) {
-        emailService.sendEmail(user.getEmail(), "Deny Registration", "Your registration request was denied");
+        emailService.sendEmail(user.getEmail(), "Deny Registration", "Your registration request was denied on TestFiller");
         userFacade.delete(User.class, user.getId());
     }
 

@@ -10,5 +10,6 @@
     <module>TestFiller-ear</module>
     <module>TestFiller-web</module>
     <module>TestFiller-ejb</module>
+    <module>TestStat</module>
   </modules>
 </project>

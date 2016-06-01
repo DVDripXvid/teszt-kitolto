@@ -29,7 +29,7 @@ public class DetailsTestController {
     public List<FilledTest> getFilledTests(){
         List<FilledTest> result = new ArrayList<>();
         for ( FilledTest filledTest : ((Test)session.getAttribute("testToDetails")).getFilledTests()){
-            if (filledTest.getReady()){
+            if (filledTest.isReady()){
                 result.add(filledTest);
             }
         }

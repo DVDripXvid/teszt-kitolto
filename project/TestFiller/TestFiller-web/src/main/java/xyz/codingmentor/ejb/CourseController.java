@@ -6,8 +6,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 @Interceptors({LoggerInterceptor.class})
 public class CourseController implements Serializable {
 
