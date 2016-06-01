@@ -59,7 +59,12 @@ public class UserController implements Serializable {
             pw[i] = (char) (new Random().nextInt(26) + 65);
         }
         user.setPassword(String.copyValueOf(pw).toLowerCase());
-        emailService.sendRegistrationEmail(user, FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String appPath = "http://" 
+                + FacesContext.getCurrentInstance().getExternalContext().getRequestServerName()
+                + ":" + request.getServerPort() 
+                + FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath();
+        emailService.sendRegistrationEmail(user, appPath);
         userFacade.update(user);
     }
 
