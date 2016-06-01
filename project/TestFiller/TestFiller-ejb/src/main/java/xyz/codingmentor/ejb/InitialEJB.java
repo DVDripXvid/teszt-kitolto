@@ -1,13 +1,19 @@
 package xyz.codingmentor.ejb;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.runner.commonsio.IOUtils;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
@@ -38,7 +44,7 @@ public class InitialEJB {
     @PostConstruct
     public void createEntity() {
 //        LOGGER.info("singleton created: " + this);
-       createRoles();
+        createRoles();
         createUser();
         generateTestData();
 //        createSubjects();
@@ -46,14 +52,6 @@ public class InitialEJB {
     }
 
     private void generateTestData() {
-        
-//        RunSqlScript runSqlScript = new RunSqlScript();
-//        try {
-//            runSqlScript.execute("Course.sql");
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            java.util.logging.Logger.getLogger(InitialEJB.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
         createCourses();
         createTests();
         Student student = new Student("Student", "wantCourse", "pass", "wantcourse@wantcourse.hu");
@@ -104,13 +102,13 @@ public class InitialEJB {
         teacher.getRoles().add(facade.findRole("TEACHER"));
         Student student = new Student("Student", "Laci", "pass", "student@student.hu");
         student.setAccepted(true);
+        uploadImageForUser(student);
         facade.create(student);
         student.getRoles().add(facade.findRole("STUDENT"));
-    }    
+    }
 
     private void createQuestions(Test test) {
-        
-        
+
         for (int i = 0; i < 10; i++) {
             Question question = new Question();
             question.setText("Question " + Integer.toString(i + 1) + " - Please give an answer.");
@@ -158,15 +156,16 @@ public class InitialEJB {
             test.setDuration(20);
             facade.create(test);
         }
-        
+
     }
-    private void createSubjects(){
+
+    private void createSubjects() {
         Subject s = new Subject();
         s.setName("Analízis");
         facade.create(s);
     }
-    
-    private void createFilledTests(){
+
+    private void createFilledTests() {
         Test test2 = new Test();
         test2.setName("test Test");
         FilledTest filledTest = new FilledTest();
@@ -174,5 +173,28 @@ public class InitialEJB {
         filledTest.setTest(test2);
         facade.create(test2);
         facade.create(filledTest);
+    }
+    
+    private void uploadImageForUser(User user) {
+        URL imageURL = null;
+        InputStream inputStream = null;
+        
+        try {
+            imageURL = new URL("https://thebenclark.files.wordpress.com/2014/03/facebook-default-no-profile-pic.jpg");
+        } catch (MalformedURLException ex) {
+            java.util.logging.Logger.getLogger(InitialEJB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+             inputStream = imageURL.openStream();
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(InitialEJB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            user.setImage(IOUtils.toByteArray(inputStream));
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(InitialEJB.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

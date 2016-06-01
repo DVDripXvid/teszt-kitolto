@@ -43,9 +43,13 @@ public class LoginEJB implements Serializable{
         }
     }
     
-    public String logout(){
+    public void logout(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "home";
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath() + "/faces/index.xhtml");
+        } catch (IOException ex) {
+            LOGGER.info(ex.getMessage());
+        }
     }
     
     public String getStatisticsPath(){
