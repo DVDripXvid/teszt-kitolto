@@ -12,26 +12,37 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <h1 align="center">Welcome #{teacherController.teacherFullName}</h1>
+        <nav class="navbar navbar-default">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>TestFiller AdminPage</h1>
+                </div>
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-3">
+                    <h:form>
+                        <p:commandButton value="Create Test" style="background-color: white"
+                                         oncomplete="PF('createTest').show();" update="@form">
+                            <f:setPropertyActionListener value="#{teacherController.goToCreateTest()}"
+                                                         target="#{teacherController.test}" />
+                        </p:commandButton>
+                        <p:button style="background-color: white; float: right " 
+                                  outcome="home"
+                                  value="back"
+                                  icon="ui-icon-carat-1-w"
+                                  /><br/>
+                        <h:outputText style="float: right" 
+                                      title="Signed in as: " 
+                                      value ="Signed in as: #{userController.currentUser}">
+                        </h:outputText><br/>
+                        <p:commandButton style="background-color: white; float: right" 
+                                         value="logout" 
+                                         action="#{loginEJB.logout()}"/><br/>
+                    </h:form>
+                </div>
+            </div>
+        </nav>
         <h:form>
-            <p:commandButton id="createTestBtn" value="Create Test"/>
-            <p:overlayPanel id="createTestPanel" for="createTestBtn" hideEffect="fade" dynamic="true" style="width:600px; height:600px" >
-                <h1 align="center">Create Test</h1>
-                <p:panelGrid columns="2" layout="grid">
-                    <label for="testNameLabel" style="margin-left: 5%">Test name :</label>
-                    <h:inputText id="testNameLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.name}"/>
-
-                    <label for="course">Course :</label>
-                    <p:selectOneMenu id="course">
-                        <f:selectItems value="#{teacherController.courses}"/>
-                    </p:selectOneMenu>
-
-                    <label for="timeLabel" style="margin-left: 5%">Duration :</label>
-                    <h:inputText id="timeLabel" class="form-control" style="margin-left: 5%" value="#{teacherController.test.duration}"/>
-
-                    <p:commandButton value="Create" action="#{teacherController.createTest()}" style="background-color: white" ajax="false"/>                        
-                </p:panelGrid>
-            </p:overlayPanel>
             <div class="panel panel-default">
                 <div class="panel-heading" style="text-align: center">
                     <h4>Tests</h4>
@@ -75,19 +86,20 @@
                         </p:column>
                         <p:column>
                             <p:commandButton value="Manage questions"
-                                             action="#{teacherController.goToManageQuestions(test)}"
+                                             action="#{manageQuestionController.goToManageQuestons(test)}"
                                              style="background-color: white"
                                              ajax="false"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Edit"
-                                             action="#{teacherController.edit(test)}"
-                                             style="background-color: white"
-                                             ajax="false"/>
+                            <p:commandButton value="Edit test" style="background-color: white"
+                                             oncomplete="PF('editTest').show();" update="@form">
+                                <f:setPropertyActionListener value="#{test}"
+                                                             target="#{teacherController.test}" />
+                            </p:commandButton>
                         </p:column>
                         <p:column>
                             <p:commandButton value="Delete"
-                                             action="#{teacherController.delete(test)}"
+                                             action="#{teacherController.deleteTest(test)}"
                                              style="background-color: white"
                                              ajax="false"/>
                         </p:column>
@@ -95,5 +107,45 @@
                 </h:panelGrid>
             </div>
         </h:form>
+        <p:dialog header="Create test" widgetVar="createTest" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Test name: </p:outputLabel>
+                        <p:inputText value="#{teacherController.test.name}" />
+                        <br/>
+                        <p:outputLabel>Course: </p:outputLabel>
+                        <p:selectOneMenu id="course">
+                            <f:selectItems value="#{teacherController.courses}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel>Duration (min): </p:outputLabel>
+                        <p:inputText value="#{teacherController.test.duration}"/>
+                        <p:commandButton value="Create" action="#{teacherController.createTest()}"
+                                         style="background-color: white" ajax="false"
+                                         oncomplete="PF('createTest').hide();"/>                        
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog header="Edit test" widgetVar="editTest" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Test name: </p:outputLabel>
+                        <p:inputText value="#{teacherController.test.name}" />
+                        <br/>
+                        <p:outputLabel>Course: </p:outputLabel>
+                        <p:selectOneMenu id="course">
+                            <f:selectItems value="#{teacherController.courses}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel>Duration (min): </p:outputLabel>
+                        <p:inputText value="#{teacherController.test.duration}"/>
+                        <p:commandButton value="Edit" action="#{teacherController.editTest()}"
+                                         style="background-color: white" ajax="false"
+                                         oncomplete="PF('editTest').hide();"/>                        
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>

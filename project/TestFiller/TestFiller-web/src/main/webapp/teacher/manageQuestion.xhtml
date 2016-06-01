@@ -2,56 +2,122 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Create Test</title>
+        <title>Manage questions</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <h:form>
+        <nav class="navbar navbar-default">
             <div class="row">
-                <div class="col-md-2">
-                    <label for="newQuestionLabel" style="margin-left: 5%">New question :</label>
-                    <h:inputText id="newQuestionLabel" class="form-control" style="margin-left: 5%" value="#{manageQuestionController.question.text}"/>
+                <div class="col-md-4">
+                    <h1>TestFiller AdminPage</h1>
+                </div>
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-3">
+                    <h:form>
+                        <p:commandButton value="Finish" style="background-color: white"
+                                         ajax="false" action="#{manageQuestionController.finish()}"/>
+                        <p:commandButton value="Add Question" style="background-color: white"
+                                         oncomplete="PF('addQuestion').show();" update="@form">
+                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateQuestion()}"
+                                                         target="#{manageQuestionController.question}" />
+                        </p:commandButton>
+                        <p:button style="background-color: white; float: right " 
+                                  outcome="home"
+                                  value="back"
+                                  icon="ui-icon-carat-1-w"
+                                  /><br/>
+                        <h:outputText style="float: right" 
+                                      title="Signed in as: " 
+                                      value ="Signed in as: #{userController.currentUser}">
+                        </h:outputText><br/>
+                        <p:commandButton style="background-color: white; float: right" 
+                                         value="logout" 
+                                         action="#{loginEJB.logout()}"/><br/>
+                    </h:form>
                 </div>
             </div>
-            <div class="row">        
-                <div class="col-md-2">
-                    <label for="answerLengthLabel" style="margin-left: 5%">Answer length :</label>
-                    <h:inputText id="answerLengthLabel" class="form-control" value="#{manageQuestionController.question.lengthOfAnswer}" style="margin-left: 5%"/>
-                </div>
-            </div>
-            <div class="row">    
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Add question" style="margin-left: 5%" action="#{manageQuestionController.add()}"/>
-                </div>
-            </div>
-        </h:form>
+        </nav>
         <h:form>
-            <div class="row" style="margin-left: 1%">
-                <h:dataTable value="#{manageQuestionController.list}" var="question" class="table table-hover">
-                    <h:column><f:facet name="header">Text</f:facet>#{question.text}</h:column>
-                    <h:column>
-                        <h:commandButton value="Edit" action="#{manageQuestionController.edit(question)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Delete" action="#{manageQuestionController.delete(question)}" class="btn btn-default"/>
-                    </h:column>
-                </h:dataTable>
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align: center">
+                    <h4>Questions</h4>
+                </div>
+                <h:panelGrid columns="1" cellpadding="10" >
+                    <p:dataTable id="questions" styleClass="borderless" 
+                                 value="#{manageQuestionController.questions}" 
+                                 var="question"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="No Question found.">
+                        <p:column headerText="Question" filterBy="#{question.text}" filterMatchMode="contains">
+                            <h:outputText value="#{question.text}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Edit" style="background-color: white"
+                                             oncomplete="PF('editQuestion').show();" update="@form">
+                                <f:setPropertyActionListener value="#{question}"
+                                                             target="#{manageQuestionController.question}" />
+                            </p:commandButton>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Delete"
+                                             action="#{manageQuestionController.delete(question)}"
+                                             style="background-color: white"
+                                             ajax="false"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
             </div>
         </h:form>
+        <p:dialog header="Add question" widgetVar="addQuestion" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Question: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.question.text}" />
+                        <br/>
+                        <p:outputLabel>Type: </p:outputLabel>
+                        <p:selectOneMenu value="#{manageQuestionController.question.type}">
+                            <f:selectItems value="#{manageQuestionController.questionTypes}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel>Length of answer: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.question.lengthOfAnswer}"/>
+                        <p:commandButton value="Add" action="#{manageQuestionController.add()}"
+                                         style="background-color: white" update="@all"
+                                         oncomplete="PF('addQuestion').hide();"/>                        
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog header="Edit question" widgetVar="editQuestion" modal="true">
         <h:form>
-            <div class="row">
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Back" style="margin-left: 5%" action="#{manageQuestionController.back()}"/>
-                </div>
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Finish" style="margin-left: 5%" action="#{manageQuestionController.finish()}"/>
-                </div>
-            </div>
-        </h:form>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Question: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.question.text}" />
+                        <br/>
+                        <p:outputLabel>Type: </p:outputLabel>
+                        <p:selectOneMenu value="#{manageQuestionController.question.type}">
+                            <f:selectItems value="#{manageQuestionController.questionTypes}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel>Length of answer: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.question.lengthOfAnswer}"/>
+                        <p:commandButton value="Add" action="#{manageQuestionController.add()}"
+                                         style="background-color: white" update="@all"
+                                         oncomplete="PF('editQuestion').hide();"/>                        
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
     </h:body>
 </html>

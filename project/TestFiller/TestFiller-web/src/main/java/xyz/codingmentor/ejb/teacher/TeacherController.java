@@ -1,10 +1,12 @@
 package xyz.codingmentor.ejb.teacher;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
@@ -18,7 +20,8 @@ import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.entity.TextFilledAnswer;
 
 @ManagedBean
-public class TeacherController {
+@ViewScoped
+public class TeacherController implements Serializable{
 
     @EJB
     private EntityFacade ef;
@@ -29,47 +32,48 @@ public class TeacherController {
     public void init() {
         teacher = ef.namedQueryOneParam("TEACHER.findByEmail", Teacher.class,
                 "email", FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()).get(0);
-        test = new Test();
     }
-    
-    public String getTeacherFullName(){
-        return teacher.getFirstName()+" "+teacher.getLastName()+"!";
+
+    public Test goToCreateTest() {
+        test = new Test();
+        return test;
     }
 
     public Test getTest() {
         return test;
     }
-    
-    public List<Course> getCourses(){
+
+    public List<Course> getCourses() {
         return teacher.getCourses();
     }
-    
-    public void createTest(){
+
+    public void createTest() {
         test.setTeacher(teacher);
         teacher.getTests().add(test);
         ef.create(test);
         ef.update(teacher);
+        test = null;
     }
 
     public List<Test> getTests() {
         return teacher.getTests();
     }
-    
-    public void activate(Test test){
+
+    public void activate(Test test) {
         test.setActive(!test.getActive());
         ef.update(test);
     }
-    
-    public int numberOfRevievable(Test test){
+
+    public int numberOfRevievable(Test test) {
         int c = 0;
-        for (FilledTest filledTest:  test.getFilledTests()){
-            if (filledTest.isReady() == true){
+        for (FilledTest filledTest : test.getFilledTests()) {
+            if (filledTest.isReady() == true) {
                 c++;
             }
         }
         return c;
     }
-    
+
     public String details(Test test) {
         FilledTest ft = new FilledTest();
         Student s = new Student();
@@ -87,21 +91,23 @@ public class TeacherController {
         tfa.setQuestion(new Question());
         ft.setFilledAnswer(Arrays.asList(tfa, ofa));
         ft.setReady(Boolean.TRUE);
-        test.getFilledTests().add(ft);    
+        test.getFilledTests().add(ft);
         return "detailsTest";
     }
 
     public void goToManageQuestions(Test test) {
-        
+
     }
 
-    public void edit(Test test) {
-        
+    public void editTest() {
+        ef.update(test);
+        test = null;
     }
-    
-    public void delete(Test test) {
+
+    public void deleteTest(Test test) {
         teacher.getTests().remove(test);
-        ef.update(teacher);
         ef.delete(Test.class, test.getId());
+        ef.update(teacher);
+        init();
     }
 }
