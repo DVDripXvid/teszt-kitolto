@@ -17,7 +17,13 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     </h:head>
     <h:body style="background-color: #E9EBEE;">
-        
+        <div class="row" style="background-color: #125298;">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h1 align="center" style="color: white;">Manage Courses</h1>
+            </div>
+        </div>
         <h:form>
             <br/>
             <div class="row">
@@ -27,11 +33,11 @@
                     <p:button outcome="index.xhtml"
                               value="Back"
                               icon="ui-icon-carat-1-w"
-                              style="background-color: white;"/>
+                              style="background-color: white; font-size: medium; width: 100%;"/>
                 </div>
                 <div class="col-md-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center">
+                        <div class="panel-heading" style="text-align: center; background-color: white;">
                             <h4>Active Courses</h4>
                         </div>
                         <p:dataTable styleClass="borderless" 
@@ -67,7 +73,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center">
+                        <div class="panel-heading" style="text-align: center; background-color: white;">
                             <h4>Subscribed Course</h4>
                         </div>
                         <p:dataTable styleClass="borderless" 
@@ -95,11 +101,17 @@
             </div>
             <br/>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-1">
+                    <p:button outcome="index.xhtml"
+                              value="Back"
+                              icon="ui-icon-carat-1-w"
+                              style="background-color: white; font-size: medium; width: 100%;"/>
                 </div>
                 <div class="col-md-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center">
+                        <div class="panel-heading" style="text-align: center; background-color: white;">
                             <h4>Available Courses</h4>
                         </div>
                         <p:dataTable styleClass="borderless table-hover" 
@@ -130,16 +142,6 @@
                             </p:column>
                         </p:dataTable>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                </div>
-                <div class="col-md-2">
-                    <p:button outcome="index.xhtml"
-                              value="Back"
-                              icon="ui-icon-carat-1-w"
-                              style="background-color: white;"/>
                 </div>
             </div>
             <br/>

@@ -13,12 +13,19 @@
         <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet> 
     </h:head>
     <h:body style="background-color: #E9EBEE;">
+        <div class="row" style="background-color: #125298;">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h1 align="center" style="color: white;">Write Test</h1>
+            </div>
+        </div>
         <h:form>
             <br/>
             <div class="row">
                 <div class="col-md-2">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center">
+                        <div class="panel-heading" style="text-align: center; background-color: white;">
                             <h4>Questions</h4>
                         </div>
                         <div class="panel-body">
@@ -30,7 +37,7 @@
                                     <p:commandButton value="#{question.text}" 
                                                      action="#{studentWriteTestController.setQuestionFromList(question)}"
                                                      update="@form"
-                                                     style="background-color: white; border-style: none;"/>
+                                                     style="background-color: white; border-bottom-color: #E9EBEE; border-left-style: none; border-top-style: none; border-right-style: none;"/>
                                 </p:column>
                             </p:dataTable>
                         </div>
@@ -38,7 +45,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: left">
+                        <div class="panel-heading" style="text-align: left; background-color: white;">
                             <h4>#{studentWriteTestController.questionHeader}</h4>
                         </div>
                         <div class="panel-body">
@@ -48,7 +55,7 @@
                             <h:inputTextarea rendered="#{studentWriteTestController.actualQuestionTypeText}" 
                                              value="#{studentWriteTestController.textFilledAnswer}"
                                              style="height: 100px; width: 100%;"/>
-                            
+
                             <p:panelGrid rendered="#{studentWriteTestController.actualQuestionTypeChoose}"
                                          style="height: 100px; width: 100%;">
                                 <p:selectOneRadio value="#{studentWriteTestController.selectedOptionalAnswer}">
@@ -63,20 +70,20 @@
                                              rendered="#{studentWriteTestController.notFirstQuestion}"
                                              action="#{studentWriteTestController.setPreviousQuestion()}"
                                              update="@form"
-                                             style="background-color: white;"/>
+                                             style="background-color: white; font-size: medium;"/>
 
                             <p:commandButton value="Next question"
                                              rendered="#{studentWriteTestController.notLastQuestion}"
                                              action="#{studentWriteTestController.setNextQuestion()}"
                                              update="@form"
-                                             style="background-color: white; float: right;"/>
+                                             style="float: right; font-size: medium; background-color: white;"/>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-1">
                     <p:commandButton value="Finish"
                                      action="#{studentWriteTestController.finish()}"
-                                     style="background-color: white;">
+                                     style="background-color: white; font-size: medium; width: 100%;">
                         <p:confirm header="Confirmation" message="Can not continue test after confirmation!"/>
                     </p:commandButton>
 
@@ -89,12 +96,12 @@
                                          styleClass="ui-confirmdialog-no"
                                          style="float: right"/>
                     </p:confirmDialog>
-                    
+
                     <br/>
                     <br/>
                     <p:commandButton value="Save"
                                      action="#{studentWriteTestController.save()}"
-                                     style="background-color: white;"/>
+                                     style="background-color: white; font-size: medium; width: 100%;"/>
                 </div>
             </div>
             <br/>
