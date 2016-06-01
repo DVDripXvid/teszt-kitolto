@@ -2,6 +2,7 @@ package xyz.codingmentor.ejb;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -53,6 +54,11 @@ public class UserController implements Serializable {
         User user = userFacade.read(User.class, id);
         LOGGER.info(user.toString());
         user.setAccepted(true);
+        char[] pw = new char[6];
+        for (int i = 0; i < 6; i++) {
+            pw[i] = (char) (new Random().nextInt(26) + 65);
+        }
+        user.setPassword(String.copyValueOf(pw).toLowerCase());
         emailService.sendRegistrationEmail(user, FacesContext.getCurrentInstance().getExternalContext().getApplicationContextPath());
         userFacade.update(user);
     }

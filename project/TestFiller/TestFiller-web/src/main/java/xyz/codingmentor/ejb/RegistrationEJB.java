@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.interceptor.Interceptors;
+import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Role;
 import xyz.codingmentor.entity.Student;
@@ -30,6 +31,8 @@ import xyz.codingmentor.role.RoleName;
 @Interceptors({LoggerInterceptor.class})
 public class RegistrationEJB implements Serializable {
 
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginEJB.class);
+    
     @EJB(name = "emailService")
     private EmailService emailService;
 
@@ -56,16 +59,9 @@ public class RegistrationEJB implements Serializable {
             user = new Teacher(user);
         }
         user.setAccepted(false);
-        char[] pw = new char[6];
-        for (int i = 0; i < 6; i++) {
-            pw[i] = (char) (new Random().nextInt(26) + 65);
-        }
-        user.setPassword(String.copyValueOf(pw).toLowerCase());
         user.getRoles().add(role);
         setProfilePicture();
         facade.create(user);
-        /*role.getUsers().add(user);
-        facade.update(role);*/
 
         return "notification";
     }
