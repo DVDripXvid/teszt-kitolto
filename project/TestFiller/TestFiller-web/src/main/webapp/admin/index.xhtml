@@ -10,14 +10,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="myStyle.css"></h:outputStylesheet>
         <h:outputStylesheet library="css" name="studentManageCourses.css"></h:outputStylesheet>
     </h:head>
     <h:body>
 
         <nav class="navbar navbar-default">
-            <div class="row">
+            <div class="row" style="background-color: #125298">
                 <div class="col-md-4">
-                    <h1>TestFiller AdminPage</h1>
+                    <h1 style="color: white;">TestFiller AdminPage</h1>
                 </div>
                 <div class="col-md-5">
                 </div>
@@ -28,7 +29,7 @@
                                   value="back"
                                   icon="ui-icon-carat-1-w"
                                   /><br/>
-                        <h:outputText style="float: right" 
+                        <h:outputText style="color: white; float: right" 
                                       title="Signed in as: " 
                                       value ="Signed in as: #{userController.currentUser}">
                         </h:outputText><br/>
@@ -134,7 +135,7 @@
                             </h:panelGrid>
                         </div>
                     </p:tab>
-                    <p:tab title="Users" class="borderless col-md-4" >
+                    <p:tab title="Users" class="borderless col-md-4"  >
                         <div class="panel panel-default">
                             <div class="panel-heading" 
                                  style="text-align: center">
