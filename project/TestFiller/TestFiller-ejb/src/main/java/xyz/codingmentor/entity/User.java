@@ -17,6 +17,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +41,7 @@ import xyz.codingmentor.annotation.Validate;
             query = "SELECT u FROM User u WHERE u.email=:email"),
     @NamedQuery(name = "USERS.findAll",
             query = "SELECT u FROM User u"),
-    @NamedQuery(name = "USERS.findImageByUserId", 
+    @NamedQuery(name = "USERS.findImageByUserId",
             query = "SELECT u.image FROM User u WHERE u.email LIKE :userEmail")
 })
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -48,9 +50,11 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @NotNull @Size(min = 2)
+    @NotNull
+    @Size(min = 2)
     private String firstName;
-    @NotNull @Size(min = 2)
+    @NotNull
+    @Size(min = 2)
     private String lastName;
     private String password;
     @Column(unique = true)
@@ -61,17 +65,17 @@ public class User implements Serializable {
     private Date registrationDate;
     @Lob
     private byte[] image;
-    @Column(name="IS_ADMIN")
+    @Column(name = "IS_ADMIN")
     private boolean admin;
-    
-    @ManyToMany(cascade= CascadeType.REMOVE)
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(inverseJoinColumns = {
         @JoinColumn(name = "ROLE_NAME")
     }, joinColumns = {
         @JoinColumn(name = "USER_ID")
     })
     private List<Role> roles = new ArrayList<>();
-    
+
     public User() {
     }
 
@@ -82,13 +86,23 @@ public class User implements Serializable {
         this.email = email;
         this.accepted = false;
     }
-    
+
     public User(String firstName, String lastName, String password, String email, Boolean admin) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.email = email;
         this.accepted = false;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void hashPassword() {
+        if (password != null) {
+            if (password.length() != 64) {
+                password = (org.apache.commons.codec.digest.DigestUtils.sha256Hex(password));
+            }
+        }
     }
 
     public Long getId() {
@@ -170,8 +184,8 @@ public class User implements Serializable {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    
-    public boolean changeAdmin(){
+
+    public boolean changeAdmin() {
         return false;
-    }    
+    }
 }

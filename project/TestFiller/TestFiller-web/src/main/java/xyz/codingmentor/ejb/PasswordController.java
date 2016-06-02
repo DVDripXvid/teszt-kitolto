@@ -2,6 +2,7 @@ package xyz.codingmentor.ejb;
 
 import java.io.IOException;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -25,6 +26,11 @@ public class PasswordController implements Serializable {
     private String oldPassword;
     private String newPassword;
     private String confirmPassword;
+    
+    @PostConstruct
+    public void ping(){
+        LOGGER.info("new PasswordConroller created");
+    }
 
     public String getOldPassword() {
         return oldPassword;
@@ -69,6 +75,7 @@ public class PasswordController implements Serializable {
     
     public void changePassword() {
         if (oldPassword != null && newPassword != null && confirmPassword != null) {
+            oldPassword = org.apache.commons.codec.digest.DigestUtils.sha256Hex(oldPassword);
             if (activeUser.getPassword().equals(oldPassword) && newPassword.equals(confirmPassword)) {
                 activeUser.setPassword(newPassword);
             }

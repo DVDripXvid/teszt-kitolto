@@ -3,8 +3,8 @@ package xyz.codingmentor.ejb;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
-import javax.faces.context.FacesContext;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,6 +22,7 @@ import xyz.codingmentor.entity.User;
  * @author Olivér
  */
 @Stateless(name = "emailService")
+@Asynchronous
 public class EmailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
@@ -32,8 +33,8 @@ public class EmailService {
     private final String username = "codingmentor.testfiller@gmail.com";
     private final String password = "javateam2";
     private final String regSubject = "registration accepted on testfiller";
-    private final String regBody = ",\nyour password is: ";
-    private final String byMessage = "\nWarm regards,\nTeam TestFiller";
+    private final String regBody = ",\n\nyour password is: ";
+    private final String byMessage = "\n\nWarm regards,\nTeam TestFiller";
 
     public void sendRegistrationEmail(User user, String appPath) {
         String body = "Dear " + user.getFirstName() + " " + user.getLastName() 
