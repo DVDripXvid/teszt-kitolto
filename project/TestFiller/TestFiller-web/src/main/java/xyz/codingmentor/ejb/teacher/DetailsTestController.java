@@ -1,40 +1,70 @@
 package xyz.codingmentor.ejb.teacher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import javax.faces.bean.SessionScoped;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledTest;
+import xyz.codingmentor.entity.OptionalFilledAnswer;
+import xyz.codingmentor.entity.Question;
+import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Test;
+import xyz.codingmentor.entity.TextFilledAnswer;
 
 @ManagedBean
+@SessionScoped
 public class DetailsTestController {
 
     @EJB
     private EntityFacade ef;
-    private HttpSession session;
-    
-    @PostConstruct
-    private void init(){
-        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    private Test test;
+    private FilledTest filledTest;
+
+    public Test getTest() {
+        return test;
     }
-    
-    public List<FilledTest> getFilledTests(){
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    public FilledTest getFilledTest() {
+        return filledTest;
+    }
+
+    public void setFilledTest(FilledTest filledTest) {
+        this.filledTest = filledTest;
+    }
+
+    public String goToDetailsTest(Test test) {
+        FilledTest ft = new FilledTest();
+        Student s = new Student();
+        s.setFirstName("Lajos");
+        s.setLastName("Feri");
+        ft.setStudent(s);
+        TextFilledAnswer tfa = new TextFilledAnswer();
+        tfa.setText("answer");
+        Question q = new Question();
+        q.setText("question");
+        tfa.setQuestion(q);
+        OptionalFilledAnswer ofa = new OptionalFilledAnswer();
+        ft.setFilledAnswer(Arrays.asList(tfa, tfa, tfa, ofa));
+        ft.setReady(Boolean.TRUE);
+        test.getFilledTests().add(ft);
+        setTest(test);
+        return "detailsTest";
+    }
+
+    public List<FilledTest> getFilledTests() {
         List<FilledTest> result = new ArrayList<>();
-        for ( FilledTest filledTest : ((Test)session.getAttribute("testToDetails")).getFilledTests()){
-            if (filledTest.isReady()){
-                result.add(filledTest);
+        for (FilledTest ft : test.getFilledTests()) {
+            if (ft.isReady()) {
+                result.add(ft);
             }
         }
         return result;
-    }
-    
-    public String revision(FilledTest filledTest){
-        session.setAttribute("revisionFilledTest", filledTest);
-        return "revisionTest";
     }
 }

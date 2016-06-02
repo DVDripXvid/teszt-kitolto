@@ -6,14 +6,14 @@ import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Test;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ManageQuestionController implements Serializable{
 
     @EJB
@@ -60,8 +60,9 @@ public class ManageQuestionController implements Serializable{
         return "manageQuestion";
     }
 
-    public void goToCreateQuestion(){
+    public Question goToCreateQuestion(){
         setQuestion(new Question());
+        return question;
     }
     
     public void add() {

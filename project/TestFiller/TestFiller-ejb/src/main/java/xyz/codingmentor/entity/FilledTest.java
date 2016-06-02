@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -48,8 +49,8 @@ public class FilledTest implements Serializable {
     private Student student;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "FILLED_TEST_ID")
-    private List<FilledAnswer> filledAnswers;
-    private Float finalResult;
+    private List<FilledAnswer> filledAnswers = new ArrayList<>();
+    private Float finalResult = 0F;
 
     public Long getId() {
         return id;

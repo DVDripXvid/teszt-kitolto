@@ -39,7 +39,7 @@ public class Test implements Serializable {
     private Course course;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEST_ID")
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
     @ManyToOne
     private Teacher teacher;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 

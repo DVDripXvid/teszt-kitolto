@@ -87,13 +87,13 @@
                         <p:inputText value="#{manageQuestionController.question.text}" />
                         <br/>
                         <p:outputLabel>Type: </p:outputLabel>
-                        <p:selectOneMenu value="#{manageQuestionController.question.type}">
+                        <p:selectOneMenu>
                             <f:selectItems value="#{manageQuestionController.questionTypes}"/>
                         </p:selectOneMenu>
                         <p:outputLabel>Length of answer: </p:outputLabel>
                         <p:inputText value="#{manageQuestionController.question.lengthOfAnswer}"/>
                         <p:commandButton value="Add" action="#{manageQuestionController.add()}"
-                                         style="background-color: white" update="@all"
+                                         style="background-color: white" ajax="false"
                                          oncomplete="PF('addQuestion').hide();"/>                        
                     </p:panelGrid>
                 </p:outputPanel>
@@ -107,13 +107,13 @@
                         <p:inputText value="#{manageQuestionController.question.text}" />
                         <br/>
                         <p:outputLabel>Type: </p:outputLabel>
-                        <p:selectOneMenu value="#{manageQuestionController.question.type}">
+                        <p:selectOneMenu>
                             <f:selectItems value="#{manageQuestionController.questionTypes}"/>
                         </p:selectOneMenu>
                         <p:outputLabel>Length of answer: </p:outputLabel>
                         <p:inputText value="#{manageQuestionController.question.lengthOfAnswer}"/>
                         <p:commandButton value="Add" action="#{manageQuestionController.add()}"
-                                         style="background-color: white" update="@all"
+                                         style="background-color: white" ajax="false"
                                          oncomplete="PF('editQuestion').hide();"/>                        
                     </p:panelGrid>
                 </p:outputPanel>
