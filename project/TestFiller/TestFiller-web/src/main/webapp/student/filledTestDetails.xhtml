@@ -17,51 +17,56 @@
         <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     </h:head>
     <h:body style="background-color: #E9EBEE;">
+        <div class="row" style="background-color: #125298;">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h1 align="center" style="color: white;">Test Details</h1>
+            </div>
+        </div>
         <h:form>
+            <br/>
             <div class="row">
                 <div class="col-md-1">
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <p:button outcome="index.xhtml"
                               value="Back"
                               icon="ui-icon-carat-1-w"
-                              style="background-color: white;"/>
-                </div>
-                <div class="col-md-5">
-                    <h:outputText value="#{studentTestDetailsController.filledTest.course.name}"/>
-                    <h:outputText value="#{studentTestDetailsController.filledTest.test.name}"/>
-                    <h:outputText value="#{studentTestDetailsController.filledTest.finalResult}"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
+                              style="background-color: white; font-size: medium; width: 100%;"/>
                 </div>
                 <div class="col-md-8">
-                    <p:dataTable styleClass="borderless" 
-                                 value="#{studentTestDetailsController.filledTest.filledAnswers}" 
-                                 var="filledAnswer"
-                                 rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} 
-                                 {FirstPageLink} 
-                                 {PreviousPageLink} 
-                                 {PageLinks} 
-                                 {NextPageLink} 
-                                 {LastPageLink} 
-                                 {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
-                                 paginatorPosition="bottom"
-                                 emptyMessage="No active Course found.">
-                        <p:column filterBy="#{filledAnswer.question.text}" headerText="Question" filterMatchMode="contains">
-                            <h:outputText value="#{filledAnswer.question.text}"/>
-                        </p:column>
-                        <p:column filterBy="#{filledAnswer.point}" headerText="Result">
-                            <h:outputText value="#{filledAnswer.point}"/>
-                        </p:column>
-                        <p:column filterBy="#{filledAnswer.comment}" headerText="Comment">
-                            <h:outputText value="#{filledAnswer.comment}"/>
-                        </p:column>
-                    </p:dataTable>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: white; text-align: center;">
+                            <h1>Filled Test</h1>
+                        </div>
+
+                        <p:dataTable styleClass="borderless" 
+                                     value="#{studentTestDetailsController.filledTest.filledAnswers}" 
+                                     var="filledAnswer"
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} 
+                                     {FirstPageLink} 
+                                     {PreviousPageLink} 
+                                     {PageLinks} 
+                                     {NextPageLink} 
+                                     {LastPageLink} 
+                                     {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     paginatorPosition="bottom"
+                                     emptyMessage="No active Course found.">
+                            <p:column filterBy="#{filledAnswer.question.text}" headerText="Question" filterMatchMode="contains">
+                                <h:outputText value="#{filledAnswer.question.text}"/>
+                            </p:column>
+                            <p:column filterBy="#{filledAnswer.point}" headerText="Result">
+                                <h:outputText value="#{filledAnswer.point}"/>
+                            </p:column>
+                            <p:column filterBy="#{filledAnswer.comment}" headerText="Comment">
+                                <h:outputText value="#{filledAnswer.comment}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
                 </div>
             </div>
         </h:form>

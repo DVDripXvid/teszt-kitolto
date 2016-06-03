@@ -28,9 +28,8 @@ public abstract class FilledAnswer implements Serializable {
     private Question question;    
     @ManyToOne
     private FilledTest filledTest;
-    @NotNull @Size(min = 5)
+    @Size(min = 5)
     private String comment;
-    @NotNull 
     private Float point;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Student student;

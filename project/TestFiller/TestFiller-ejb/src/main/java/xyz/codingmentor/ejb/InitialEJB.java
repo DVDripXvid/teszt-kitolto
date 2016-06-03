@@ -44,42 +44,51 @@ public class InitialEJB {
     @PostConstruct
     public void createEntity() {
 //        LOGGER.info("singleton created: " + this);
-        createRoles();
-        createUser();
-        generateTestData();
+//        createRoles();
+//        createUser();
+//        generateTestData();
 //        createSubjects();
 //        createFilledTests();
     }
 
     private void generateTestData() {
-        createCourses();
-        createTests();
-        Student student = new Student("Student", "wantCourse", "pass", "wantcourse@wantcourse.hu");
-        Course course1 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-1").get(0);
-        Course course2 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-2").get(0);
-        Test test1 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-1").get(0);
-        Test test2 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-2").get(0);
-        student.setSubscribed(course1);
-        student.setSubscribed(course2);
-        facade.create(student);
-
-        Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest@withtest.hu");
-        teacher.getTests().add(test1);
-        facade.create(test1);
-
-        createQuestions(test1);
-
-        course1.getTests().add(test1);
-        test1.setCourse(course1);
-        test1.setActive(Boolean.TRUE);
-        facade.update(course1);
-        facade.update(test1);
-
-        course2.getTests().add(test2);
-        test2.setCourse(course2);
-        test2.setActive(Boolean.TRUE);
-        facade.update(course2);
-        facade.update(test2);
+        Student student1 = facade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", "student@student.hu").get(0);
+        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Java SE").get(0));
+        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Java EE").get(0));
+        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Git").get(0));
+        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases I").get(0));
+        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases II").get(0));
+        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases III").get(0));
+//        createCourses();
+//        createTests();
+//        Student student = new Student("Student", "wantCourse", "pass", "wantcourse@wantcourse.hu");
+//        Course course1 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-1").get(0);
+//        Course course2 = facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Course-2").get(0);
+//        Test test1 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-1").get(0);
+//        Test test2 = facade.namedQueryOneParam("TEST.searchByName", Test.class, "name", "Test-2").get(0);
+//        student1.getCourses().add(course1);
+//        student1.getCourses().add(course2);
+//        student.setSubscribed(course1);
+//        student.setSubscribed(course2);
+//        facade.create(student);
+//
+//        Teacher teacher = new Teacher("Teacher", "WithTest", "pass", "withtest@withtest.hu");
+//        teacher.getTests().add(test1);
+//        facade.create(test1);
+//
+//        createQuestions(test1);
+//
+//        course1.getTests().add(test1);
+//        test1.setCourse(course1);
+//        test1.setActive(Boolean.TRUE);
+//        facade.update(course1);
+//        facade.update(test1);
+//
+//        course2.getTests().add(test2);
+//        test2.setCourse(course2);
+//        test2.setActive(Boolean.TRUE);
+//        facade.update(course2);
+//        facade.update(test2);
     }
 
     private void createRoles() {
