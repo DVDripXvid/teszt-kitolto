@@ -86,7 +86,6 @@ public class ManageQuestionController implements Serializable{
     
     public void createTextQuestion(){
         question.setType(QuestionType.TEXT);
-        question.setTest(test);
         test.getQuestions().add(question);
     }
     
@@ -103,6 +102,7 @@ public class ManageQuestionController implements Serializable{
     
     public void createOptionalQuestion(){
         question.setType(QuestionType.CHOOSER);
+        test.getQuestions().add(question);
         }
 
     public void delete(Question question) {

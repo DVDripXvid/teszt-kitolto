@@ -40,9 +40,9 @@ public class InitialEJB {
         LOGGER.info("singleton created: " + this);
         createRoles();
         createUser();
-        generateTestData();
-        createSubjects();
-        createFilledTests();
+    //    generateTestData();
+  //      createSubjects();
+//        createFilledTests();
     }
 
     private void generateTestData() {

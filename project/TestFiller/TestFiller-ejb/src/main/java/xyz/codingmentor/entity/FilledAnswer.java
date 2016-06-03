@@ -76,4 +76,6 @@ public abstract class FilledAnswer implements Serializable {
     public void setPoint(Float point) {
         this.point = point;
     }
+    
+    public abstract String getAnswerForQuestion();
 }

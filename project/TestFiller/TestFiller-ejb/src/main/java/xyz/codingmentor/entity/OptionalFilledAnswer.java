@@ -21,7 +21,7 @@ public class OptionalFilledAnswer extends FilledAnswer implements Serializable {
     @ManyToOne
     @JoinColumn(name = "OPTIONAL_ANSWER_ID")
     private OptionalAnswer answer;
-
+    
     public OptionalAnswer getAnswer() {
         return answer;
     }
@@ -29,5 +29,9 @@ public class OptionalFilledAnswer extends FilledAnswer implements Serializable {
     public void setAnswer(OptionalAnswer answer) {
         this.answer = answer;
     }
-    
+
+    @Override
+    public String getAnswerForQuestion() {
+        return answer.getText();
+    }
 }
