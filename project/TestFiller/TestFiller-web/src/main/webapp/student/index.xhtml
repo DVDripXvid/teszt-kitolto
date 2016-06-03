@@ -18,7 +18,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-2">
                     <p:commandLink style="border-style: none; vertical-align: bottom;"
-                            action="#{userProfileModification.modifyProfile()}">
+                                   action="#{userProfileModification.modifyProfile()}">
                         <p:graphicImage value="#{studentHomepageController.profilePicture}"
                                         height="20%"
                                         width="20%"
@@ -42,19 +42,15 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                    <p:outputLabel value="Courses: " for="selectCourses" rendered="#{studentHomepageController.thereAnyAvailableCourse}"/>
-                    <br/>
-                    <p:selectOneMenu styleClass="menu" panelStyleClass="panel" 
-                                     id="selectCourses"
-                                     value="#{studentHomepageController.selectedCourse}" 
-                                     effect="fold" var="selectedCourse" 
-                                     filter="true" filterMatchMode="contains"
-                                     rendered="#{studentHomepageController.thereAnyAvailableCourse}"
-                                     style="width: 50%">
-                        <f:selectItems class="menu" value="#{studentHomepageController.selectableCourses}" 
-                                       var="course"/>
+                    <label value="Courses: " for="courseSelector" rendered="#{studentHomepageController.thereAnyAvailableCourse}"/>
+                    <h:selectOneMenu  class="form-control" 
+                                      id="courseSelector" 
+                                      value="#{studentHomepageController.selectedCourse}"
+                                      rendered="#{studentHomepageController.thereAnyAvailableCourse}"
+                                      style="width: 100%">
+                        <f:selectItems value="#{studentHomepageController.selectableCourses}"/>
                         <p:ajax event="change" update="@form" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                 </div>
             </div>
             <br/>
@@ -78,7 +74,7 @@
                             <p:column headerText="Name">
                                 <h:outputText value="#{test.name}"/>
                             </p:column>
-                            <p:column headerText="Time">
+                            <p:column headerText="Duration (min)">
                                 <h:outputText value="#{test.duration}"/>
                             </p:column>
                             <p:column>

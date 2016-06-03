@@ -40,7 +40,6 @@ public class StudentWriteTestController implements Serializable {
     private OptionalFilledAnswer optionalFilledAnswer;
     private TextFilledAnswer textFilledAnswer;
     private List<OptionalAnswer> optionalAnswers;
-    private String selectedOptionalAnswerText;
     private OptionalAnswer selectedOptionalAnswer;
 
     public StudentWriteTestController() {
@@ -90,27 +89,6 @@ public class StudentWriteTestController implements Serializable {
         entityFacade.update(optionalFilledAnswer);
     }
 
-    public String getSelectedOptionalAnswerText() {
-        return selectedOptionalAnswerText;
-    }
-
-    public void setSelectedOptionalAnswerText(String selectedOptionalAnswerText) {
-//        this.selectedOptionalAnswerText = selectedOptionalAnswerText;
-//        for (OptionalAnswer optionalAnswer : optionalAnswers) {
-//            if (optionalAnswer.getText().equals(selectedOptionalAnswerText)) {
-//                selectedOptionalAnswer = optionalAnswer;
-//            }
-//        }
-//
-//        optionalFilledAnswer.setAnswer(selectedOptionalAnswer);
-//
-//        if (!actualQuestion.getFilledAnswers().contains(textFilledAnswer)) {
-//            actualQuestion.getFilledAnswers().add(textFilledAnswer);
-//        }
-//
-//        entityFacade.update(optionalFilledAnswer);
-    }
-
     public List<OptionalAnswer> getOptionalAnswers() {
         return optionalAnswers;
     }
@@ -157,7 +135,6 @@ public class StudentWriteTestController implements Serializable {
 
     public void setTextFilledAnswer(String textFilledAnswerText) {
         textFilledAnswer.setText(textFilledAnswerText);
-        //textFilledAnswer.setFilledTest(writableTest);
 
         if (!actualQuestion.getFilledAnswers().contains(textFilledAnswer)) {
             actualQuestion.getFilledAnswers().add(textFilledAnswer);
@@ -176,6 +153,7 @@ public class StudentWriteTestController implements Serializable {
 
     public void setOptionalFilledAnswer(OptionalFilledAnswer optionalFilledAnswer) {
         this.optionalFilledAnswer = optionalFilledAnswer;
+        //entityFacade.update(optionalFilledAnswer);
     }
 
     public Question getActualQuestion() {
@@ -195,10 +173,10 @@ public class StudentWriteTestController implements Serializable {
         writableTest.setCourse(actualTest.getCourse());
         writableTest.setReady(Boolean.FALSE);
         actualTest.getFilledTests().add(writableTest);
-        List<Question> questions = actualTest.getQuestions();
-        actualQuestion = questions.get(0);
-        //actualQuestion = actualTest.getQuestions().get(0);
+        actualQuestion = actualTest.getQuestions().get(0);
+
         initFilledAnswers();
+
         try {
             ec.redirect(ec.getApplicationContextPath() + "/faces/student/writeTest.xhtml");
         } catch (IOException ex) {

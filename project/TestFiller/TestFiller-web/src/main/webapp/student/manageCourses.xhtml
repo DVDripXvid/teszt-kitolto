@@ -60,7 +60,7 @@
                             </p:column>
                             <p:column filterBy="#{course.time}" headerText="Time" filterFunction="#{studentSubscribeController.filterByPrice}">
                                 <h:outputText value="#{course.time}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="ECT"/>
+                                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm" timeZone="ECT"/>
                                 </h:outputText>
                             </p:column>
                         </p:dataTable>
@@ -86,7 +86,7 @@
                             </p:column>
                             <p:column headerText="Time">
                                 <h:outputText value="#{course.time}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="ECT"/>
+                                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm" timeZone="ECT"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: center; background-color: white;">
+                        <div class="panel-heading" style="text-align: center; background-color: white; bottom: 0%;">
                             <h4>Available Courses</h4>
                         </div>
                         <p:dataTable styleClass="borderless table-hover" 
@@ -131,7 +131,7 @@
                             </p:column>
                             <p:column filterBy="#{course.time}" headerText="Time" filterFunction="#{studentSubscribeController.filterByPrice}">
                                 <h:outputText value="#{course.time}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="ECT"/>
+                                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm" timeZone="ECT"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
