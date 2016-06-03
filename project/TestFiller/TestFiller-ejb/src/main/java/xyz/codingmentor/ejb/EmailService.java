@@ -2,6 +2,7 @@ package xyz.codingmentor.ejb;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
@@ -15,6 +16,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import xyz.codingmentor.entity.User;
 
 /**
@@ -32,20 +36,20 @@ public class EmailService {
     private final String from = "TestFiller Registration";
     private final String username = "codingmentor.testfiller@gmail.com";
     private final String password = "javateam2";
-    private final String regSubject = "registration accepted on testfiller";
-    private final String regBody = ",\n\nyour password is: ";
-    private final String byMessage = "\n\nWarm regards,\nTeam TestFiller";
 
     public void sendRegistrationEmail(User user, String appPath) {
-        String body = "Dear " + user.getFirstName() + " " + user.getLastName() 
-                + regBody + user.getPassword() 
-                + "\nYou can sign in by clickig the link below:\n" 
-                + appPath
-                + byMessage;
-        sendEmail(user.getEmail(), regSubject, body);
+        String body = getBodyByTemplate("email/template", user, appPath);
+        sendEmail(user.getEmail(), 
+                "Registration accepted on testfiller", 
+                body, 
+                "text/html; charset=utf-8");
     }
 
     public void sendEmail(String to, String subject, String body) {
+        sendEmail(to, subject, body, "text/plane; charset=utf-8");
+    }
+
+    public void sendEmail(String to, String subject, String body, String type) {
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.port", port);
@@ -70,11 +74,31 @@ public class EmailService {
             message.setRecipients(Message.RecipientType.TO, address);
             message.setSubject(subject);
             message.setSentDate(new Date());
-            message.setText(body);
+            message.setContent(body, type);
+            message.saveChanges();
             Transport.send(message);
         } catch (MessagingException | UnsupportedEncodingException ex) {
             LOGGER.info(ex.getMessage());
         }
+    }
+
+    private String getBodyByTemplate(String template, User user, String appPath) {
+
+        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        resolver.setTemplateMode("HTML");
+        resolver.setSuffix(".html");
+        TemplateEngine templateEngine = new TemplateEngine();
+        templateEngine.setTemplateResolver(resolver);
+        final Context context = new Context(Locale.ENGLISH);
+        context.setVariable("fullname",
+                user.getFirstName()
+                + " "
+                + user.getLastName());
+        context.setVariable("password", user.getPassword());
+        context.setVariable("link", appPath);
+
+        final String html = templateEngine.process(template, context);
+        return html;
     }
 
 }
