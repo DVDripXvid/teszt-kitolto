@@ -23,9 +23,13 @@
                     <h:form>
                         <p:commandButton value="Finish" style="background-color: white"
                                          ajax="false" action="#{manageQuestionController.finish()}"/>
-                        <p:commandButton value="Add Question" style="background-color: white"
-                                         oncomplete="PF('addQuestion').show();" update="@form">
-                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateQuestion()}"
+                        <p:commandButton value="Create Text Question" style="background-color: white"
+                                         oncomplete="PF('textQuestion').show();" update="@form">
+                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateTextQuestion()}"
+                                                         target="#{manageQuestionController.question}" />
+                        <p:commandButton value="Create Optional Question" style="background-color: white"
+                                         oncomplete="PF('optionalQuestion').show();" update="@form">
+                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateOptionalQuestion()}"
                                                          target="#{manageQuestionController.question}" />
                         </p:commandButton>
                         <p:button style="background-color: white; float: right " 

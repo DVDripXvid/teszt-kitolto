@@ -26,7 +26,7 @@ public class Teacher extends User implements Serializable {
     private List<Course> courses;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEACHER_ID")
-    private List<Test> tests = new ArrayList<>();
+    private List<Test> tests;
 
     public Teacher() {
     }

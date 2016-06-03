@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,6 +37,9 @@ public class Question implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FilledAnswer> filledAnswers;
     private Integer lengthOfAnswer;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "Question_Id")
+    private List<OptionalAnswer> optionalAnswers;
     
     public Question() {
         this.filledAnswers = new ArrayList<>();
@@ -89,4 +93,11 @@ public class Question implements Serializable {
         this.filledAnswers = filledAnswers;
     }
 
+    public List<OptionalAnswer> getOptionalAnswers() {
+        return optionalAnswers;
+    }
+
+    public void setOptionalAnswers(List<OptionalAnswer> optionalAnswers) {
+        this.optionalAnswers = optionalAnswers;
+    }
 }
