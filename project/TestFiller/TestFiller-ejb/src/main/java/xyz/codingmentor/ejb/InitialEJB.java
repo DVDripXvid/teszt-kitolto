@@ -43,9 +43,9 @@ public class InitialEJB {
 
     @PostConstruct
     public void createEntity() {
-//        createRoles();
-//        createUser();
-//        generateTestData();
+        createRoles();
+        createUser();
+//       generateTestData();
 //        createSubjects();
 //        createFilledTests();
     }

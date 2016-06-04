@@ -35,7 +35,11 @@ public class Controller {
 
     @PostConstruct
     public void onLoad() {
-        tests = facade.namedQuery(QueryName.TEST_findAll, Test.class);
+        try {
+            tests = facade.namedQuery(QueryName.TEST_findAll, Test.class);
+        } catch (Exception ex) {
+            return;
+        }
         FilledTest ftest = new FilledTest();
         ftest.setTest(tests.get(0));
         ftest.setReady(false);
@@ -100,7 +104,7 @@ public class Controller {
         subscribtions.remove(test.getId());
     }
 
-    public String getTestFillerPath(){
+    public String getTestFillerPath() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         return "http://" + request.getServerName() + ":" + request.getServerPort() + "/TestFiller-web";
     }

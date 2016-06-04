@@ -68,7 +68,7 @@ public class User implements Serializable {
     @Column(name = "IS_ADMIN")
     private boolean admin;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     @JoinTable(inverseJoinColumns = {
         @JoinColumn(name = "ROLE_NAME")
     }, joinColumns = {
