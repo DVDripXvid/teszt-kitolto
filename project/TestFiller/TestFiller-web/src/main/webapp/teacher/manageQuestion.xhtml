@@ -25,19 +25,18 @@
                                          ajax="false" action="#{manageQuestionController.finish()}"/>
                         <p:commandButton value="Create Text Question" style="background-color: white"
                                          oncomplete="PF('textQuestion').show();" update="@form">
-                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateTextQuestion()}"
+                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateQuestion()}"
                                                          target="#{manageQuestionController.question}" />
                         </p:commandButton>
                         <p:commandButton value="Create Optional Question" style="background-color: white"
                                          oncomplete="PF('optionalQuestion').show();" update="@form">
-                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateOptionalQuestion()}"
+                            <f:setPropertyActionListener value="#{manageQuestionController.goToCreateQuestion()}"
                                                          target="#{manageQuestionController.question}" />
                         </p:commandButton>
                         <p:button style="background-color: white; float: right " 
                                   outcome="home"
                                   value="back"
-                                  icon="ui-icon-carat-1-w"
-                                  /><br/>
+                                  icon="ui-icon-carat-1-w"/><br/>
                         <h:outputText style="float: right" 
                                       title="Signed in as: " 
                                       value ="Signed in as: #{userController.currentUser}"/><br/>
@@ -53,7 +52,7 @@
                 <div class="panel-heading" style="text-align: center">
                     <h4>Questions</h4>
                 </div>
-                <h:panelGrid columns="1" cellpadding="10" >
+                <p:panelGrid columns="1" layout="grid">
                     <p:dataTable id="questions" styleClass="borderless" 
                                  value="#{manageQuestionController.questions}" 
                                  var="question"
@@ -67,8 +66,15 @@
                             <h:outputText value="#{question.text}"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Edit" style="background-color: white"
-                                             oncomplete="PF('editQuestion').show();" update="@form">
+                            <p:commandButton value="Edit text question" style="background-color: white"
+                                             rendered="#{manageQuestionController.isText(question)}"
+                                             oncomplete="PF('editTextQuestion').show();" update="@form">
+                                <f:setPropertyActionListener value="#{question}"
+                                                             target="#{manageQuestionController.question}" />
+                            </p:commandButton>
+                            <p:commandButton value="Edit optional question" style="background-color: white"
+                                             rendered="#{manageQuestionController.isChooser(question)}"
+                                             oncomplete="PF('editOptionalQuestion').show();" update="@form">
                                 <f:setPropertyActionListener value="#{question}"
                                                              target="#{manageQuestionController.question}" />
                             </p:commandButton>
@@ -80,43 +86,123 @@
                                              ajax="false"/>
                         </p:column>
                     </p:dataTable>
-                </h:panelGrid>
+                </p:panelGrid>
             </div>
         </h:form>
-        <p:dialog header="Add text question" widgetVar="textQuestion" modal="true">
+        <p:dialog header="Create text question" widgetVar="textQuestion" modal="true">
             <h:form>
                 <p:outputPanel autoUpdate="true">
                     <p:panelGrid columns="1" layout="grid">
                         <p:outputLabel>Question: </p:outputLabel>
                         <p:inputText value="#{manageQuestionController.question.text}" />
-                        <br/>
-                        <p:outputLabel>Type: </p:outputLabel>
-
                         <p:outputLabel>Length of answer: </p:outputLabel>
                         <p:inputText value="#{manageQuestionController.question.lengthOfAnswer}"/>
-                        <p:commandButton value="Add" action="#{manageQuestionController.createTextQuestion()}"
+                        <p:commandButton value="Create" action="#{manageQuestionController.createTextQuestion()}"
                                          style="background-color: white" ajax="false"
                                          oncomplete="PF('textQuestion').hide();"/>                        
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>
         </p:dialog>
-        <p:dialog header="Add optional question" widgetVar="optionalQuestion" modal="true">
+        <p:dialog header="Edit text question" widgetVar="editTextQuestion" modal="true">
             <h:form>
                 <p:outputPanel autoUpdate="true">
                     <p:panelGrid columns="1" layout="grid">
                         <p:outputLabel>Question: </p:outputLabel>
                         <p:inputText value="#{manageQuestionController.question.text}" />
-                        <br/>
-                        <p:outputLabel>Type: </p:outputLabel>
-                        <p:selectOneMenu>
-                            <f:selectItems value="#{manageQuestionController.questionTypes}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel>Length of answer:</p:outputLabel>
+                        <p:outputLabel>Length of answer: </p:outputLabel>
                         <p:inputText value="#{manageQuestionController.question.lengthOfAnswer}"/>
-                        <p:commandButton value="Add" action="#{manageQuestionController.createOptionalQuestion()}"
+                        <p:commandButton value="Edit" style="background-color: white" 
+                                         ajax="false" oncomplete="PF('editTextQuestion').hide();"/>                        
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog header="Create optional question" widgetVar="optionalQuestion" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Question: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.question.text}" />
+                        <p:commandButton value="Create" action="#{manageQuestionController.createOptionalQuestion()}"
                                          style="background-color: white" ajax="false"
-                                         oncomplete="PF('optionalQuestion').hide();"/>                        
+                                         oncomplete="PF('optionalQuestion').hide();"/>
+                        <p:outputLabel>Answer: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.optionalAnswer.text}" />
+                        <p:commandButton value="Add optional answer" action="#{manageQuestionController.addOptionaAnswer()}"
+                                         update="@form" style="background-color: white"/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="text-align: center">
+                                <h4>Optional answers</h4>
+                            </div>
+                            <p:panelGrid columns="1" layout="grid">
+                                <p:dataTable id="optionalAnswers" styleClass="borderless" 
+                                             value="#{manageQuestionController.optionalAnswers}" 
+                                             var="optionalAnswer"
+                                             rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15"
+                                             paginatorPosition="bottom"
+                                             emptyMessage="No Optional answers found.">
+                                    <p:column headerText="Answer" filterBy="#{optionalAnswer.text}" filterMatchMode="contains">
+                                        <p:inputText value="#{optionalAnswer.text}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="#{optionalAnswer.correct}" style="background-color: white"
+                                                         action="#{manageQuestionController.setCorrect(optionalAnswer)}" update="@form"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="Delete" action="#{manageQuestionController.deleteOptionalAnswer(optionalAnswer)}"
+                                                         style="background-color: white" update="@form"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panelGrid>
+                        </div>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog header="Edit optional question" widgetVar="editOptionalQuestion" modal="true">
+            <h:form>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Question: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.question.text}" />
+                        <p:commandButton value="Edit" style="background-color: white"
+                                         ajax="false" oncomplete="PF('editOptionalQuestion').hide();"/>
+                        <p:outputLabel>Answer: </p:outputLabel>
+                        <p:inputText value="#{manageQuestionController.optionalAnswer.text}" />
+                        <p:commandButton value="Add optional answer" action="#{manageQuestionController.addOptionaAnswer()}"
+                                         update="@form" style="background-color: white"/>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="text-align: center">
+                                <h4>Optional answers</h4>
+                            </div>
+                            <p:panelGrid columns="1" layout="grid">
+                                <p:dataTable id="optionalAnswers" styleClass="borderless" 
+                                             value="#{manageQuestionController.optionalAnswers}" 
+                                             var="optionalAnswer"
+                                             rows="10"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15"
+                                             paginatorPosition="bottom"
+                                             emptyMessage="No Optional answers found.">
+                                    <p:column headerText="Answer" filterBy="#{optionalAnswer.text}" filterMatchMode="contains">
+                                        <p:inputText value="#{optionalAnswer.text}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="#{optionalAnswer.correct}" style="background-color: white"
+                                                         action="#{manageQuestionController.setCorrect(optionalAnswer)}" update="@form"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton value="Delete" action="#{manageQuestionController.deleteOptionalAnswer(optionalAnswer)}"
+                                                         style="background-color: white" update="@form"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panelGrid>
+                        </div>
                     </p:panelGrid>
                 </p:outputPanel>
             </h:form>

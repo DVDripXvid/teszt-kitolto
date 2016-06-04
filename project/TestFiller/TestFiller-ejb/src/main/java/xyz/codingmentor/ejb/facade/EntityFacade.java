@@ -54,4 +54,8 @@ public class EntityFacade {
                 .setParameter(firstParamName, firstParamValue)
                 .setParameter(secondParamName, secondParamValue).getResultList();
     }
+    
+    public <T> T namedQueryOneParamSingleResult(String queryName, Class<T> clazz, String paramName, Object paramValue){
+        return entityManager.createNamedQuery(queryName, clazz).setParameter(paramName, paramValue).getSingleResult();
+    }
 }

@@ -47,7 +47,7 @@
                 <div class="panel-heading" style="text-align: center">
                     <h4>Tests</h4>
                 </div>
-                <h:panelGrid columns="1" cellpadding="10" >
+                <p:panelGrid columns="1" layout="grid">
                     <p:dataTable id="tests" styleClass="borderless" 
                                  value="#{teacherController.tests}" 
                                  var="test"
@@ -93,7 +93,7 @@
                         <p:column>
                             <p:commandButton value="Edit test" style="background-color: white"
                                              oncomplete="PF('editTest').show();" update="@form">
-                                <f:setPropertyActionListener value="#{test}"
+                                <f:setPropertyActionListener value="#{teacherController.goToEditTest(test)}"
                                                              target="#{teacherController.test}" />
                             </p:commandButton>
                         </p:column>
@@ -104,7 +104,7 @@
                                              ajax="false"/>
                         </p:column>
                     </p:dataTable>
-                </h:panelGrid>
+                </p:panelGrid>
             </div>
         </h:form>
         <p:dialog header="Create test" widgetVar="createTest" modal="true">
@@ -115,7 +115,7 @@
                         <p:inputText value="#{teacherController.test.name}" />
                         <br/>
                         <p:outputLabel>Course: </p:outputLabel>
-                        <p:selectOneMenu id="course">
+                        <p:selectOneMenu value="#{teacherController.courseName}">
                             <f:selectItems value="#{teacherController.courses}"/>
                         </p:selectOneMenu>
                         <p:outputLabel>Duration (min): </p:outputLabel>
@@ -135,7 +135,7 @@
                         <p:inputText value="#{teacherController.test.name}" />
                         <br/>
                         <p:outputLabel>Course: </p:outputLabel>
-                        <p:selectOneMenu id="course">
+                        <p:selectOneMenu value="#{teacherController.courseName}">
                             <f:selectItems value="#{teacherController.courses}"/>
                         </p:selectOneMenu>
                         <p:outputLabel>Duration (min): </p:outputLabel>

@@ -15,7 +15,7 @@ import xyz.codingmentor.entity.Test;
 
 @ManagedBean
 @SessionScoped
-public class ManageQuestionController implements Serializable{
+public class ManageQuestionController implements Serializable {
 
     @EJB
     private EntityFacade ef;
@@ -64,49 +64,74 @@ public class ManageQuestionController implements Serializable{
     public void setOptionalAnswersToDelete(List<Long> optionalAnswersToDelete) {
         this.optionalAnswersToDelete = optionalAnswersToDelete;
     }
-    
+
     public List<Question> getQuestions() {
         return test.getQuestions();
     }
-    
-    public List<QuestionType> getQuestionTypes(){
+
+    public List<QuestionType> getQuestionTypes() {
         return Arrays.asList(QuestionType.CHOOSER, QuestionType.TEXT);
     }
-    
-    public String goToManageQuestons(Test test){
+
+    public List<OptionalAnswer> getOptionalAnswers() {
+        return question.getOptionalAnswers();
+    }
+
+    public String goToManageQuestons(Test test) {
         setTest(test);
         setQuestionsToDelete(new ArrayList<Long>());
+        setQuestion(new Question());
+        setOptionalAnswersToDelete(new ArrayList<Long>());
         return "manageQuestion";
     }
 
-    public Question goToCreateTextQuestion(){
+    public Question goToCreateQuestion() {
         setQuestion(new Question());
+        setOptionalAnswer(new OptionalAnswer());
         return question;
     }
-    
-    public void createTextQuestion(){
+
+    public void createTextQuestion() {
         question.setType(QuestionType.TEXT);
         test.getQuestions().add(question);
     }
-    
-    public Question goToCreateOptionalQuestion(){
-        setQuestion(new Question());
-        setOptionalAnswer(new OptionalAnswer());
-        setOptionalAnswersToDelete(new ArrayList<Long>());
-        return question;
-    }
-    
-    public void addOptionaAnswer(){
+
+    public void addOptionaAnswer() {
         question.getOptionalAnswers().add(optionalAnswer);
+        optionalAnswer = new OptionalAnswer();
     }
-    
-    public void createOptionalQuestion(){
+
+    public void setCorrect(OptionalAnswer optionalAnswer) {
+        if (optionalAnswer.getCorrect() == false){
+            for (OptionalAnswer oa : question.getOptionalAnswers()){
+                oa.setCorrect(Boolean.FALSE);
+            }
+        }
+        optionalAnswer.setCorrect(!optionalAnswer.getCorrect());
+    }
+
+    public void deleteOptionalAnswer(OptionalAnswer optionalAnswer) {
+        if (optionalAnswer.getId() != null) {
+            optionalAnswersToDelete.add(optionalAnswer.getId());
+        }
+        question.getOptionalAnswers().remove(optionalAnswer);
+    }
+
+    public void createOptionalQuestion() {
         question.setType(QuestionType.CHOOSER);
         test.getQuestions().add(question);
-        }
-
+    }
+    
+    public boolean isChooser(Question question){
+        return question.getType().equals(QuestionType.CHOOSER);
+    }
+    
+    public boolean isText(Question question){
+        return question.getType().equals(QuestionType.TEXT);
+    }
+    
     public void delete(Question question) {
-        if(question.getId() != null){
+        if (question.getId() != null) {
             questionsToDelete.add(question.getId());
         }
         test.getQuestions().remove(question);
@@ -114,8 +139,11 @@ public class ManageQuestionController implements Serializable{
 
     public String finish() {
         ef.update(test);
-        for (Long id : questionsToDelete){
+        for (Long id : questionsToDelete) {
             ef.delete(Question.class, id);
+        }
+        for (Long id : optionalAnswersToDelete){
+            ef.delete(OptionalAnswer.class, id);
         }
         return "index";
     }

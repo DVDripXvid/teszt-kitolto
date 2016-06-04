@@ -23,10 +23,11 @@ import javax.persistence.OneToMany;
 public class Teacher extends User implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Course> courses;
+    @JoinColumn(name = "Teacher_Id")
+    private List<Course> courses = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEACHER_ID")
-    private List<Test> tests;
+    private List<Test> tests = new ArrayList<>();
 
     public Teacher() {
     }
@@ -56,5 +57,5 @@ public class Teacher extends User implements Serializable {
         setAdmin(!isAdmin());
         return true;
     }
-    
+
 }

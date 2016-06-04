@@ -39,7 +39,7 @@ public class Question implements Serializable {
     private Integer lengthOfAnswer;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "Question_Id")
-    private List<OptionalAnswer> optionalAnswers;
+    private List<OptionalAnswer> optionalAnswers = new ArrayList<>();
     
     public Question() {
         this.filledAnswers = new ArrayList<>();

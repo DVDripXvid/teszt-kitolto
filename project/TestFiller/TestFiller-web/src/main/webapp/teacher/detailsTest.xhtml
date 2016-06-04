@@ -42,7 +42,7 @@
                 <div class="panel-heading" style="text-align: center">
                     <h4>Filled tests</h4>
                 </div>
-                <h:panelGrid columns="1" cellpadding="10" >
+                <p:panelGrid columns="1" layout="grid">
                     <p:dataTable id="filledTests" styleClass="borderless" 
                                  value="#{detailsTestController.filledTests}" 
                                  var="filledTest"
@@ -69,7 +69,7 @@
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-                </h:panelGrid>
+                </p:panelGrid>
             </div>
         </h:form>
         <p:dialog header="Revision" widgetVar="revision" modal="true">
@@ -78,7 +78,7 @@
                     <div class="panel-heading" style="text-align: center">
                         <h4>Filled tests</h4>
                     </div>
-                    <h:panelGrid columns="1" cellpadding="10" >
+                    <p:panelGrid columns="1" layout="grid" >
                         <p:dataTable id="filledTests" styleClass="borderless" 
                                      value="#{detailsTestController.filledTest.filledAnswers}" 
                                      var="filledAnswer"
@@ -92,7 +92,7 @@
                                 <h:outputText value="#{filledAnswer.question.text}"/>
                             </p:column>
                             <p:column headerText="Answer" filterMatchMode="contains">
-                                <h:outputText />
+                                <h:outputText value="#{filledAnswer.answerForQuestion}"/>
                             </p:column>
                             <p:column headerText="Point">
                                 <p:inputText value="#{filledAnswer.point}" />
@@ -101,7 +101,7 @@
                                 <p:inputText value="#{filledAnswer.comment}" />
                             </p:column>
                         </p:dataTable>
-                    </h:panelGrid>
+                    </p:panelGrid>
                 </div>
                 <p:commandButton value="Finish" style="background-color: white"
                                  update="@form" oncomplete="PF('revision').hide();"/>

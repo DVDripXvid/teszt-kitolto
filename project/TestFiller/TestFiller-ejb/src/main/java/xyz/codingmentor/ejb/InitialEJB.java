@@ -92,6 +92,12 @@ public class InitialEJB {
         user.getRoles().add(facade.findRole("ADMIN"));
         Teacher teacher = new Teacher("Teacher", "Bela", "pass", "teacher");
         teacher.setAccepted(true);
+        Course c1 = new Course();
+        c1.setName("Matematika");
+        Course c2 = new Course();
+        c2.setName("Magyar");
+        teacher.getCourses().add(c1);
+        teacher.getCourses().add(c2);
         facade.create(teacher);
         teacher.getRoles().add(facade.findRole("TEACHER"));
         Student student = new Student("Student", "Laci", "pass", "student");

@@ -35,12 +35,11 @@ public class Test implements Serializable {
     private String name;
     private Integer duration;
     @ManyToOne
-    @JoinColumn(name = "COURSE_ID")
     private Course course;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEST_ID")
     private List<Question> questions = new ArrayList<>();
-    @ManyToOne
+    @ManyToOne()
     private Teacher teacher;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     @JoinColumn(name = "TEST_ID")
