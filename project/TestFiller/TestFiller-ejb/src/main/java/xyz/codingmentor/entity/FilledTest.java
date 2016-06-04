@@ -50,7 +50,7 @@ public class FilledTest implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "FILLED_TEST_ID")
     private List<FilledAnswer> filledAnswers = new ArrayList<>();
-    private Float finalResult = 0F;
+    private Float finalResult;
 
     public Long getId() {
         return id;

@@ -74,7 +74,7 @@ public class TeacherController implements Serializable {
     public int numberOfRevievable(Test test) {
         int c = 0;
         for (FilledTest filledTest : test.getFilledTests()) {
-            if (filledTest.isReady() == true && filledTest.getFinalResult() != null) {
+            if (filledTest.isReady() == true && filledTest.getFinalResult() == null) {
                 c++;
             }
         }
