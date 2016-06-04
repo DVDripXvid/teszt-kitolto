@@ -59,6 +59,7 @@
                             <p:panelGrid rendered="#{studentWriteTestController.actualQuestionTypeChoose}"
                                          style="height: 100px; width: 100%;">
                                 <p:selectOneRadio value="#{studentWriteTestController.selectedOptionalAnswer}">
+                                    <f:converter binding="#{answerConverter}"/>
                                     <f:selectItems value="#{studentWriteTestController.optionalAnswers}"
                                                    var="optionalAnswer"
                                                    itemLabel="#{optionalAnswer.text}"

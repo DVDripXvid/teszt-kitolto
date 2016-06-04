@@ -50,11 +50,11 @@ public class Course implements Serializable {
     @Column(name = "COURSE_TIME")
     @NotNull
     private Date time;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Subject> subjects;
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
     private List<Student> students;
-    @ManyToMany(mappedBy = "courses")
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
     private List<Teacher> teachers;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<FilledTest> filledTests;

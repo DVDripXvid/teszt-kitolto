@@ -107,7 +107,7 @@
                     <p:button outcome="index.xhtml"
                               value="Back"
                               icon="ui-icon-carat-1-w"
-                              style="background-color: white; font-size: medium; width: 100%;"/>
+                              style="background-color: white; font-size: medium; width: 100%; vertical-align: bottom;"/>
                 </div>
                 <div class="col-md-8">
                     <div class="panel panel-default">
@@ -118,18 +118,17 @@
                                      value="#{studentSubscribeController.allCourses}" 
                                      var="course"
                                      widgetVar="availableCourseTable"
-                                     emptyMessage="No course found with given criteria"
+                                     emptyMessage="There is no available course"
                                      rows="10"
                                      paginator="true"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5,10,15"
                                      paginatorPosition="bottom"
-                                     filteredValue="#{studentSubscribeController.filteredCourseList}">
-                            <p:growl id="growl" life="2000" />
-                            <p:column filterBy="#{course.name}" headerText="Name" filterMatchMode="contains">
+                                     lazy="true">
+                            <p:column headerText="Name" filterBy="#{course.name}" sortBy="#{course.name}">
                                 <h:outputText value="#{course.name}"/>
                             </p:column>
-                            <p:column filterBy="#{course.time}" headerText="Time" filterFunction="#{studentSubscribeController.filterByPrice}">
+                            <p:column filterBy="#{course.time}" headerText="Time" sortBy="#{course.time}">
                                 <h:outputText value="#{course.time}">
                                     <f:convertDateTime pattern="yyyy-MM-dd hh:mm" timeZone="ECT"/>
                                 </h:outputText>

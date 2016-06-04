@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import javax.ejb.EJB;
@@ -13,13 +14,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
+import org.primefaces.model.LazyDataModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.Student;
-import xyz.codingmentor.entity.Test;
 import xyz.codingmentor.interceptor.LoggerInterceptor;
+import xyz.codingmentor.model.LazyCourseDataModel;
 
 @ManagedBean
 @SessionScoped
@@ -37,7 +39,7 @@ public class StudentSubscribeController implements Serializable {
     private EntityFacade entityFacade;
     private Student activeStudent;
     private List<Course> subscribedCourses;
-    private List<Course> allCourses;
+    private LazyDataModel<Course> allCourses;
     private List<Course> filteredCourseList;
 
     public StudentSubscribeController() {
@@ -45,6 +47,8 @@ public class StudentSubscribeController implements Serializable {
 
     public void manageCourses() {
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
+        allCourses = new LazyCourseDataModel(entityFacade.namedQueryOneParam("COURSE.findForUser", Course.class, "student", activeStudent));
+
         try {
             ec.redirect(ec.getApplicationContextPath() + "/faces/student/manageCourses.xhtml");
         } catch (IOException ex) {
@@ -68,12 +72,12 @@ public class StudentSubscribeController implements Serializable {
         this.filteredCourseList = filteredCourseList;
     }
 
-    public List<Course> getAllCourses() {
-        allCourses = entityFacade.namedQueryOneParam("COURSE.findForUser", Course.class, "student", activeStudent);
+    public LazyDataModel<Course> getAllCourses() {
+        allCourses = new LazyCourseDataModel(entityFacade.namedQueryOneParam("COURSE.findForUser", Course.class, "student", activeStudent));
         return allCourses;
     }
 
-    public void setAllCourses(List<Course> allCourses) {
+    public void setAllCourses(LazyDataModel<Course> allCourses) {
         this.allCourses = allCourses;
     }
 
@@ -86,6 +90,7 @@ public class StudentSubscribeController implements Serializable {
             activeStudent.setSubscribed(selectedCourse);
             selectedCourse.getSubscribers().add(activeStudent);
             entityFacade.update(activeStudent);
+            entityFacade.update(selectedCourse);
 
             //successfullSubscriptionMessage();
         } else {
@@ -101,17 +106,10 @@ public class StudentSubscribeController implements Serializable {
 
         //successfullUnsubscriptionMessage();
     }
-    
-    public List<Course> getStudentSubscibedCourse() {
-        List<Course> returnList = new ArrayList<>();
-        if (activeStudent.getSubscribed() == null) {
-            returnList.clear();
-            return returnList;
-        } else {
-            returnList.add(activeStudent.getSubscribed());
-        }
 
-        return returnList;
+    public List<Course> getStudentSubscibedCourse() {
+        return activeStudent.getSubscribed() != null 
+                ? new ArrayList<>(Arrays.asList(activeStudent.getSubscribed())) : new ArrayList<Course>();
     }
 
     public boolean filterByPrice(Object value, Object filter, Locale locale) {
@@ -138,15 +136,5 @@ public class StudentSubscribeController implements Serializable {
 
     private void warnMessage() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, AlreadySubscribedMessage, null));
-    }
-
-    private void addTestsToCourse(Course c) {
-        c.getTests().add(new Test(c.getName() + " - Test1", 20, c));
-        c.getTests().add(new Test(c.getName() + " - Test2", 20, c));
-        c.getTests().add(new Test(c.getName() + " - Test3", 20, c));
-        c.getTests().add(new Test(c.getName() + " - Test4", 20, c));
-        c.getTests().add(new Test(c.getName() + " - Test5", 20, c));
-        c.getTests().add(new Test(c.getName() + " - Test6", 20, c));
-        c.getTests().add(new Test(c.getName() + " - Test7", 20, c));
     }
 }

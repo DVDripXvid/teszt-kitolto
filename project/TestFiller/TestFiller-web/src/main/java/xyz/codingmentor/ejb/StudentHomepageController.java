@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -11,6 +12,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.interceptor.Interceptors;
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.StreamedContent;
 import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.Course;
@@ -35,6 +37,8 @@ public class StudentHomepageController implements Serializable {
     private List<FilledTest> selectableFilledTests;
     private StreamedContent profilePicture;
 
+    private LazyDataModel<Test> availableTests;
+
     public StudentHomepageController() {
         selectableCourses = new ArrayList<>();
         selectableCourses.add("ALL");
@@ -43,9 +47,33 @@ public class StudentHomepageController implements Serializable {
         selectableFilledTests = new ArrayList();
     }
 
-    public void load() {
+    @PostConstruct
+    public void init() {
+//        try {
+//            this.availableTests = new LazyDataModel<Test>() {
+//                @Override
+//                public List<Test> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+//                    List<Test> result = entityFacade.getPaginatedListTwoParam(first, pageSize, queryName, clazz, firstParamName, firstParamValue);
+//                    availableTests.setRowCount(entityFacade.getPaginatedListTwoParam(first, pageSize, queryName, clazz, firstParamName, firstParamValue).size());
+//                    return result;
+//                }
+//            };
+//        } catch (Exception e) {
+//        }
+
+    }
+
+    public void loaded() {
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
         profilePicture = getImage();
+    }
+
+    public LazyDataModel<Test> getAvailableTests() {
+        return availableTests;
+    }
+
+    public void setAvailableTests(LazyDataModel<Test> availableTests) {
+        this.availableTests = availableTests;
     }
 
     public Student getActiveStudent() {
@@ -88,21 +116,8 @@ public class StudentHomepageController implements Serializable {
         this.selectableCourses = selectableCourses;
     }
 
-    public void setSelectableTests(List<Test> selectableTests) {
-        this.selectableTests = selectableTests;
-    }
-
     public void setSelectableFilledTests(List<FilledTest> selectableFilledTests) {
         this.selectableFilledTests = selectableFilledTests;
-    }
-
-    public List<Test> getSelectableTests() {
-        selectableTests.clear();
-        if (selectableCourses != null && selectableCourses.size() > 0) {
-            setTestsList();
-        }
-
-        return selectableTests;
     }
 
     public List<FilledTest> getSelectableFilledTests() {
@@ -114,6 +129,19 @@ public class StudentHomepageController implements Serializable {
         return selectableFilledTests;
     }
 
+    public void setSelectableTests(List<Test> selectableTests) {
+        this.selectableTests = selectableTests;
+    }
+
+    public List<Test> getSelectableTests() {
+        selectableTests.clear();
+        if (selectableCourses != null && selectableCourses.size() > 0) {
+            setTestsList();
+        }
+
+        return selectableTests;
+    }
+
     private void setTestsList() {
         if (selectedCourse == null || selectedCourse.equals(selectableCourses.get(0))) {
             for (Course course : activeStudent.getCourses()) {
@@ -122,17 +150,6 @@ public class StudentHomepageController implements Serializable {
         } else {
             Course course = entityFacade.namedQueryOneParam("COURSE.findByName", Course.class, "name", selectedCourse).get(0);
             findTestsToCourses(course);
-        }
-    }
-
-    private void setFilledTestsList() {
-        if (selectedCourse == null || selectedCourse.equals(selectableCourses.get(0))) {
-            for (Course course : activeStudent.getCourses()) {
-                findFilledTestsToCourses(course);
-            }
-        } else {
-            Course course = entityFacade.namedQueryOneParam("COURSE.findByName", Course.class, "name", selectedCourse).get(0);
-            findFilledTestsToCourses(course);
         }
     }
 
@@ -147,6 +164,17 @@ public class StudentHomepageController implements Serializable {
         List<FilledTest> filledTests = entityFacade.namedQueryTwoParam("FILLEDTEST.findByStudentIdAndTestIdAndReady", FilledTest.class, "studentId", activeStudent.getId(), "testId", test.getId());
         if (filledTests.isEmpty()) {
             selectableTests.add(test);
+        }
+    }
+
+    private void setFilledTestsList() {
+        if (selectedCourse == null || selectedCourse.equals(selectableCourses.get(0))) {
+            for (Course course : activeStudent.getCourses()) {
+                findFilledTestsToCourses(course);
+            }
+        } else {
+            Course course = entityFacade.namedQueryOneParam("COURSE.findByName", Course.class, "name", selectedCourse).get(0);
+            findFilledTestsToCourses(course);
         }
     }
 
