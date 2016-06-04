@@ -20,7 +20,7 @@
         </div>
         <br/>
         <h:form >
-            <p:messages autoUpdate="true"/>
+            <!--p:messages autoUpdate="true"/-->
             <div class="row">
                 <div class ="col-md-4">
                 </div>
@@ -48,6 +48,7 @@
                                  
                                  validatorMessage="This e-mail address is not valid"
                                  type="text" >
+                        <p:messages autoUpdate="true" closable="true" />
                         <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                     </p:inputText>
                     <br/>
