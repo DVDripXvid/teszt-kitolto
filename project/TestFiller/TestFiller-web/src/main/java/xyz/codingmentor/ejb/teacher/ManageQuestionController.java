@@ -18,7 +18,7 @@ import xyz.codingmentor.entity.Test;
 public class ManageQuestionController implements Serializable {
 
     @EJB
-    private EntityFacade ef;
+    private EntityFacade entityFacade;
     private Test test;
     private Question question;
     private OptionalAnswer optionalAnswer;
@@ -49,22 +49,6 @@ public class ManageQuestionController implements Serializable {
         this.optionalAnswer = optionalAnswer;
     }
 
-    public List<Long> getQuestionsToDelete() {
-        return questionsToDelete;
-    }
-
-    public void setQuestionsToDelete(List<Long> questionsToDelete) {
-        this.questionsToDelete = questionsToDelete;
-    }
-
-    public List<Long> getOptionalAnswersToDelete() {
-        return optionalAnswersToDelete;
-    }
-
-    public void setOptionalAnswersToDelete(List<Long> optionalAnswersToDelete) {
-        this.optionalAnswersToDelete = optionalAnswersToDelete;
-    }
-
     public List<Question> getQuestions() {
         return test.getQuestions();
     }
@@ -79,9 +63,9 @@ public class ManageQuestionController implements Serializable {
 
     public String goToManageQuestons(Test test) {
         setTest(test);
-        setQuestionsToDelete(new ArrayList<Long>());
+        questionsToDelete = new ArrayList<>();
         setQuestion(new Question());
-        setOptionalAnswersToDelete(new ArrayList<Long>());
+        optionalAnswersToDelete = new ArrayList<>();
         return "manageQuestion";
     }
 
@@ -138,13 +122,21 @@ public class ManageQuestionController implements Serializable {
     }
 
     public String finish() {
-        ef.update(test);
-        for (Long id : questionsToDelete) {
-            ef.delete(Question.class, id);
-        }
-        for (Long id : optionalAnswersToDelete){
-            ef.delete(OptionalAnswer.class, id);
-        }
+        entityFacade.update(test);
+        deleteQuestions();
+        deleteOptionalAnswers();
         return "index";
+    }
+    
+    private void deleteQuestions(){
+        for (Long id : questionsToDelete) {
+            entityFacade.delete(Question.class, id);
+        }
+    }
+    
+    private void deleteOptionalAnswers(){
+        for (Long id : optionalAnswersToDelete){
+            entityFacade.delete(OptionalAnswer.class, id);
+        }
     }
 }

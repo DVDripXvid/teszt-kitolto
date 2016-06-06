@@ -2,6 +2,7 @@ package xyz.codingmentor.ejb.teacher;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -18,11 +19,34 @@ import xyz.codingmentor.entity.Test;
 public class TeacherController implements Serializable {
 
     @EJB
-    private EntityFacade ef;
+    private EntityFacade entityFacade;
     private Teacher teacher;
     private Test test;
     private String courseName;
 
+    @PostConstruct
+    public void setTeacher(){
+        teacher = entityFacade.namedQueryOneParamSingleResult(
+                QueryName.TEACHER_findByEmail, Teacher.class,
+                "email", FacesContext.getCurrentInstance()
+                .getExternalContext().getRemoteUser());
+    }
+    
+    public List<Test> getTests() {
+        return entityFacade.namedQueryOneParam(QueryName.TEST_findByTeacherId,
+                Test.class, "teacherId", teacher.getId());
+    }
+
+    public void createTest() {
+        test.setTeacher(teacher);
+        addTestToCourse();
+        entityFacade.create(test);
+    }
+
+    // getterek, setterek...
+    
+    
+    
     public Test getTest() {
         return test;
     }
@@ -39,8 +63,18 @@ public class TeacherController implements Serializable {
         this.courseName = courseName;
     }
 
+    public void addTestToCourse() {
+        for (Course c : getCourses()) {
+            if (c.getName().equals(courseName)) {
+                test.setCourse(c);
+                return;
+            }
+        }
+    }
+
     public List<Course> getCourses() {
-        return teacher.getCourses();
+        return entityFacade.namedQueryOneParam(QueryName.COURSE_findByTeacher,
+                Course.class, "teacher", teacher);
     }
 
     public Test goToCreateTest() {
@@ -49,36 +83,9 @@ public class TeacherController implements Serializable {
         return test;
     }
 
-    public void createTest() {
-        teacher.getTests().add(test);
-        for (Course c : teacher.getCourses()) {
-            if (c.getName().equals(courseName)) {
-                test.setCourse(c);
-            }
-        }
-        ef.update(teacher);
-    }
-
-    public List<Test> getTests() {
-        teacher = ef.namedQueryOneParamSingleResult(QueryName.TEACHER_findByEmail,
-                Teacher.class, "email", FacesContext.getCurrentInstance()
-                .getExternalContext().getRemoteUser());
-        return teacher.getTests();
-    }
-
     public void activate(Test test) {
         test.setActive(!test.getActive());
-        ef.update(test);
-    }
-
-    public int numberOfRevievable(Test test) {
-        int c = 0;
-        for (FilledTest filledTest : test.getFilledTests()) {
-            if (filledTest.isReady() == true && filledTest.getFinalResult() == null) {
-                c++;
-            }
-        }
-        return c;
+        entityFacade.update(test);
     }
 
     public Test goToEditTest(Test test) {
@@ -87,20 +94,11 @@ public class TeacherController implements Serializable {
     }
 
     public void editTest() {
-        for (Course c : teacher.getCourses()) {
-            if (c.getName().equals(courseName)) {
-                test.setCourse(c);
-            }
-        }
-        ef.update(test);
+        addTestToCourse();
+        entityFacade.update(test);
     }
 
-    public void deleteTest(Test test) {
-        teacher.getTests().remove(test);
-        ef.update(teacher);
-        Course course = test.getCourse();
-        course.getTests().remove(test);
-        ef.update(course);
-        ef.delete(Test.class, test.getId());
+    public void deleteTest(Test test){
+        entityFacade.delete(Test.class, test.getId());
     }
 }

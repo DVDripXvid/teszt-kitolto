@@ -3,9 +3,7 @@ package xyz.codingmentor.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,14 +20,14 @@ import javax.persistence.OneToMany;
 })
 public class Teacher extends User implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany
     @JoinColumn(name = "Teacher_Id")
     private List<Course> courses = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "TEACHER_ID")
+    @OneToMany
     private List<Test> tests = new ArrayList<>();
 
     public Teacher() {
+        super();
     }
 
     public Teacher(String firstName, String lastName, String password, String email) {

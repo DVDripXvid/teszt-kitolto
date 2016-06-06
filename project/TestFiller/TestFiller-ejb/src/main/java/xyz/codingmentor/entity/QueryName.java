@@ -20,5 +20,7 @@ public abstract class QueryName {
     public static String ROLE_findAll = "ROLE.findAll";
     public static String ROLE_findByUser = "ROLE.findByUser";
     public static String TEACHER_findByEmail = "TEACHER.findByEmail";
+    public static String TEST_findByTeacherId = "TEST.findByTeacherId";
+    public static String COURSE_findByTeacher = "COURSE.findByTeacher";
 
 }

@@ -34,16 +34,12 @@ public class Question implements Serializable {
     private QuestionType type;
     @ManyToOne
     private Test test;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany
     private List<FilledAnswer> filledAnswers;
     private Integer lengthOfAnswer;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "Question_Id")
     private List<OptionalAnswer> optionalAnswers = new ArrayList<>();
-    
-    public Question() {
-        this.filledAnswers = new ArrayList<>();
-    }
 
     public Long getId() {
         return id;
@@ -77,20 +73,20 @@ public class Question implements Serializable {
         this.test = test;
     }
 
-    public Integer getLengthOfAnswer() {
-        return lengthOfAnswer;
-    }
-
-    public void setLengthOfAnswer(Integer lengthOfAnswer) {
-        this.lengthOfAnswer = lengthOfAnswer;
-    }
-
     public List<FilledAnswer> getFilledAnswers() {
         return filledAnswers;
     }
 
     public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
         this.filledAnswers = filledAnswers;
+    }
+
+    public Integer getLengthOfAnswer() {
+        return lengthOfAnswer;
+    }
+
+    public void setLengthOfAnswer(Integer lengthOfAnswer) {
+        this.lengthOfAnswer = lengthOfAnswer;
     }
 
     public List<OptionalAnswer> getOptionalAnswers() {

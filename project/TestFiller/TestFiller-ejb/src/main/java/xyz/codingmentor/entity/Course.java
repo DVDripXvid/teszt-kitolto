@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,7 +34,9 @@ import javax.validation.constraints.NotNull;
             query = "SELECT c "
                     + "FROM Course c "
                     + "WHERE :student NOT MEMBER OF c.students "
-                    + "AND :student NOT MEMBER OF c.subscribers")
+                    + "AND :student NOT MEMBER OF c.subscribers"),
+    @NamedQuery(name = "COURSE.findByTeacher",
+            query = "SELECT c FROM Course c WHERE :teacher MEMBER OF c.teachers")
 })
 public class Course implements Serializable {
 
@@ -51,11 +52,11 @@ public class Course implements Serializable {
     private List<Subject> subjects;
     @ManyToMany(mappedBy = "courses")
     private List<Student> students;
-    @ManyToMany()
+    @ManyToMany
     private List<Teacher> teachers;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<FilledTest> filledTests;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany
     private List<Test> tests;
     @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
     private List<Student> subscribers;

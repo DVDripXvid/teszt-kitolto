@@ -25,7 +25,9 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "TEST.searchByName",
             query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')"),
     @NamedQuery(name = "TEST.findByCourseId", 
-            query = "SELECT t FROM Test t WHERE t.course = :course")
+            query = "SELECT t FROM Test t WHERE t.course = :course"),
+    @NamedQuery(name = "TEST.findByTeacherId", 
+            query = "SELECT t FROM Test t WHERE t.teacher.id = :teacherId")
 })
 public class Test implements Serializable {
 
@@ -39,7 +41,7 @@ public class Test implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEST_ID")
     private List<Question> questions = new ArrayList<>();
-    @ManyToOne()
+    @ManyToOne
     private Teacher teacher;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     @JoinColumn(name = "TEST_ID")
