@@ -86,8 +86,8 @@ public class ManageQuestionController implements Serializable {
     }
 
     public void setCorrect(OptionalAnswer optionalAnswer) {
-        if (optionalAnswer.getCorrect() == false){
-            for (OptionalAnswer oa : question.getOptionalAnswers()){
+        if (optionalAnswer.getCorrect() == false) {
+            for (OptionalAnswer oa : question.getOptionalAnswers()) {
                 oa.setCorrect(Boolean.FALSE);
             }
         }
@@ -105,15 +105,15 @@ public class ManageQuestionController implements Serializable {
         question.setType(QuestionType.CHOOSER);
         test.getQuestions().add(question);
     }
-    
-    public boolean isChooser(Question question){
+
+    public boolean isChooser(Question question) {
         return question.getType().equals(QuestionType.CHOOSER);
     }
-    
-    public boolean isText(Question question){
+
+    public boolean isText(Question question) {
         return question.getType().equals(QuestionType.TEXT);
     }
-    
+
     public void delete(Question question) {
         if (question.getId() != null) {
             questionsToDelete.add(question.getId());
@@ -127,15 +127,15 @@ public class ManageQuestionController implements Serializable {
         deleteOptionalAnswers();
         return "index";
     }
-    
-    private void deleteQuestions(){
+
+    private void deleteQuestions() {
         for (Long id : questionsToDelete) {
             entityFacade.delete(Question.class, id);
         }
     }
-    
-    private void deleteOptionalAnswers(){
-        for (Long id : optionalAnswersToDelete){
+
+    private void deleteOptionalAnswers() {
+        for (Long id : optionalAnswersToDelete) {
             entityFacade.delete(OptionalAnswer.class, id);
         }
     }

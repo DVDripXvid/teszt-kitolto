@@ -31,7 +31,10 @@ import javax.persistence.NamedQuery;
                     + "FROM FilledTest ft "
                     + "WHERE ft.student.id = :studentId "
                     + "AND ft.test.id = :testId "
-                    + "AND ft.ready = TRUE")
+                    + "AND ft.ready = TRUE"),
+    @NamedQuery(name = "FILLEDTEST.findByTestIdAndReady",
+            query = "SELECT ft FROM FilledTest ft WHERE "
+                    + "ft.test.id = :testId AND ft.ready = TRUE")
 })
 public class FilledTest implements Serializable {
 
@@ -101,15 +104,7 @@ public class FilledTest implements Serializable {
     }
 
     public Float getFinalResult() {
-        if (filledAnswers != null && filledAnswers.size() > 0) {
-            for (FilledAnswer filledAnswer : filledAnswers) {
-                finalResult += filledAnswer.getPoint();
-            }
-            
-            return finalResult / filledAnswers.size();
-        }else {
-            return null;
-        }
+        return finalResult;
     }
 
     public void setFinalResult(Float finalResult) {

@@ -25,13 +25,13 @@ public class TeacherController implements Serializable {
     private String courseName;
 
     @PostConstruct
-    public void setTeacher(){
+    public void setTeacher() {
         teacher = entityFacade.namedQueryOneParamSingleResult(
                 QueryName.TEACHER_findByEmail, Teacher.class,
                 "email", FacesContext.getCurrentInstance()
                 .getExternalContext().getRemoteUser());
     }
-    
+
     public List<Test> getTests() {
         return entityFacade.namedQueryOneParam(QueryName.TEST_findByTeacherId,
                 Test.class, "teacherId", teacher.getId());
@@ -44,9 +44,6 @@ public class TeacherController implements Serializable {
     }
 
     // getterek, setterek...
-    
-    
-    
     public Test getTest() {
         return test;
     }
@@ -87,6 +84,16 @@ public class TeacherController implements Serializable {
         test.setActive(!test.getActive());
         entityFacade.update(test);
     }
+    
+    public int getNumberOfFills(Test test){
+        int c = 0;
+        for (FilledTest ft : test.getFilledTests()){
+            if (ft.isReady()){
+                c++;
+            }
+        }
+        return c;
+    }
 
     public Test goToEditTest(Test test) {
         courseName = test.getCourse().toString();
@@ -98,7 +105,7 @@ public class TeacherController implements Serializable {
         entityFacade.update(test);
     }
 
-    public void deleteTest(Test test){
+    public void deleteTest(Test test) {
         entityFacade.delete(Test.class, test.getId());
     }
 }

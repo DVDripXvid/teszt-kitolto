@@ -22,5 +22,6 @@ public abstract class QueryName {
     public static String TEACHER_findByEmail = "TEACHER.findByEmail";
     public static String TEST_findByTeacherId = "TEST.findByTeacherId";
     public static String COURSE_findByTeacher = "COURSE.findByTeacher";
-
+    public static String FILLED_TEST_findByTestIdAndReady = "FILLEDTEST.findByTestIdAndReady";
+    
 }

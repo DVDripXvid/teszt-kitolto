@@ -43,7 +43,7 @@ public class Test implements Serializable {
     private List<Question> questions = new ArrayList<>();
     @ManyToOne
     private Teacher teacher;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEST_ID")
     private List<FilledTest> filledTests = new ArrayList<>();
     private Boolean active = false;

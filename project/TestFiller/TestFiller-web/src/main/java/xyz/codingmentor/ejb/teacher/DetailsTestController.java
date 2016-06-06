@@ -10,6 +10,7 @@ import xyz.codingmentor.ejb.facade.EntityFacade;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.OptionalAnswer;
 import xyz.codingmentor.entity.OptionalFilledAnswer;
+import xyz.codingmentor.entity.QueryName;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Test;
@@ -20,7 +21,7 @@ import xyz.codingmentor.entity.TextFilledAnswer;
 public class DetailsTestController {
 
     @EJB
-    private EntityFacade ef;
+    private EntityFacade entityFacade;
     private Test test;
     private FilledTest filledTest;
 
@@ -51,7 +52,7 @@ public class DetailsTestController {
         Question q = new Question();
         q.setText("question");
         tfa.setQuestion(q);
-        OptionalFilledAnswer ofa = new OptionalFilledAnswer();
+        OptionalFilledAnswer ofa =  new OptionalFilledAnswer();
         ofa.setQuestion(q);
         OptionalAnswer oa = new OptionalAnswer();
         oa.setText("Answer");
@@ -70,6 +71,7 @@ public class DetailsTestController {
                 result.add(ft);
             }
         }
-        return result;
+        return result; //entityFacade.namedQueryOneParam(QueryName.FILLED_TEST_findByTestIdAndReady, FilledTest.class, "testId", test.getId());
+
     }
 }

@@ -81,11 +81,8 @@
                                          style="background-color: white"
                                          ajax="false"/>
                     </p:column>
-                    <p:column headerText="Number of fills" >
-                        <h:outputText/>
-                    </p:column>
-                    <p:column headerText="Number of revievable">
-                        <h:outputText/>
+                    <p:column headerText="Number of fills" filterBy="#{teacherController.getNumberOfFills(test)}">
+                        <h:outputText value="#{teacherController.getNumberOfFills(test)}"/>
                     </p:column>
                     <p:column>
                         <p:commandButton value="Details"
