@@ -30,7 +30,11 @@ import javax.persistence.NamedQuery;
                     + "FROM FilledTest ft "
                     + "WHERE ft.student.id = :studentId "
                     + "AND ft.test.id = :testId "
-                    + "AND ft.ready = TRUE")
+                    + "AND ft.ready = TRUE"),
+     @NamedQuery(name = "FILLEDTEST.countReadyByTestId",
+             query = "SELECT COUNT(ft) FROM FilledTest ft WHERE ft.test.id =:testId AND ft.ready = TRUE"),
+     @NamedQuery(name = "FILLEDTEST.countNotReadyByTestId",
+             query = "SELECT COUNT(ft) FROM FilledTest ft WHERE ft.test.id =:testId AND ft.ready = FALSE")
 })
 public class FilledTest implements Serializable {
 

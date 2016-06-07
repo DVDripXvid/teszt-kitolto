@@ -63,16 +63,26 @@
                     <p:ajax event="tabClose" listener="#{controller.unsubscribe(test)}" update="@form"/>
 
                     <p:tab title="#{test.name}" closable="true">
-                        <h1 align="center">Statistics data of #{test.name}</h1>
+                        <h1 align="center">Statistics data of the test</h1>
                         <p:panelGrid columns="2" rendered="#{test.active eq true}" style="margin: 0 auto">
-                            <h:outputText value="Number of finished test: " style="float: right"/>
-                            <h:outputText value="#{controller.countReady(test)}" style="float: left"/>
-                            <h:outputText value="Number of started test: " style="float: right"/>
-                            <h:outputText value="#{controller.countStarted(test)}" style="float: left"/>
-                            <h:outputText value="Duration: " style="float: right"/>
-                            <h:outputText value="#{test.duration}" style="float: left"/>
-                            <h:outputText value="Responsible teacher: " style="float: right"/>
-                            <h:outputText value="#{test.teacher.firstName} #{test.teacher.lastName}" style="float: left"/>
+                            <p:panelGrid columns="2" rendered="#{test.active eq true}" style="margin: 0 auto">
+                                <f:facet name="header">
+                                    <h2 style="text-align:center;">#{test.name}</h2>
+                                </f:facet>
+                                <h:outputText value="Number of Students: " style="float: right"/>
+                                <h:outputText value="#{controller.countStudents(test)}" style="float: left"/>                                
+                                <h:outputText value="Number of finished tests: " style="float: right"/>
+                                <h:outputText value="#{controller.countReady(test)}" style="float: left"/>
+                                <h:outputText value="Number of started tests: " style="float: right"/>
+                                <h:outputText value="#{controller.countStarted(test)}" style="float: left"/>
+                                <h:outputText value="Duration: " style="float: right"/>
+                                <h:outputText value="#{test.duration} minutes" style="float: left"/>
+                                <h:outputText value="Course: " style="float: right"/>
+                                <h:outputText value="#{test.course.name}" style="float: left"/>
+                                <h:outputText value="Responsible teacher: " style="float: right"/>
+                                <h:outputText value="#{test.teacher.firstName} #{test.teacher.lastName}" style="float: left"/>
+                            </p:panelGrid>
+                            <p:chart type="pie" model="#{controller.createChart(test)}" style="width:400px;height:300px" />
                         </p:panelGrid>
                         <h:outputText value="Test with name #{test.name} is not active" rendered="#{test.active eq false}" style="align-content: center; font-size: 24px"/>
                     </p:tab>

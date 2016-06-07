@@ -38,6 +38,16 @@ public class EntityFacade {
         return entity;
     }
     
+    public int sizeQueryOneParam(String queryName, String paramName, Object paramValue){
+        return entityManager.createNamedQuery(queryName, Integer.class)
+                .setParameter(paramName, paramValue).getSingleResult();
+    }
+    
+    public long countQueryOneParam(String queryName, String paramName, Object paramValue){
+        return entityManager.createNamedQuery(queryName, Long.class)
+                .setParameter(paramName, paramValue).getSingleResult();
+    }
+    
     public <T> List<T> namedQuery(String queryName, Class<T> clazz){
         return entityManager.createNamedQuery(queryName, clazz).getResultList();
     }

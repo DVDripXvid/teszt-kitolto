@@ -37,7 +37,9 @@ import xyz.codingmentor.annotation.Validate;
             query = "SELECT c "
                     + "FROM Course c "
                     + "WHERE :student NOT MEMBER OF c.students "
-                    + "AND :student NOT MEMBER OF c.subscribers")
+                    + "AND :student NOT MEMBER OF c.subscribers"),
+    @NamedQuery(name = "COURSE.countStudentsById",
+            query = "SELECT SIZE(c.students) FROM Course c WHERE c.id =:id")
 })
 public class Course implements Serializable {
 

@@ -1,6 +1,5 @@
 package hu.codingmentor.teststat;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +13,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.PieChartModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import xyz.codingmentor.ejb.InitialEJB;
 import xyz.codingmentor.ejb.facade.EntityFacade;
-import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.QueryName;
 import xyz.codingmentor.entity.Test;
 
@@ -29,6 +32,7 @@ public class Controller {
 
     private final Map<Long, Test> subscribtions = new HashMap<>();
     private List<Test> tests;
+    private static final Logger LOGGER = LoggerFactory.getLogger(InitialEJB.class);
 
     @EJB(name = "entityFacade")
     private EntityFacade facade;
@@ -38,13 +42,26 @@ public class Controller {
         try {
             tests = facade.namedQuery(QueryName.TEST_findAll, Test.class);
         } catch (Exception ex) {
-            return;
+            LOGGER.info(ex.getMessage());
         }
-        FilledTest ftest = new FilledTest();
-        ftest.setTest(tests.get(0));
-        ftest.setReady(false);
-        facade.create(ftest);
-        //subscribe(tests.get(0));
+    }
+    
+    public PieChartModel createChart(Test test){
+        PieChartModel chart = new PieChartModel();
+        Long started = countStarted(test);
+        Long finished = countReady(test);
+        Integer all = countStudents(test);
+        chart.set("In progress", started);
+        chart.set("Already finished", finished);
+        chart.set("Not even started", all - started - finished);
+        chart.setShadow(true);
+        chart.setShowDataLabels(true);
+        chart.setLegendPosition("e");
+        return chart;
+    }
+    
+    public int countStudents(Test test){
+        return facade.sizeQueryOneParam(QueryName.COURSE_countStudentsById, "id", test.getCourse().getId());
     }
 
     public void onTabChange(TabChangeEvent event) {
@@ -78,26 +95,12 @@ public class Controller {
         return new ArrayList<>(subscribtions.values());
     }
 
-    public int countStarted(Test test) {
-        int result = 0;
-        test = facade.read(Test.class, test.getId());
-        for (FilledTest filledTest : test.getFilledTests()) {
-            if (!filledTest.isReady()) {
-                ++result;
-            }
-        }
-        return result;
+    public long countStarted(Test test) {        
+        return facade.countQueryOneParam(QueryName.FILLEDTEST_countNotReadyByTestId, "testId", test.getId());
     }
 
-    public int countReady(Test test) {
-        int result = 0;
-        test = facade.read(Test.class, test.getId());
-        for (FilledTest filledTest : test.getFilledTests()) {
-            if (filledTest.isReady()) {
-                ++result;
-            }
-        }
-        return result;
+    public long countReady(Test test) {
+        return facade.countQueryOneParam(QueryName.FILLEDTEST_countReadyByTestId, "testId", test.getId());
     }
 
     public void unsubscribe(Test test) {
