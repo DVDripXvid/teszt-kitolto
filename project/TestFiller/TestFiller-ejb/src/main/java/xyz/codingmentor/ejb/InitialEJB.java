@@ -45,7 +45,7 @@ public class InitialEJB {
     public void createEntity() {
         createRoles();
         createUser();
-//       generateTestData();
+        generateTestData();
 //        createSubjects();
 //        createFilledTests();
     }
@@ -58,7 +58,7 @@ public class InitialEJB {
         student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Git").get(0));
         student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases I").get(0));
         student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases II").get(0));
-        student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases III").get(0));
+        //student1.getCourses().add(facade.namedQueryOneParam("COURSE.findByName", Course.class, "name", "Databases III").get(0));
         facade.update(student1);
 //        createCourses();
 //        createTests();

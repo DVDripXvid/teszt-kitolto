@@ -1,0 +1,19 @@
+insert into Course (id, name, course_time) values (1, 'Java SE', '2016-06-26 08:00:00');
+insert into Course (id, name, course_time) values (2, 'Git', '2016-06-20 08:00:00');
+insert into Course (id, name, course_time) values (3, 'Java EE', '2016-06-13 08:00:00');
+insert into Course (id, name, course_time) values (9, 'Mathematics', '2016-07-01 08:00:00');
+insert into Course (id, name, course_time) values (10, 'Linear algebra', '2016-07-10 08:00:00');
+insert into Course (id, name, course_time) values (11, 'Databases I', '2016-07-23 08:00:00');
+insert into Course (id, name, course_time) values (12, 'Databases II', '2016-08-12 08:00:00');
+insert into Course (id, name, course_time) values (13, 'Databases III', '2016-08-13 08:00:00');
+insert into Course (id, name, course_time) values (14, 'Image processing', '2016-07-26 08:00:00');
+insert into Course (id, name, course_time) values (15, '.NET Basics', '2016-06-09 08:00:00');
+insert into Course (id, name, course_time) values (16, '.NET Technologies', '2016-09-03 08:00:00');
+insert into Course (id, name, course_time) values (17, 'Advanced C#', '2016-09-04 08:00:00');
+insert into Course (id, name, course_time) values (18, 'Digital technologies', '2016-09-05 08:00:00');
+insert into Course (id, name, course_time) values (19, 'Digital systems', '2016-09-17 08:00:00');
+insert into Course (id, name, course_time) values (20, 'Electronics', '2016-10-10 08:00:00');
+insert into Course (id, name, course_time) values (21, 'Programming', '2016-10-15 08:00:00');
+insert into Course (id, name, course_time) values (22, 'PE', '2016-11-01 08:00:00');
+
+SELECT * FROM course;

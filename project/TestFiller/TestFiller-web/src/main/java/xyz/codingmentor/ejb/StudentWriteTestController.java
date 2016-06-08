@@ -46,6 +46,10 @@ public class StudentWriteTestController implements Serializable {
         optionalAnswers = new ArrayList<>();
     }
 
+//    @PreDestroy
+//    private void preDestroy() {
+//        save();
+//    }
     public void finish() {
         writableTest.setReady(Boolean.TRUE);
         try {
@@ -62,11 +66,7 @@ public class StudentWriteTestController implements Serializable {
     }
 
     public void save() {
-        try {
-            entityFacade.create(writableTest);
-        } catch (Exception e) {
-            entityFacade.update(writableTest);
-        }
+        entityFacade.update(writableTest);
         actualTest.getFilledTests().add(writableTest);
         try {
             ec.redirect(ec.getApplicationContextPath() + "/faces/student/index.xhtml");
@@ -139,6 +139,9 @@ public class StudentWriteTestController implements Serializable {
         if (!actualQuestion.getFilledAnswers().contains(textFilledAnswer)) {
             actualQuestion.getFilledAnswers().add(textFilledAnswer);
         }
+        if (!writableTest.getFilledAnswers().contains(textFilledAnswer)) {
+            writableTest.getFilledAnswers().add(textFilledAnswer);
+        }
 
         entityFacade.update(textFilledAnswer);
     }
@@ -147,13 +150,20 @@ public class StudentWriteTestController implements Serializable {
         return textFilledAnswer.getText();
     }
 
+    public Integer getTextFillewAnswerLength() {
+        if (actualQuestion != null) {
+            return actualQuestion.getLengthOfAnswer() != null ? actualQuestion.getLengthOfAnswer() : 10;
+        }
+
+        return 10;
+    }
+
     public OptionalFilledAnswer getOptionalFilledAnswer() {
         return optionalFilledAnswer;
     }
 
     public void setOptionalFilledAnswer(OptionalFilledAnswer optionalFilledAnswer) {
         this.optionalFilledAnswer = optionalFilledAnswer;
-        //entityFacade.update(optionalFilledAnswer);
     }
 
     public Question getActualQuestion() {
@@ -167,12 +177,18 @@ public class StudentWriteTestController implements Serializable {
     public void writeTest(Test test) {
         actualTest = test;
         activeStudent = entityFacade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", ec.getRemoteUser()).get(0);
-        writableTest = new FilledTest();
-        writableTest.setTest(actualTest);
-        writableTest.setStudent(activeStudent);
-        writableTest.setCourse(actualTest.getCourse());
-        writableTest.setReady(Boolean.FALSE);
-        actualTest.getFilledTests().add(writableTest);
+        List<FilledTest> filledTests = entityFacade.namedQueryTwoParam("FILLEDTEST.findByStudentIdAndTestId", FilledTest.class, "studentId", activeStudent.getId(), "testId", test.getId());
+        if (filledTests.isEmpty()) {
+            writableTest = new FilledTest();
+            writableTest.setTest(actualTest);
+            writableTest.setStudent(activeStudent);
+            writableTest.setCourse(actualTest.getCourse());
+            writableTest.setReady(Boolean.FALSE);
+            actualTest.getFilledTests().add(writableTest);
+        } else {
+            writableTest = filledTests.get(0);
+        }
+
         actualQuestion = actualTest.getQuestions().get(0);
 
         initFilledAnswers();
@@ -238,7 +254,7 @@ public class StudentWriteTestController implements Serializable {
             List<OptionalFilledAnswer> optionalFilledAnswers = entityFacade.namedQueryTwoParam(
                     "OPTIONFILLEDALANSWER.findByStudentIdAndQuestionId",
                     OptionalFilledAnswer.class,
-                    "studentId", activeStudent.getId(), "questionId", actualQuestion.getId());
+                    "questionId", actualQuestion.getId(), "studentId", activeStudent.getId());
 
             if (optionalFilledAnswers.size() > 0) {
                 optionalFilledAnswer = optionalFilledAnswers.get(0);
@@ -262,11 +278,13 @@ public class StudentWriteTestController implements Serializable {
         textFilledAnswer = new TextFilledAnswer();
         textFilledAnswer.setQuestion(actualQuestion);
         textFilledAnswer.setStudent(activeStudent);
+        textFilledAnswer.setFilledTest(writableTest);
     }
 
     private void setUpOptionalFilledAnswer() {
         optionalFilledAnswer = new OptionalFilledAnswer();
         optionalFilledAnswer.setQuestion(actualQuestion);
         optionalFilledAnswer.setStudent(activeStudent);
+        optionalFilledAnswer.setFilledTest(writableTest);
     }
 }

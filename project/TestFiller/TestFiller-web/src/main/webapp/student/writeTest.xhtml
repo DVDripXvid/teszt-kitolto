@@ -54,7 +54,9 @@
                             <h4>Answer</h4>
                             <h:inputTextarea rendered="#{studentWriteTestController.actualQuestionTypeText}" 
                                              value="#{studentWriteTestController.textFilledAnswer}"
-                                             style="height: 100px; width: 100%;"/>
+                                             style="height: 100px; width: 100%;">
+                                <f:validateLength maximum="#{studentWriteTestController.textFillewAnswerLength}"/>
+                            </h:inputTextarea>
 
                             <p:panelGrid rendered="#{studentWriteTestController.actualQuestionTypeChoose}"
                                          style="height: 100px; width: 100%;">

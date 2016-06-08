@@ -1,0 +1,16 @@
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (100, 50, 'Describe class declaration!', 1, 20);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (101, 50, 'What is the difference between inner classes and nasted classes?', 1, 20);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (102, null, 'Choose the correct form of static method body!', 0, 20);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (103, null, 'What annotation use for inject an EJB?', 0, 20);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (104, 50, 'What is the difference between automatic conflict solve and manual conflict solve?', 1, 21);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (105, 50, 'How can you revert?', 1, 21);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (106, null, 'Choose the correct code for create new branch and start working on it!', 0, 21);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (107, 50, 'How can you execute code immidiatly after an EJB created?', 1, 22);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (108, null, 'How you can create EJB only for a session?', 0, 22);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (109, 50, 'What is an sql query?', 1, 30);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (110, null, 'Which keywords needed for a simple query?', 0, 30);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (111, 50, 'How to create an interface?', 1, 34);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (112, 50, 'What is the difference between class and interface?', 1, 34);
+insert into Question (id, lengthOfAnswer, text, type, test_id) values (113, null, 'What collection is enumerable?', 0, 34);
+
+SELECT * FROM question;

@@ -50,6 +50,7 @@ public class EntityFacade {
     public <T> List<T> namedQueryTwoParam(String queryName, Class<T> clazz, 
             String firstParamName, Object firstParamValue, 
             String secondParamName, Object secondParamValue){
+        //entityManager.getEntityManagerFactory().getCache().evict(clazz);        
         return entityManager.createNamedQuery(queryName, clazz)
                 .setParameter(firstParamName, firstParamValue)
                 .setParameter(secondParamName, secondParamValue).getResultList();

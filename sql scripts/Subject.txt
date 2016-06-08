@@ -1,0 +1,4 @@
+insert into Subject (id, name) values (1, 'Programming');
+insert into Subject (id, name) values (2, 'Mathematics');
+
+SELECT * FROM subject;
