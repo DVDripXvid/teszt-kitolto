@@ -29,7 +29,7 @@ import xyz.codingmentor.role.RoleName;
  *
  * @author Olivér
  */
-@Startup
+//@Startup
 @Singleton
 public class InitialEJB {
 
@@ -38,7 +38,7 @@ public class InitialEJB {
     @EJB
     private RoleFacade facade;
 
-    @PostConstruct
+  //  @PostConstruct
     public void createEntity() {
         LOGGER.info("singleton created: " + this);
         createRoles();

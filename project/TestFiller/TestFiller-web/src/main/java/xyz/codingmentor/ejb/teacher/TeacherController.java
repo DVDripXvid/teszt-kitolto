@@ -23,27 +23,7 @@ public class TeacherController implements Serializable {
     private Teacher teacher;
     private Test test;
     private String courseName;
-
-    @PostConstruct
-    public void setTeacher() {
-        teacher = entityFacade.namedQueryOneParamSingleResult(
-                QueryName.TEACHER_findByEmail, Teacher.class,
-                "email", FacesContext.getCurrentInstance()
-                .getExternalContext().getRemoteUser());
-    }
-
-    public List<Test> getTests() {
-        return entityFacade.namedQueryOneParam(QueryName.TEST_findByTeacherId,
-                Test.class, "teacherId", teacher.getId());
-    }
-
-    public void createTest() {
-        test.setTeacher(teacher);
-        addTestToCourse();
-        entityFacade.create(test);
-    }
-
-    // getterek, setterek...
+    
     public Test getTest() {
         return test;
     }
@@ -59,7 +39,27 @@ public class TeacherController implements Serializable {
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
+        
+    @PostConstruct
+    public void setTeacher() {
+        teacher = entityFacade.namedQueryOneParamSingleResult(
+                QueryName.TEACHER_findByEmail, Teacher.class,
+                "email", FacesContext.getCurrentInstance()
+                .getExternalContext().getRemoteUser());
+    }
 
+    public List<Test> getTests() {
+        return entityFacade.namedQueryOneParam(QueryName.
+                TEST_findByTeacherId, Test.class,
+                "teacherId", teacher.getId());
+    }
+
+    public void createTest() {
+        test.setTeacher(teacher);
+        addTestToCourse();
+        entityFacade.create(test);
+    }
+    
     public void addTestToCourse() {
         for (Course c : getCourses()) {
             if (c.getName().equals(courseName)) {
@@ -80,6 +80,14 @@ public class TeacherController implements Serializable {
         return test;
     }
 
+    public String getActivate(Test test){
+        if (test.getActive()){
+            return "Active";
+        }else{
+            return "Inactive";
+        }
+    }
+    
     public void activate(Test test) {
         test.setActive(!test.getActive());
         entityFacade.update(test);

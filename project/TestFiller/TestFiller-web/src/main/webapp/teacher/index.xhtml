@@ -75,13 +75,13 @@
                     <p:column headerText="Course" filterBy="#{test.course.name}" filterMatchMode="contains">
                         <h:outputText value="#{test.course.name}"/>
                     </p:column>
-                    <p:column headerText="Active" filterBy="#{test.active}">
-                        <p:commandButton value="#{test.active}"
+                    <p:column headerText="Active" filterBy="#{teacherController.getActivate(test)}">
+                        <p:commandButton value="#{teacherController.getActivate(test)}"
                                          action="#{teacherController.activate(test)}"
                                          style="background-color: white"
                                          ajax="false"/>
                     </p:column>
-                    <p:column headerText="Number of fills" filterBy="#{teacherController.getNumberOfFills(test)}">
+                    <p:column headerText="Number of fills">
                         <h:outputText value="#{teacherController.getNumberOfFills(test)}"/>
                     </p:column>
                     <p:column>

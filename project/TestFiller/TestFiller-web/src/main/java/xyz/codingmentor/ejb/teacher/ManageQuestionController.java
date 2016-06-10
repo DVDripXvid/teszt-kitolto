@@ -49,32 +49,31 @@ public class ManageQuestionController implements Serializable {
         this.optionalAnswer = optionalAnswer;
     }
 
-    public List<Question> getQuestions() {
-        return test.getQuestions();
-    }
-
-    public List<QuestionType> getQuestionTypes() {
-        return Arrays.asList(QuestionType.CHOOSER, QuestionType.TEXT);
-    }
-
-    public List<OptionalAnswer> getOptionalAnswers() {
-        return question.getOptionalAnswers();
-    }
-
+    
     public String goToManageQuestons(Test test) {
         setTest(test);
         questionsToDelete = new ArrayList<>();
-        setQuestion(new Question());
         optionalAnswersToDelete = new ArrayList<>();
         return "manageQuestion";
     }
-
+       
+    public List<Question> getQuestions() {
+        return test.getQuestions();
+    }
+    
+    public String finish() {
+        entityFacade.update(test);
+        deleteQuestions();
+        deleteOptionalAnswers();
+        return "index";
+    }
+    
     public Question goToCreateQuestion() {
         setQuestion(new Question());
         setOptionalAnswer(new OptionalAnswer());
         return question;
     }
-
+    
     public void createTextQuestion() {
         question.setType(QuestionType.TEXT);
         test.getQuestions().add(question);
@@ -82,9 +81,13 @@ public class ManageQuestionController implements Serializable {
 
     public void addOptionaAnswer() {
         question.getOptionalAnswers().add(optionalAnswer);
-        optionalAnswer = new OptionalAnswer();
+        setOptionalAnswer(new OptionalAnswer());
     }
-
+    
+    public List<OptionalAnswer> getOptionalAnswers() {
+        return question.getOptionalAnswers();
+    }
+    
     public void setCorrect(OptionalAnswer optionalAnswer) {
         if (optionalAnswer.getCorrect() == false) {
             for (OptionalAnswer oa : question.getOptionalAnswers()) {
@@ -119,13 +122,6 @@ public class ManageQuestionController implements Serializable {
             questionsToDelete.add(question.getId());
         }
         test.getQuestions().remove(question);
-    }
-
-    public String finish() {
-        entityFacade.update(test);
-        deleteQuestions();
-        deleteOptionalAnswers();
-        return "index";
     }
 
     private void deleteQuestions() {
