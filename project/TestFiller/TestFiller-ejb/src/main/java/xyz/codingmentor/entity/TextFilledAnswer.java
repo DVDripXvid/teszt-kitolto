@@ -25,5 +25,9 @@ public class TextFilledAnswer extends FilledAnswer implements Serializable{
     public void setText(String text) {
         this.text = text;
     }
-    
+
+    @Override
+    public String getAnswerForQuestion() {
+        return text;
+    }
 }

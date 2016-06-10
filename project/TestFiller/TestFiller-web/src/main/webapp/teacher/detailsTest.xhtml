@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Private Teacher Area</title>
         <meta charset="utf-8" />
@@ -12,38 +12,108 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <div class="row">
+        <div class="row" style="background-color: #125298;">
             <h:form>
+                <div class="col-md-1"></div>
                 <div class="col-md-2">
-                    <label for="nameLabel" style="margin-left: 5%">Name :</label>
-                    <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
+                    <p:commandLink style="border-style: none; vertical-align: bottom;"
+                                   action="#{userProfileModification.modifyProfile()}">
+                        <p:graphicImage 
+                            height="20%"
+                            width="20%"
+                            style="float: left; margin-right: 3%; margin-top: 5%; vertical-align: middle;"
+                            cache="false"/>
+                    </p:commandLink>
                 </div>
-                <div class="col-md-2">
-                    <label for="courseLabel" style="margin-left: 5%">Course :</label>
-                    <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
+                <div class="col-md-3">
+                    <h:outputText title="Signed in as: " value ="Signed in as: #{userController.currentUser}"
+                                  style="float: left; color: white; margin-top: 2%; margin-bottom: 2%;font-size: large;"/>
                 </div>
-                <div class="col-md-2">
-                    <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
-                    <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
+                <div class="col-md-3"></div>
+                <div class="col-md-1">
+                    <p:button style="background-color: white;" 
+                              outcome="home"
+                              value="back"
+                              icon="ui-icon-carat-1-w"
+                              />
                 </div>
-                <br/>
-                <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
+                <div class="col-md-1">
+                    <p:commandButton style="background-color: white;" 
+                                     value="logout" 
+                                     action="#{loginEJB.logout()}"/><br/>
+
+                </div>
             </h:form>
-            <div class="col-md-2">
-                <a class="btn" href="index.xhtml">Back</a>
+        </div>
+        <h:form>
+            <div class="panel panel-default" style="margin: 3%">
+                <div class="panel-heading" style="text-align: center">
+                    <h4>Filled tests</h4>
+                </div>
+                <p:panelGrid columns="1" layout="grid">
+                    <p:dataTable id="filledTests" styleClass="borderless" 
+                                 value="#{detailsTestController.filledTests}" 
+                                 var="filledTest"
+                                 rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="No Filled Test found.">        
+                        <p:column headerText="Student first name" filterBy="#{filledTest.student.firstName}" filterMatchMode="contains">
+                            <h:outputText value="#{filledTest.student.firstName}"/>
+                        </p:column>
+                        <p:column headerText="Student last name" filterBy="#{filledTest.student.lastName}" filterMatchMode="contains">
+                            <h:outputText value="#{filledTest.student.lastName}"/>
+                        </p:column>
+                        <p:column headerText="Result">
+                            <h:outputText value="#{filledTest.finalResult}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Revision" style="background-color: white"
+                                             oncomplete="PF('revision').show();" update="@form">
+                                <f:setPropertyActionListener value="#{filledTest}"
+                                                             target="#{detailsTestController.filledTest}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panelGrid>
             </div>
-        </div>
-        <div class="row" style="margin-left: 1%">
+        </h:form>
+        <p:dialog header="Revision" widgetVar="revision" modal="true">
             <h:form>
-                <h:dataTable value="#{detailsTestController.filledTests}" var="filledTest" class="table table-hover">
-                    <h:column><f:facet name="header">Student First Name</f:facet>#{filledTest.student.firstName}</h:column>
-                    <h:column><f:facet name="header">Student Last Name</f:facet>#{filledTest.student.lastName}</h:column>
-                    <h:column><f:facet name="header">Result</f:facet></h:column>
-                    <h:column>
-                        <h:commandButton value="Revision" action="#{detailsTestController.revision(filledTest)}" class="btn btn-default"/>
-                    </h:column>
-                </h:dataTable>
+                <p:commandButton value="Finish" style="background-color: white; margin-left: 47%;"
+                                 update="@form" oncomplete="PF('revision').hide();"/>
+                <div class="panel panel-default" style="margin: 2%; width: 900px;">
+                    <div class="panel-heading" style="text-align: center">
+                        <h4>Filled tests</h4>
+                    </div>
+                    <p:panelGrid columns="1" layout="grid" >
+                        <p:dataTable id="filledTests" styleClass="borderless" 
+                                     value="#{detailsTestController.filledTest.filledAnswers}" 
+                                     var="filledAnswer"
+                                     rows="10"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     paginatorPosition="bottom"
+                                     emptyMessage="No Filled Test found.">        
+                            <p:column headerText="Question" filterBy="#{filledAnswer.question.text}" filterMatchMode="contains">
+                                <h:outputText value="#{filledAnswer.question.text}"/>
+                            </p:column>
+                            <p:column headerText="Answer" filterMatchMode="contains">
+                                <h:outputText value="#{filledAnswer.answerForQuestion}"/>
+                            </p:column>
+                            <p:column headerText="Point">
+                                <p:inputText value="#{filledAnswer.point}" />
+                            </p:column>
+                            <p:column headerText="Comment">
+                                <p:inputText value="#{filledAnswer.comment}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </div>
             </h:form>
-        </div>
+        </p:dialog>
     </h:body>
 </html>

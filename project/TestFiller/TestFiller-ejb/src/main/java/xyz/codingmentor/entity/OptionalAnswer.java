@@ -24,7 +24,7 @@ public class OptionalAnswer implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    private Boolean correct;
+    private Boolean correct = Boolean.FALSE;
     @ManyToOne
     private Question question;
     private String text;

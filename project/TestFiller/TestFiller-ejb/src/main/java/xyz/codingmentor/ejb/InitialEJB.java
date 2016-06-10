@@ -18,6 +18,7 @@ import xyz.codingmentor.ejb.facade.RoleFacade;
 import xyz.codingmentor.entity.Course;
 import xyz.codingmentor.entity.FilledTest;
 import xyz.codingmentor.entity.OptionalAnswer;
+import xyz.codingmentor.entity.OptionalFilledAnswer;
 import xyz.codingmentor.entity.Question;
 import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Role;
@@ -25,6 +26,7 @@ import xyz.codingmentor.entity.Student;
 import xyz.codingmentor.entity.Subject;
 import xyz.codingmentor.entity.Teacher;
 import xyz.codingmentor.entity.Test;
+import xyz.codingmentor.entity.TextFilledAnswer;
 import xyz.codingmentor.entity.User;
 import xyz.codingmentor.role.RoleName;
 
@@ -32,7 +34,7 @@ import xyz.codingmentor.role.RoleName;
  *
  * @author Olivér
  */
-@Startup
+//@Startup
 @Singleton
 public class InitialEJB {
 
@@ -41,7 +43,7 @@ public class InitialEJB {
     @EJB
     private RoleFacade facade;
 
-    @PostConstruct
+  //  @PostConstruct
     public void createEntity() {
         createRoles();
         createUser();
@@ -49,7 +51,60 @@ public class InitialEJB {
 //        createSubjects();
 //        createFilledTests();
     }
-
+    
+    public void teacher(Teacher t){
+        Course c1 = new Course();
+        c1.getTeachers().add(t);
+        c1.setName("Matematika");
+        facade.create(c1);
+        Course c2 = new Course();
+        c2.getTeachers().add(t);
+        c2.setName("Magyar");
+        facade.create(c2);/*
+        Test test = new Test();
+        test.setCourse(c2);
+        test.setTeacher(t);
+        test.setName("first");
+        facade.create(test);
+        Question q1 = new Question();
+        q1.setType(QuestionType.TEXT);
+        q1.setText("question t");
+        q1.setLengthOfAnswer(100);
+        test.getQuestions().add(q1);
+        Question q2 = new Question();
+        q2.setType(QuestionType.TEXT);
+        q2.setText("question t11");
+        q2.setLengthOfAnswer(10);
+        test.getQuestions().add(q2);
+        Question q = new Question();
+        q.setType(QuestionType.CHOOSER);
+        q.setTest(test);
+        OptionalAnswer oa = new OptionalAnswer();
+        oa.setText("Answer");
+        q.getOptionalAnswers().add(oa);
+        facade.update(test);
+        
+        FilledTest ft = new FilledTest();
+        Student s = new Student();
+        s.setFirstName("Lajos");
+        s.setLastName("Feri");
+        facade.create(s);
+        ft.setStudent(s);
+        facade.create(ft);
+        TextFilledAnswer tfa = new TextFilledAnswer();
+        tfa.setText("answer");
+        tfa.setQuestion(q1);
+        TextFilledAnswer tfaa = new TextFilledAnswer();
+        tfa.setText("answer");
+        tfa.setQuestion(q2);
+        OptionalFilledAnswer ofa = new OptionalFilledAnswer();
+        ofa.setQuestion(q);
+        ofa.setAnswer(oa);
+        ft.setFilledAnswer(Arrays.asList(tfaa, tfa, tfaa, tfa, ofa, ofa));
+        ft.setReady(Boolean.TRUE);
+        facade.update(ft);*/
+    }
+    
     private void generateTestData() {
         Student student1 = facade.namedQueryOneParam("STUDENT.getByEmail", Student.class, "email", "student@student.hu").get(0);
         student1.getCourses().clear();
@@ -81,6 +136,7 @@ public class InitialEJB {
         Teacher teacher = new Teacher("Teacher", "Bela", "pass", "teacher@teacher.hu");
         teacher.setAccepted(true);
         facade.create(teacher);
+        teacher(teacher);
         teacher.getRoles().add(facade.findRole("TEACHER"));
         Student student = new Student("Student", "Laci", "pass", "student@student.hu");
         student.setAccepted(true);

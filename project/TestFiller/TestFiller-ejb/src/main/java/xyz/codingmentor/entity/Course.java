@@ -39,7 +39,9 @@ import xyz.codingmentor.annotation.Validate;
                     + "WHERE :student NOT MEMBER OF c.students "
                     + "AND :student NOT MEMBER OF c.subscribers"),
     @NamedQuery(name = "COURSE.countStudentsById",
-            query = "SELECT SIZE(c.students) FROM Course c WHERE c.id =:id")
+            query = "SELECT SIZE(c.students) FROM Course c WHERE c.id =:id"),
+    @NamedQuery(name = "COURSE.findByTeacher",
+            query = "SELECT c FROM Course c WHERE :teacher MEMBER OF c.teachers")
 })
 public class Course implements Serializable {
 
@@ -56,11 +58,11 @@ public class Course implements Serializable {
     private List<Subject> subjects;
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
     private List<Student> students;
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Teacher> teachers;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
     private List<FilledTest> filledTests;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany
     private List<Test> tests;
     @OneToMany(mappedBy = "subscribed", fetch = FetchType.EAGER)
     private List<Student> subscribers;

@@ -29,7 +29,9 @@ import xyz.codingmentor.annotation.Validate;
     @NamedQuery(name = "TEST.searchByName",
             query = "SELECT t FROM Test t WHERE t.name LIKE CONCAT('%', :name, '%')"),
     @NamedQuery(name = "TEST.findByCourseId", 
-            query = "SELECT t FROM Test t WHERE t.course = :course")
+            query = "SELECT t FROM Test t WHERE t.course = :course"),
+    @NamedQuery(name = "TEST.findByTeacherId", 
+            query = "SELECT t FROM Test t WHERE t.teacher.id = :teacherId")
 })
 public class Test implements Serializable {
 
@@ -41,15 +43,13 @@ public class Test implements Serializable {
     @Min(20)
     private Integer duration;
     @ManyToOne
-    @JoinColumn(name = "COURSE_ID")
     private Course course;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "TEST_ID")
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
     @ManyToOne
     private Teacher teacher;
-    @OneToMany 
-    @JoinColumn(name = "TEST_ID")
+    @OneToMany
     private List<FilledTest> filledTests = new ArrayList<>();
     private Boolean active = false;
 

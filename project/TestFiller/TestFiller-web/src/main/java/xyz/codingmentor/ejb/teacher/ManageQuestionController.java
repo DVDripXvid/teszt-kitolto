@@ -1,67 +1,137 @@
 package xyz.codingmentor.ejb.teacher;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.interceptor.Interceptors;
-import javax.servlet.http.HttpSession;
+import javax.faces.bean.SessionScoped;
 import xyz.codingmentor.ejb.facade.EntityFacade;
+import xyz.codingmentor.entity.OptionalAnswer;
 import xyz.codingmentor.entity.Question;
+import xyz.codingmentor.entity.QuestionType;
 import xyz.codingmentor.entity.Test;
-import xyz.codingmentor.interceptor.LoggerInterceptor;
 
 @ManagedBean
-@Interceptors({LoggerInterceptor.class})
-public class ManageQuestionController {
+@SessionScoped
+public class ManageQuestionController implements Serializable {
 
     @EJB
-    private EntityFacade ef;
-    private HttpSession session;
+    private EntityFacade entityFacade;
+    private Test test;
     private Question question;
+    private OptionalAnswer optionalAnswer;
+    private List<Long> questionsToDelete;
+    private List<Long> optionalAnswersToDelete;
 
-    @PostConstruct
-    public void init() {
-        session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        question = new Question();
+    public Test getTest() {
+        return test;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
     }
 
     public Question getQuestion() {
         return question;
     }
 
-    public void add() {
-        Test test = (Test) session.getAttribute("test");
-        question.setTest(test);
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public OptionalAnswer getOptionalAnswer() {
+        return optionalAnswer;
+    }
+
+    public void setOptionalAnswer(OptionalAnswer optionalAnswer) {
+        this.optionalAnswer = optionalAnswer;
+    }
+
+    
+    public String goToManageQuestons(Test test) {
+        setTest(test);
+        questionsToDelete = new ArrayList<>();
+        optionalAnswersToDelete = new ArrayList<>();
+        return "manageQuestion";
+    }
+       
+    public List<Question> getQuestions() {
+        return test.getQuestions();
+    }
+    
+    public String finish() {
+        entityFacade.update(test);
+        deleteQuestions();
+        deleteOptionalAnswers();
+        return "index";
+    }
+    
+    public Question goToCreateQuestion() {
+        setQuestion(new Question());
+        setOptionalAnswer(new OptionalAnswer());
+        return question;
+    }
+    
+    public void createTextQuestion() {
+        question.setType(QuestionType.TEXT);
         test.getQuestions().add(question);
     }
 
-    public List<Question> getList() {
-        return ((Test) session.getAttribute("test")).getQuestions();
+    public void addOptionaAnswer() {
+        question.getOptionalAnswers().add(optionalAnswer);
+        setOptionalAnswer(new OptionalAnswer());
     }
     
-    public String edit(Question question){
-        session.setAttribute("questionToEdit", question);
-        return "editQuestion";
+    public List<OptionalAnswer> getOptionalAnswers() {
+        return question.getOptionalAnswers();
+    }
+    
+    public void setCorrect(OptionalAnswer optionalAnswer) {
+        if (optionalAnswer.getCorrect() == false) {
+            for (OptionalAnswer oa : question.getOptionalAnswers()) {
+                oa.setCorrect(Boolean.FALSE);
+            }
+        }
+        optionalAnswer.setCorrect(!optionalAnswer.getCorrect());
+    }
+
+    public void deleteOptionalAnswer(OptionalAnswer optionalAnswer) {
+        if (optionalAnswer.getId() != null) {
+            optionalAnswersToDelete.add(optionalAnswer.getId());
+        }
+        question.getOptionalAnswers().remove(optionalAnswer);
+    }
+
+    public void createOptionalQuestion() {
+        question.setType(QuestionType.CHOOSER);
+        test.getQuestions().add(question);
+    }
+
+    public boolean isChooser(Question question) {
+        return question.getType().equals(QuestionType.CHOOSER);
+    }
+
+    public boolean isText(Question question) {
+        return question.getType().equals(QuestionType.TEXT);
     }
 
     public void delete(Question question) {
-        if(question.getId() != null){
-            ((List) session.getAttribute("questionsToRemoveById")).add(question.getId());
+        if (question.getId() != null) {
+            questionsToDelete.add(question.getId());
         }
-        ((Test) session.getAttribute("test")).getQuestions().remove(question);
+        test.getQuestions().remove(question);
     }
 
-    public String back() {
-        return "index";
+    private void deleteQuestions() {
+        for (Long id : questionsToDelete) {
+            entityFacade.delete(Question.class, id);
+        }
     }
 
-    public String finish() {
-        ef.update((Test) session.getAttribute("test"));
-        for (Long id : ((List<Long>) session.getAttribute("questionsToRemoveById"))){
-            ef.delete(Question.class, id);
+    private void deleteOptionalAnswers() {
+        for (Long id : optionalAnswersToDelete) {
+            entityFacade.delete(OptionalAnswer.class, id);
         }
-        return "index";
     }
 }

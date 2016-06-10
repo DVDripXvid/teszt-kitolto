@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -38,13 +39,12 @@ public class Question implements Serializable {
     private QuestionType type;
     @ManyToOne
     private Test test;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany
     private List<FilledAnswer> filledAnswers;
     private Integer lengthOfAnswer;
-    
-    public Question() {
-        this.filledAnswers = new ArrayList<>();
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "Question_Id")
+    private List<OptionalAnswer> optionalAnswers = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -78,6 +78,14 @@ public class Question implements Serializable {
         this.test = test;
     }
 
+    public List<FilledAnswer> getFilledAnswers() {
+        return filledAnswers;
+    }
+
+    public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
+        this.filledAnswers = filledAnswers;
+    }
+
     public Integer getLengthOfAnswer() {
         return lengthOfAnswer;
     }
@@ -86,12 +94,11 @@ public class Question implements Serializable {
         this.lengthOfAnswer = lengthOfAnswer;
     }
 
-    public List<FilledAnswer> getFilledAnswers() {
-        return filledAnswers;
+    public List<OptionalAnswer> getOptionalAnswers() {
+        return optionalAnswers;
     }
 
-    public void setFilledAnswers(List<FilledAnswer> filledAnswers) {
-        this.filledAnswers = filledAnswers;
-    }
-    
+    public void setOptionalAnswers(List<OptionalAnswer> optionalAnswers) {
+        this.optionalAnswers = optionalAnswers;
+    }   
 }

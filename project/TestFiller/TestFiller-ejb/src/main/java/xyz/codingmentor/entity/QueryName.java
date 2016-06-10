@@ -23,5 +23,8 @@ public abstract class QueryName {
     public static String FILLEDTEST_countReadyByTestId = "FILLEDTEST.countReadyByTestId";
     public static String FILLEDTEST_countNotReadyByTestId = "FILLEDTEST.countNotReadyByTestId";
     public static String COURSE_countStudentsById = "COURSE.countStudentsById";
-
+    public static String TEST_findByTeacherId = "TEST.findByTeacherId";
+    public static String COURSE_findByTeacher = "COURSE.findByTeacher";
+    public static String FILLED_TEST_findByTestIdAndReady = "FILLEDTEST.findByTestIdAndReady";
+    
 }

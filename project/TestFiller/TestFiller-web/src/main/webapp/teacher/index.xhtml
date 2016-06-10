@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Private Teacher Area</title>
@@ -11,72 +12,155 @@
         <h:outputStylesheet library="css" name="bootstrap.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-        <h1 align="center">Welcome #{indexController.teacherFullName}</h1>
+        <div class="row" style="background-color: #125298;">
+            <h:form>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <p:commandLink style="border-style: none; vertical-align: bottom;"
+                                   action="#{userProfileModification.modifyProfile()}">
+                        <p:graphicImage 
+                            height="20%"
+                            width="20%"
+                            style="float: left; margin-right: 3%; margin-top: 5%; vertical-align: middle;"
+                            cache="false"/>
+                    </p:commandLink>
+                </div>
+                <div class="col-md-3">
+                    <h:outputText title="Signed in as: " value ="Signed in as: #{userController.currentUser}"
+                                  style="float: left; color: white; margin-top: 2%; margin-bottom: 2%;font-size: large;"/>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-1">
+                    <p:commandButton value="Create Test" style="background-color: white"
+                                     oncomplete="PF('createTest').show();" update="@form">
+                        <f:setPropertyActionListener value="#{teacherController.goToCreateTest()}"
+                                                     target="#{teacherController.test}" />
+                    </p:commandButton>
+                </div>
+                <div class="col-md-1">
+                    <p:button style="background-color: white;" 
+                              outcome="home"
+                              value="back"
+                              icon="ui-icon-carat-1-w"
+                              />
+                </div>
+                <div class="col-md-1">
+                    <p:commandButton style="background-color: white;" 
+                                     value="logout" 
+                                     action="#{loginEJB.logout()}"/><br/>
+
+                </div>
+            </h:form>
+        </div>
         <h:form>
-            <div class="row">
-                <div class="col-md-2">
-                    <h:commandButton class="btn btn-default" value="Logout" action="#{loginEJB.logout()}" style="margin-left: 5%"/>
+            <div class="panel panel-default" style="margin: 3%">
+                <div class="panel-heading" style="text-align: center">
+                    <h4>Tests</h4>
                 </div>
-                <div class="col-md-2">
-                    <h:button class="btn btn-default" value="Modify my profile" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <h:button class="btn btn-default" value="Admin page" style="margin-left: 5%"/>
-                </div>            
+                <p:dataTable id="tests" styleClass="borderless" 
+                             value="#{teacherController.tests}" 
+                             var="test"
+                             rows="10"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15"
+                             paginatorPosition="bottom"
+                             emptyMessage="No Test found.">
+                    <p:column headerText="Name" filterBy="#{test.name}" filterMatchMode="contains">
+                        <h:outputText value="#{test.name}"/>
+                    </p:column>
+                    <p:column headerText="Duration (min)" filterBy="#{test.duration}" filterMatchMode="contains">
+                        <h:outputText value="#{test.duration}"/>
+                    </p:column>
+                    <p:column headerText="Course" filterBy="#{test.course.name}" filterMatchMode="contains">
+                        <h:outputText value="#{test.course.name}"/>
+                    </p:column>
+                    <p:column headerText="Active" filterBy="#{teacherController.getActivate(test)}">
+                        <p:commandButton value="#{teacherController.getActivate(test)}"
+                                         action="#{teacherController.activate(test)}"
+                                         style="background-color: white"
+                                         ajax="false"/>
+                    </p:column>
+                    <p:column headerText="Number of fills">
+                        <h:outputText value="#{teacherController.getNumberOfFills(test)}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Details"
+                                         action="#{detailsTestController.goToDetailsTest(test)}"
+                                         style="background-color: white"
+                                         ajax="false"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Manage questions"
+                                         action="#{manageQuestionController.goToManageQuestons(test)}"
+                                         style="background-color: white"
+                                         ajax="false"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Edit test" style="background-color: white"
+                                         oncomplete="PF('editTest').show();" update="@form">
+                            <f:setPropertyActionListener value="#{teacherController.goToEditTest(test)}"
+                                                         target="#{teacherController.test}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Delete"
+                                         action="#{teacherController.deleteTest(test)}"
+                                         style="background-color: white"
+                                         ajax="false"/>
+                    </p:column>
+                </p:dataTable>
             </div>
         </h:form>
-        <div class="row">
+        <p:dialog header="Create test" widgetVar="createTest" modal="true">
             <h:form>
-                <div class="col-md-2">
-                    <label for="nameLabel" style="margin-left: 5%">Name :</label>
-                    <h:inputText id="nameLabel" class="form-control" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <label for="courseLabel" style="margin-left: 5%">Course :</label>
-                    <h:inputText id="courseLabel" class="form-control" style="margin-left: 5%"/>
-                </div>
-                <div class="col-md-2">
-                    <label for="numberOfFillsLabel" style="margin-left: 5%">Number of fills :</label>
-                    <h:inputText id="numberOfFillsLabel" class="form-control" style="margin-left: 5%"/>
-                </div>
-                <br/>
-                <h:commandButton class="btn btn-default col-md-1" value="Search" style="margin-left: 5%"/>
+                <p:outputPanel autoUpdate="true"
+                               style="width: 450px; height: 110px;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p:outputLabel>Test name: </p:outputLabel>
+                            <p:inputText value="#{teacherController.test.name}" />
+                        </div>
+                        <div class="col-md-6">
+                            <p:outputLabel style="margin: 1%">Course: </p:outputLabel>
+                            <p:selectOneMenu value="#{teacherController.courseName}">
+                                <f:selectItems value="#{teacherController.courses}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6,row">
+                            <p:outputLabel style="margin-left: 1%;">Duration (min): </p:outputLabel>
+                            <p:inputText value="#{teacherController.test.duration}"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6" >
+                            <p:commandButton value="Create" action="#{teacherController.createTest()}"
+                                             style="background-color: white; float: right; margin: 2%" ajax="false"
+                                             oncomplete="PF('createTest').hide();"/>
+                        </div>
+                </p:outputPanel>
             </h:form>
+        </p:dialog>
+        <p:dialog header="Edit test" widgetVar="editTest" modal="true">
             <h:form>
-                <div>
-                    <h:column>
-                        <h:commandButton value="Create Test" action="#{indexController.goToCreateTest()}" style="margin-left: 5%" class="btn btn-default"/>
-                    </h:column>
-                </div>
+                <p:outputPanel autoUpdate="true">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:outputLabel>Test name: </p:outputLabel>
+                        <p:inputText value="#{teacherController.test.name}" />
+                        <br/>
+                        <p:outputLabel>Course: </p:outputLabel>
+                        <p:selectOneMenu value="#{teacherController.courseName}">
+                            <f:selectItems value="#{teacherController.courses}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel>Duration (min): </p:outputLabel>
+                        <p:inputText value="#{teacherController.test.duration}"/>
+                        <p:commandButton value="Edit" action="#{teacherController.editTest()}"
+                                         style="background-color: white" ajax="false"
+                                         oncomplete="PF('editTest').hide();"/>                        
+                    </p:panelGrid>
+                </p:outputPanel>
             </h:form>
-        </div>
-        <div class="row" style="margin-left: 1%">
-            <h:form>
-                <h:dataTable value="#{indexController.tests}" var="test" class="table table-hover">
-                    <h:column><f:facet name="header">Id</f:facet>#{test.id}</h:column>
-                    <h:column><f:facet name="header">Name</f:facet>#{test.name}</h:column>
-                    <h:column><f:facet name="header">Time</f:facet>#{test.duration}</h:column>
-                    <h:column><f:facet name="header">Course</f:facet>#{test.course}</h:column>
-                    <h:column>
-                        <f:facet name="header">Activate</f:facet>
-                        <h:commandButton value="#{test.active}" action="#{indexController.activate(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column><f:facet name="header">Number of fills</f:facet>#{test.filledTests.size()}</h:column>
-                    <h:column><f:facet name="header">Number of revievable</f:facet>#{indexController.numberOfRevievable(test)}</h:column>
-                    <h:column>
-                        <h:commandButton value="Details" action="#{indexController.details(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Manage questions" action="#{indexController.goToManageQuestions(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Edit" action="#{indexController.edit(test)}" class="btn btn-default"/>
-                    </h:column>
-                    <h:column>
-                        <h:commandButton value="Delete" action="#{indexController.delete(test)}" class="btn btn-default"/>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-        </div>
+        </p:dialog>
     </h:body>
 </html>

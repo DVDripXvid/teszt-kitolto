@@ -1,6 +1,7 @@
 package xyz.codingmentor.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,7 +35,10 @@ import javax.persistence.NamedQuery;
      @NamedQuery(name = "FILLEDTEST.countReadyByTestId",
              query = "SELECT COUNT(ft) FROM FilledTest ft WHERE ft.test.id =:testId AND ft.ready = TRUE"),
      @NamedQuery(name = "FILLEDTEST.countNotReadyByTestId",
-             query = "SELECT COUNT(ft) FROM FilledTest ft WHERE ft.test.id =:testId AND ft.ready = FALSE")
+             query = "SELECT COUNT(ft) FROM FilledTest ft WHERE ft.test.id =:testId AND ft.ready = FALSE"),
+    @NamedQuery(name = "FILLEDTEST.findByTestIdAndReady",
+            query = "SELECT ft FROM FilledTest ft WHERE "
+                    + "ft.test.id = :testId AND ft.ready = TRUE")
 })
 public class FilledTest implements Serializable {
 
@@ -52,7 +56,7 @@ public class FilledTest implements Serializable {
     private Student student;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "FILLED_TEST_ID")
-    private List<FilledAnswer> filledAnswers;
+    private List<FilledAnswer> filledAnswers = new ArrayList<>();
     private Float finalResult;
 
     public Long getId() {
@@ -104,15 +108,7 @@ public class FilledTest implements Serializable {
     }
 
     public Float getFinalResult() {
-        if (filledAnswers != null && filledAnswers.size() > 0) {
-            for (FilledAnswer filledAnswer : filledAnswers) {
-                finalResult += filledAnswer.getPoint();
-            }
-            
-            return finalResult / filledAnswers.size();
-        }else {
-            return null;
-        }
+        return finalResult;
     }
 
     public void setFinalResult(Float finalResult) {
